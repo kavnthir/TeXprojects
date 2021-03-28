@@ -1,0 +1,110 @@
+% DOC SETTINGS ===================================
+\documentclass[landscape, 12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{steinmetz}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{amsmath}
+\geometry{
+  left=0.45in, 
+  right=0.45in, 
+  top=0.2in, 
+  bottom=.5in,
+  headheight=23pt,
+  includehead
+}
+\fancyheadoffset{0pt}
+\cfoot{}
+\setlength{\columnseprule}{.5pt}
+\def\columnseprulecolor{}
+\lhead{STAT4714 Formula Sheet}
+\rhead{Kavin Thirukonda 2021}
+\pagestyle{fancy}
+\mathtoolsset{showonlyrefs} 
+% DOC SETTINGS ===================================
+\begin{document}
+\begin{multicols*}{3}
+\subsection*{Combinatorics}
+\subsubsection*{Staging Principle}
+if an outcome is determined bin k stages with $n_1$ choices at stage 1, $n_2$  choices at stage 2, and $n_k$ choices at stage k, then:
+\begin{equation}
+    \#\text{ total} = n_1 \cdot n_2 \cdot ... \cdot n_k
+\end{equation}
+\subsubsection*{Ordered List with Replacement}
+Lists with a string of k things and a free choice of one of n things in each element.
+\begin{equation}
+    \#\text{ total} = n \cdot n \cdot ... \cdot n = n^k
+\end{equation}
+\subsubsection*{Ordered List without Replacement}
+Count lists with k elements and n choices for each element, may not repeat a choice.
+\begin{equation}
+    \#\text{ lists} =P_{(n,k)} = n\cdot(n-1)\cdot...\cdot(n-k+1)
+\end{equation}
+\subsubsection*{Unordered Collections without Replacement}
+calculate number of collections of k things taken from n.
+\begin{equation}
+    \#\text{ collections} =C_{(n,k)} = \frac{n!}{k!(n-k)!}
+\end{equation}
+\subsubsection*{Multinomial Counting}
+Distribute n things in to $i = 1,2,...,k$ categories, with $n_1$ in category one, $n_2$ in category two, and $n_k$ in category k.
+\begin{equation}
+    \#\text{ distributions} = \frac{n!}{n_1!\cdot n_2!\cdot...\cdot  n_k!}
+\end{equation}
+\subsection*{Basic Probability}
+\subsubsection*{Probability Laws and Notation}
+\begin{center}
+Event: set of possible outcomes\\
+S = sample space = all outcomes\\
+A$\cup$B all outcomes in A or B\\
+A$\cap$B all outcomes in A and B both\\
+A - B outcomes in A but not B\\
+S - A all outcomes not in A\\
+Law 1: P(S) = 1\\
+Law 2: P(A) $\geq$ 0\\
+Law 3: P(A$\cup$B) = P(A) + P(B-A)\\
+If B is disjoin from A (A$\cap$B = $\phi$) then
+P(A$\cup$B) = P(A) + P(B)\\
+\end{center}
+\subsubsection*{Conditional Probability}    
+The conditional probability of event B given event A is P(B$\lvert$A)
+\begin{equation}
+    P(B\lvert A) = \frac{P(A\cap B)}{P(A)}
+\end{equation}
+\begin{equation}
+    P(A\cap B) = P(A)P(B\lvert A)
+\end{equation}
+If B is independent of A then:
+\begin{equation}
+    P(A\cap B) = P(A)P(B)
+\end{equation}
+\subsubsection*{Division into cases}
+\begin{equation}
+    \sum_{i=1}^kP(B_i)P(A\lvert B_i)
+\end{equation}
+\columnbreak
+\subsection*{Random Variables}
+\subsubsection*{Binomial}
+\begin{equation}
+    p(x) = {n\choose x}p^x( 1-p)^{x-1}
+\end{equation}
+\subsubsection*{Hypergeometric}
+N things in a population\\
+k distinguished things\\
+n randomly chosen things from the population\\
+\begin{equation}
+    P(\text{n has x from k}) = \frac{{k\choose x}{N-k\choose n-x}}{{N\choose n}}
+\end{equation}
+\subsubsection*{Geometric}
+the probability of getting a specific event to  occur after x attempts if p is the probability of a singular event
+\begin{equation}
+    p(x) = (1-p)^{x-1}p
+\end{equation}
+\subsubsection*{Probability Equality Solving Technique}
+If an inequality question is setup in this exact form then an answer can be easily derived using the formula.
+\begin{equation}
+    P(A < x \leq B) = F(B) - F(A)
+\end{equation}
+\end{multicols*}
+\end{document}

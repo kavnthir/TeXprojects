@@ -1,0 +1,110 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{STAT4714 Homework 7}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Canvas}
+\subsection*{Problem 17}
+Inventing is a difficult way to make money. Only 5\% of new patents earn a substantial profit. A certain city has just had 30 independent new patents recorded.
+\subsubsection*{a)}
+What is the probability that at least 2 of these new patents will earn a substantial profit?
+\begin{equation}
+    P(X>=2)=1-P(X=0)-P(X=1)= 1-C_{(30,0)}*(0.05)^0(0.95)^{30}- C_{(30,1)}*(0.05)^1(0.95)^{29}=\boxed{0.4465}
+\end{equation}
+\subsubsection*{b)}
+Justify an appropriate simplified approximate method for answering the question in a), carry it out, and compare the two answers.
+\begin{equation}
+    P(X>=2)=1-P(X=0)-P(X=1)=1-e-1.5*\frac{1.50}{0!}-e-1.5*\frac{1.51}{1!} =\boxed{0.4422}
+\end{equation}
+\begin{center}
+    The answers are very close, only off ~.4\% which is very minuscule.
+\end{center}
+\subsection*{Problem 18}
+It seems that 96\% of people bitten by vampires become vampires themselves. This Halloween 35 people will be bitten by vampires.
+\subsubsection*{a)}
+What is the probability no more than 33 of those bitten will become vampires?
+\begin{equation}
+    P(X>=2)=1-P(X=0)-P(X=1)=C_{(35,0)}(0.04)^0(0.96)^{35}-C_{(35,1)}(0.04)^1(0.96)^{34}= \boxed{0.410975}
+\end{equation}
+\subsubsection*{b)}
+Justify an appropriate simplified approximate method for answering the question in a), carry it out, and compare the two answers. (Hint: Not becoming a vampire has low probability).
+\begin{equation}
+    P(X>=2)=1-P(X=0)-P(X=1)=-e-1.4\frac{1.40}{0!}-e-1.4\frac{1.41}{1!} = \boxed{0.408167}
+\end{equation}
+\subsection*{Problem 20}
+A large animal preserve has noticed that an albino panther is born unpredictably once every 8 years; and that can happen at any time of the year.
+\subsubsection*{a)}
+What are the expected value and standard deviation of the number of albino panthers which will be born in the next 40 years?
+\begin{equation}
+    \lambda = \frac{40}{8} =  5
+\end{equation}
+\begin{equation}
+    \sigma^2 = 5
+\end{equation}
+\begin{equation}
+    \sigma = \sqrt{5}
+\end{equation}
+\subsubsection*{b)}
+What is the probability the preserve will go 10 years without having another albino panther born?\
+\begin{equation}
+    \lambda = \frac{10}{8}  \boxed{1.25}
+\end{equation}
+\begin{equation}
+    P(X=0) = \frac{e^{-\lambda}\lambda^X}{X!} = \frac{e^{-1.25}}{1} = \boxed{.2865}
+\end{equation}
+\subsection*{Problem 22}
+According to ghost hunters, large cities have, on average, 9 haunted houses each. As far as we know, it is unpredictable which houses will be haunted; and just because one house is haunted, that does not mean any of its neighbors will or will not be haunted.
+\subsubsection*{a)}
+What is the standard deviation of the number of haunted houses in a large city?
+\begin{equation}
+    \sigma = \sqrt{\lambda} = \boxed{3}
+\end{equation}
+\subsubsection*{b)}
+What is the probability that 5 or fewer haunted houses will be found in a city?
+\begin{align}
+    P(X<=5)&=P(X=0)+P(X=1)+P(X=2)+P(X=3)+P(X=4)+P(X=5)\\
+    &=\frac{e^{-9}9^0}{0!}+ \frac{e^{-9}9^1}{1!}+\frac{e^{-9}9^2}{2!}+\frac{e^{-9}9^3}{3!}+\frac{e^{-9}9^4}{4!}+\frac{e^{-9}9^5}{5!}\\
+    &=0.1157
+\end{align}
+\subsection*{Problem 25}
+The number of defects in the highest-quality grade of sapphire stones follows a probability generating function:
+\begin{equation}
+    \pi_X(q) = (0.4+0.6q)\cdot(0.2+0.8q)^2=E(q^X)
+\end{equation}
+\subsubsection*{a)}
+What is the probability that the next such sapphire you encounter has exactly 2 defects?
+\begin{center}
+    Using the probability generating function:
+\end{center}
+\begin{equation}
+    P(X=2) = .448
+\end{equation}
+\subsubsection*{b)}
+Calculate the expected value and variance of the number of defects in such a stone.
+\begin{equation}
+    E(x^2) = 5.4
+\end{equation}
+\begin{align}
+    \sigma^2 &= E(x^2) - E(x)^2\\
+    &= 5.4 - 2.2^2\\
+    &= .56\\
+\end{align}
+\end{document} 

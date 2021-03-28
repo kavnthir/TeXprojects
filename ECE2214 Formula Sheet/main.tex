@@ -1,0 +1,217 @@
+% DOC SETTINGS ===================================
+\documentclass[landscape, 12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{steinmetz}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{amsmath}
+\geometry{
+  left=0.45in, 
+  right=0.45in, 
+  top=0.2in, 
+  bottom=.5in,
+  headheight=23pt,
+  includehead
+}
+\fancyheadoffset{0pt}
+\cfoot{}
+\setlength{\columnseprule}{.5pt}
+\def\columnseprulecolor{}
+\lhead{ECE2214 Formula Sheet}
+\rhead{Kavin Thirukonda 2021}
+\pagestyle{fancy}
+\mathtoolsset{showonlyrefs} 
+% DOC SETTINGS ===================================
+\begin{document}
+\begin{multicols*}{3}
+\subsubsection*{Doping}
+\begin{equation}
+    n_i = BT^{3/2}e^{(\frac{-E_g}{2kT})}
+\end{equation}
+\begin{center}
+\begin{tabular}{c|c|c}
+     Material & $E_g$ & B \\
+     \hline
+     Si& 1.1 & $5.23\cdot10^{15}$\\ 
+     GaAs& 1.4 & $2.10\cdot10^{14}$\\ 
+     Ge& .66 & $1.66\cdot10^{15}$\\ 
+\end{tabular}   
+\end{center}
+\begin{equation}
+     n_i^2 = np
+\end{equation}
+\begin{center}
+    at T=300K, if $N_d >> n_i$:
+\end{center}
+\begin{equation}
+    n_o \cong N_d
+\end{equation}
+\begin{center}
+    at T=300K, if $N_a >> n_i$:
+\end{center}
+\begin{equation}
+    p_o \cong N_a
+\end{equation}
+\subsubsection*{Excess Carriers (Non-Thermal Eq.)}
+\begin{equation}
+    n = n_o +\delta n
+\end{equation}
+\begin{equation}
+    p = p_o +\delta p
+\end{equation}
+\begin{equation}
+    n_i^2 = n_op_o
+\end{equation}
+\subsubsection*{Drift \& Diffusion}
+\begin{equation}
+    v_{dn} = -\mu_nE
+\end{equation}
+\begin{equation}
+    v_{dn} = +\mu_pE
+\end{equation}
+\begin{equation}
+    J_n = +en\mu_nE + eD_n\frac{dn}{dx}
+\end{equation}
+\begin{equation}
+    J_p = +en\mu_pE -eD_p\frac{dp}{dx}
+\end{equation}
+\begin{equation}
+    J = J_n + J_p = \sigma E = \frac{1}{\rho}E = \frac{I}{A}
+\end{equation}
+\begin{equation}
+    R = \rho \frac{L}{A}
+\end{equation}
+\begin{equation}
+    \sigma = en\mu_n + ep\mu_p
+\end{equation}
+\begin{equation}
+    V_T = \frac{D_n}{\mu_n} = \frac{D_p}{\mu_p} = \frac{kT}{e} \cong 0.026V
+\end{equation}
+\subsubsection*{PN Junction Diode}
+\begin{equation}
+    V_{bi} = V_T ln (\frac{N_aN_d}{n_i^2})
+\end{equation}
+\begin{equation}
+    C_j = C_{jo}(1+\frac{V_R}{V_{bi}})^{-1/2}
+\end{equation}
+\begin{equation}
+    i_D = I_S [exp(\frac{v_D}{nV_T})-1]
+\end{equation}
+\subsubsection*{MOSFET}
+\begin{equation}
+    K_n = k^{'}_{n}\frac{W}{2L}
+\end{equation}
+\begin{equation}
+    C_{ox} = \varepsilon_o/t_{ox}
+\end{equation}
+\begin{tabular}{p{1.5cm}|p{2.775cm}|p{2.775cm}}
+Region & nMOS & pMOS \\
+\hline
+Lin. & $v_{DS} < v_{DS}(sat)$ & $v_{SD} < v_{SD}(sat)$ \\
+Sat. & $v_{DS} > v_{DS}(sat)$ & $v_{SD} > v_{SD}(sat)$ \\
+Enh. & $V_{TN} > 0V$ & $V_{TP} < 0V$ \\
+Dep. & $V_{TN} < 0V$ & $V_{TP} > 0V$ \\
+\end{tabular}
+\subsubsection*{nMOS}
+\begin{equation}
+    i_D = K_n(v_{GS} - V_{TN})^2
+\end{equation}
+\begin{equation}
+    i_D = K_n[2(v_{GS} - V_{TN})v_{DS}-v_{DS}^2]
+\end{equation}
+\begin{equation}
+    K_n = \frac{W\mu_n C_{ox}}{2L}
+\end{equation}
+\begin{equation}
+    v_{DS}(sat) = v_{GS} - V_{TN}
+\end{equation}
+\subsubsection*{pMOS}
+\begin{equation}
+    i_D = K_n(v_{SG} + V_{TP})^2
+\end{equation}
+\begin{equation}
+    i_D = K_n[2(v_{SG} + V_{TP})v_{SD}-v_{SD}^2]
+\end{equation}
+\begin{equation}
+    K_n = \frac{W\mu_p C_{ox}}{2L}
+\end{equation}
+\begin{equation}
+    v_{SD}(sat) = v_{SG} + V_{TP}
+\end{equation}
+\subsubsection*{Variable Appendix}
+$\boldsymbol{n_i}$ is the intrinsic carrier concentration.\\
+$\boldsymbol{B}$ is the semiconductor material value. \\
+$\boldsymbol{E_g}$ is the bandgap energy.\\
+$\boldsymbol{k}$ is Boltzmann’s constant
+$(86 \cdot 10^{-6} \frac{eV}{K})$.\\
+$\boldsymbol{n_o}$ is the concentration of free electrons.\\
+$\boldsymbol{p_o}$ is the concentration of holes.\\
+$\boldsymbol{N_d}$ is the net donor concentrations.\\
+$\boldsymbol{N_a}$ is the net acceptor concentrations.\\
+$\boldsymbol{v_{dn}}$ is the drift velocity.\\
+$\boldsymbol{\mu_n}$ is the electron mobility constant\\ typically  $(1350\frac{cm^2}{V\cdot s})$.\\
+$\boldsymbol{v_{dp}}$ is the drift velocity.\\
+$\boldsymbol{\mu_p}$ is the hole mobility constant\\ typically $(480\frac{cm^2}{V\cdot s})$.\\
+$\boldsymbol{E}$ is an electric field.\\
+$\boldsymbol{J_n}$ is the electron current density.\\
+$\boldsymbol{J_p}$ is the hole current density.\\
+$\boldsymbol{e}$ is the electric charge value $(1.6\cdot10^{-19})$.\\
+$\boldsymbol{\sigma}$ is the conductivity.\\
+$\boldsymbol{\rho}$ is the resistivity.\\
+$\boldsymbol{A}$ is the cross-sectional area.\\
+$\boldsymbol{D_n}$ is the electron diffusion coefficient.\\
+$\boldsymbol{D_p}$ is the hole diffusion coefficient.\\
+$\boldsymbol{V_T}$ is the thermal voltage.\\
+$\boldsymbol{\delta n }$ is the excess electron concentration.\\
+$\boldsymbol{\delta p }$ is the excess hole concentration.\\
+$\boldsymbol{C_j}$ is the junction capacitance.\\
+$\boldsymbol{C_{jo}}$ is the junction capacitance w/ no voltage.\\
+$\boldsymbol{V_{R}}$ is the voltage applied across the junction.\\
+$\boldsymbol{I_{S}}$ is the reverse-bias saturation current.\\
+$\boldsymbol{n}$ is the emission coefficient (1 unless stated).\\
+$\boldsymbol{K_n}$ is the conduction parameter.\\
+$\boldsymbol{C_{ox}}$ is the oxide capacitance.\\
+\end{multicols*}
+\begin{multicols*}{3}
+\subsubsection*{MOSFET Small-Signal}
+\begin{center}
+\begin{tabular}{c|c}
+     Notation & Meaning \\
+     \hline
+     $i_D, v_{GS}$& Total instantaneous values  \\
+     $I_D, V_{GS}$& DC Values \\
+     $i_d, v_{gs}$& Instantaneous AC values \\
+     $I_d, V_{gs}$& Phasor Values \\
+\end{tabular}  
+\begin{equation}
+    g_m = \frac{i_d}{v_{gs}} = 2\sqrt{K_nI_{DQ}}
+\end{equation}
+\begin{equation}
+    r_o \cong \frac{1}{\lambda I_{DQ}} = \frac{V_A}{I_{DQ}} = \frac{\partial i_D}{\partial v_{DS}}^{-1}\bigg|_{v_{GS}=V_{GSQ}=const}
+\end{equation}
+\begin{equation}
+    A_v = \frac{V_o}{V_i} 
+\end{equation}
+\subsubsection*{nMOS}
+common source
+\begin{equation}
+    A_v  = -g_m(r_o||R_D)(\frac{R_i}{R_i+R_{Si}})
+\end{equation}
+common drain\\
+common gate
+\subsubsection*{pMOS}
+common source\\
+common drain\\
+common gate
+\end{center}
+\subsubsection*{Resistive Load Inverter}
+\subsubsection*{Enhancement Load Inverter}
+\subsubsection*{CMOS Inverter}
+$\boldsymbol{g_m}$ is the transconductance.\\
+$\boldsymbol{r_O}$ is the variable resistance.\\
+$\boldsymbol{\lambda}$ is the channel-length modulator.\\
+$\boldsymbol{A_v}$ is the small-signal voltage gain.
+\end{multicols*}
+\end{document}

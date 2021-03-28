@@ -1,0 +1,65 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{STAT4714 Homework 1}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Textbook}
+\subsection*{Problem 2}
+\begin{equation}
+    30/75 = \boxed{.4}
+\end{equation}
+\begin{center}
+    The grouping method used is \textbf{equally likely}
+\end{center}
+\subsection*{Problem 9}
+\begin{enumerate}
+    \item $$9! = 9 \cdot 8 \cdot 7 \cdot 6 \cdot 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = \boxed{362880}$$
+    \item $$6! = 6 \cdot 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = \boxed{720}$$
+    \item $$P_{(7,3)}= \boxed{210}$$
+    \item $$P_{(6,2)}= \boxed{30}$$
+    \item $$P_{(5,5)}= \boxed{120}$$
+    \item $$P_{(6,6)}= \boxed{720}$$
+\end{enumerate}
+\subsection*{Problem 15}
+\begin{equation}
+    5! = \boxed{120}
+\end{equation}
+\begin{equation}
+    p(back to back) = \frac{2 \cdot 4!}{120} = \boxed{40\%}
+\end{equation}
+\section*{Canvas}
+\subsection*{Problem 1}
+This year June 1 is a Friday, and June has 30 days. If there will be exactly one hail storm in June, but we have no idea on which day it will happen, what is the probability it will happen on a Saturday, and ruin your day off?
+\begin{center}
+    Since there is only one hail storm that can occur in a month and there are five Saturdays in a month described by the problem the probability of this occurring is:
+\end{center}
+\begin{center}
+    5/30 = \boxed{16.67\%}
+\end{center}
+\subsection*{Problem 2}
+A bag lunch consists of a sandwich, chips, and fruit. There may be a peanut butter sandwich, a cheese sandwich, or a roast beef sandwich. There may be corn chips, potato chips, pita chips, or pretzel chips. There maybe an apple, an orange, or a pear. How many different bag lunches are possible?
+\begin{center}
+    This is a staging rule problem, the bag is picked in three stages, sandwich, chips, and fruit. In the first stage, sandwich, there are three options, the second there are four, and on the third there are three. Therefore the number of possible lunch bags is:
+\end{center}
+\begin{equation}
+    3*4*3 = \boxed{36}
+\end{equation}
+\end{document}

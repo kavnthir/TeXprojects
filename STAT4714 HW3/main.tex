@@ -1,0 +1,112 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{STAT4714 Homework 2}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Textbook}
+\subsection*{Problem 5}
+When an individual is exposed to radiation, death may ensue. Factors affecting the outcome are the size of the dose, the length and intensity of the exposure, and the biological makeup of the individual. The term $LD_{50}$ is used to denote the dose that is usually lethal for 50\% of the individuals exposed to it. Assume that in a nuclear accident 30\% of the worker are exposed to the $LD_{50}$ and die; 40\% of the workers die; and 68\% are exposed to the $LD_{50}$ or die. What is the probability that a randomly selected worker is exposed to the $LD_{50}$? Use a Venn diagram to find the probability that a randomly selected worker is exposed to the $LD_{50}$ but does not die. Find the probability that a randomly selected worker is not exposed to the $LD_{50}$ but dies.
+\begin{center}
+    The probability that a randomly selected person is exposed is:
+\end{center}
+\begin{align}
+    &= .68 -.4 +.3\\
+    &= \boxed{58\%} 
+\end{align}
+\begin{center}
+    The probability that a randomly selected person is who is exposed will not die is:
+\end{center}
+\begin{align}
+    &= .58 -.3\\
+    &= \boxed{28\%} 
+\end{align}
+\begin{center}
+    The probability that a randomly selected person is who is exposed will die is:
+\end{center}
+\begin{align}
+    &= .4 -.3\\
+    &= \boxed{10\%} 
+\end{align}
+\newpage
+\subsection*{Problem 13}
+Use the data of problem 5 to answer these questions
+\subsubsection*{(a)}
+What is the probability that a randomly selected worker will die given that he is exposed to the lethal dose of radiation?  
+\begin{equation}
+    \Rightarrow \frac{.3}{.58} = \boxed{51.72\%}
+\end{equation}
+\subsubsection*{(b)}
+What is the probability that a randomly selected worker will not die given that he is exposed to the lethal dose of radiation?
+\begin{equation}
+    \Rightarrow \frac{.28}{.58} = \boxed{48.28\%}
+\end{equation}
+\subsubsection*{(c)}
+What theorem allows you to determine the answer to (b) from knowledge of the answer to (a)?
+\begin{center}
+    the complementary theorem of probability
+\end{center}
+\subsubsection*{(d)}
+What is the probability that a randomly selected worker will die given that he is not exposed to the lethal dose?
+\begin{equation}
+    \Rightarrow \frac{.1}{.42} = \boxed{23.81\%}
+\end{equation}
+\subsubsection*{(e)}
+Is P[die] = P[die$|$exposed to lethal dose]? Did you expect these to be the same? Explain.
+\begin{center}
+    The values are not the same, I did not expect them to be the same.
+\end{center}
+\newpage
+\section*{Canvas}
+\subsection*{Problem 10}
+There are 20 chemistry students to be scheduled for labs this term. 6 will be assigned to the Adams Hall lab, 11 to the Baker Hall lab, and the rest to the Craig Hall lab. How many possible assignments are there of students to labs?
+\begin{center}
+    We can break this into three combanatorics computations:
+\end{center}
+\begin{equation}
+    C_{(20,6)} \cdot C_{(14,11)} \cdot C_{(3,3)} = 38760 \cdot 364 \cdot 1 = \boxed{14108640}
+\end{equation}
+\subsection*{Problem 13}
+In a certain small town, 3 professional burglars are currently out of prison: Alex, Becky, and Carl. Alex has in the past committed 55\% of the burglaries committed by the three, Becky 31\%, and Carl the rest. But only 1/3 of Alex’s jobs are burglaries of a residence, while half of Becky’s are, and all of Carl’s are.
+\subsubsection*{(a)}
+What is the probability that the next burglary in town (if one of the three did it) is the burglary of a residence?
+\begin{equation}
+    .55\cdot(.33) + .31\cdot(.5) + .14\cdot(1)= \boxed{47.65\%}
+\end{equation}
+\subsubsection*{(b)}
+Sure enough, a resident reports a home burglary. If one of the three did it, what is the probability Becky was guilty?
+\begin{equation}
+    \frac{.31\cdot.5}{.4765} = \boxed{32.53\%}
+\end{equation}
+\subsection*{Problem 15}
+Teams must each pick two different colors for their uniforms, from among 12 recognized colors. The 8 teams in the league each pick two colors, without consulting the other teams (and without regard to aesthetics!). If they chose at random, what is the probability that no two teams will have chosen the same pair of colors?
+\begin{center}
+    First find number of combinations of 2 from 12:
+\end{center}
+\begin{equation}
+    C_{(12,2)} = \frac{12\cdot11}{2!} = 66
+\end{equation}
+\begin{center}
+    Now use the above number to solve the original problem:
+\end{center}
+\begin{equation}
+    \frac{P_{(66,8)}}{66^81} = \boxed{64.32\%}
+\end{equation}
+\end{document} 

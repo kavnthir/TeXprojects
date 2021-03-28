@@ -1,0 +1,293 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{ECE2714 Problem Set 4}
+\rhead{Kavin Thirukonda 2021}
+\fancyheadoffset{0mm}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\begin{enumerate}
+    \item Which of the following systems have memory? Indicate why or why not?
+    \begin{enumerate}
+        \item x[n] $\mapsto$ y[n] = $2x^2[n]$
+        \begin{center}
+            This system \textbf{does not have memory} because the system does not take any past or future outputs only the present.
+        \end{center}
+        \item y[n+2]+y[n] = x[n+2] - x[n+1]
+        \begin{center}
+            This system \textbf{has memory} because it takes future inputs not only present.
+        \end{center}
+        \item y[n] = $-\frac{1}{2}x[n+1] +x[n] -\frac{1}{2}x[n-1]$
+        \begin{center}
+            This system \textbf{has memory} because it takes both future and past inputs.
+        \end{center}
+    \end{enumerate}
+    \newpage
+    \item Consider the system given by the first order difference equation
+    \begin{equation}
+        S_1: y[n+1]+ay[n]=x[n+1] \text{ with }a \ne 0
+    \end{equation}
+    Consider a system in series with the  previous one:
+    \begin{equation}
+        S_2: bz[n+1]+cz[n] = dy[n+1]+ey[n]
+    \end{equation}
+    for constants b,c,d,e. For what values of b,c,d,e if any, is $S_2$ the inverse of $S_1$?
+    \begin{center}
+        Using the advance operator $E^m$ we can redefine the systems as:
+    \end{center}
+    \begin{align}
+        &S_1:y[n+1]+ay[n]=x[n+1]\\
+        &\Rightarrow y[n]E^1+ay[n]=x[n]E^1\\
+        &\Rightarrow y[n](E^1+a)=x[n](E^1)\\
+        &\Rightarrow \frac{y[n]}{x[n]}=\frac{(E^1)}{(E^1+a)}
+    \end{align}
+    \begin{align}
+        &S_2:bz[n+1]+cz[n] = dy[n+1]+ey[n]\\
+        &\Rightarrow bz[n]E^1+cz[n] = dy[n]E^1+ey[n]\\
+        &\Rightarrow z[n](bE^1+ c) = y[n](dE^1+e)\\
+        &\Rightarrow \frac{z[n]}{y[n]}=\frac{(dE^1+e)}{(bE^1+ c)}
+    \end{align}
+    \begin{center}
+        Therefore $S_2$ is the inverse of $S_1$ when:
+    \end{center}
+    \begin{equation}
+        \boxed{a = c\text{, }b = 1\text{, }d = 1\text{, }e =0}
+    \end{equation}
+    \newpage
+    \item Consider the functions $y_1[n]$ and $y_2[n]$ given by
+    \begin{align}
+        y_1[n] &= x_1[n-4], \text{ and}\\
+        y_2[n] &= nx_2[n].
+    \end{align}
+    Decide whether the signals $y_1[n]$ and $y_2[n]$ are invertible (Yes or No). If they are, construct the inverse system. If they are not, then obtain two input signals to the system that have the same output.
+    \begin{enumerate}
+        \item
+        \begin{center}
+            This system is invertable, the inverse is:
+        \end{center}
+        \begin{equation}
+            \boxed{x_1[n] = y_1[n+4]}
+        \end{equation}
+        \item 
+        \begin{center}
+            This system is invertable, the inverse is:
+        \end{center}
+        \begin{equation}
+            \boxed{x_2[n] = \frac{1}{n} y_2[n]}
+        \end{equation}
+    \end{enumerate}
+    \newpage
+    \item Consider the system defined by the input-output relationship
+    \begin{equation}
+        y[n] = nx[n]
+    \end{equation}
+    \begin{enumerate}
+        \item Does this system have memory?
+        \begin{center}
+            \textbf{No}, It only references the present not the future or past.
+        \end{center}
+        \item Is this system stable?
+        \begin{center}
+            \textbf{No}, not stable because n can go to infinity.
+        \end{center}
+        \item Is this system linear?
+        \begin{center}
+            \textbf{Yes}, proven by the following
+        \end{center}
+        \begin{align}
+            ay_1[n] &= nax_1[n]\\
+            by_2[n] &= nbx_2[n]\\
+            ay_1[n] + ay_2[n] &= nay_1[n] + nby_2[n]
+        \end{align}
+        \item Is this system time-invariant?
+        \begin{center}
+            \textbf{No}, if you shift the scalar multiplying the function becomes bigger and therefore makes it time variant.
+        \end{center}
+        \item Is this system causal?
+        \begin{center}
+            \textbf{Yes}, only uses present values and is therefore causal
+        \end{center}
+    \end{enumerate}
+    \newpage
+    \item Assume that we have a system with impulse response
+    \begin{equation}
+        h(t) = e^{-t}u(t)
+    \end{equation}
+    Using the definition (i.e., NOT simply using tables), find the output y(t) using convolution if the input x(t) is
+    \begin{equation}
+        x(t) = u(t) - u(t-2)
+    \end{equation}
+    \begin{center}
+        Starting with the definition of the integral we get:
+    \end{center}
+    \begin{align}
+        y(t) &= x(t) * h(t)\\
+        \Rightarrow y(t) &= \int_{-\infty}^{\infty} (u(\tau)-u(\tau-2)(e^{-t+\tau}u(t - \tau)) d\tau\\
+        \Rightarrow y(t) &= \int_{0}^{t} \underbrace{(u(\tau)-u(\tau-2))}_{=1}(e^{-t+\tau}\underbrace{u(t - \tau)}_{=1}) d\tau\\
+        \Rightarrow y(t) &= \int_{0}^{t} e^{-t+\tau} d\tau\\
+        \Rightarrow y(t) &= \int_{0}^{t} e^{-t}\cdot e^\tau d\tau\\
+        \Rightarrow y(t) &= e^{-t} \int_{0}^{t}  e^\tau d\tau\\
+        \Rightarrow y(t) &= e^{-t} (e^t - 1)\\
+        \Rightarrow y(t) &= - e^{-t}+1 (0 \leq t \leq 2)\\
+\end{align}
+\begin{align}
+        y(t) &= \int_{0}^{2} \underbrace{(u(\tau)-u(\tau-2))}_{=1}(e^{-t+\tau}\underbrace{u(t - \tau)}_{=1}) d\tau\\
+        \Rightarrow y(t) &= \int_{0}^{2} e^{-t+\tau}d\tau\\
+        \Rightarrow y(t) &= e^t \int_{0}^{2} e^{\tau}d\tau\\
+        \Rightarrow y(t) &= e^{-t} (e^2-1)\\
+        \Rightarrow y(t) &= e^{2-t}-e^{-t} (2 < t)\\
+    \end{align}
+    \begin{center}
+        With this we get a final answer of:
+    \end{center}
+    \begin{equation}
+        \boxed{y(t) = \begin{cases} 
+          0 & t<0 \\
+          - e^{-t}+1 & 0 \leq t \leq 2\\
+          e^{2-t}-e^{-t} & 2 < t\\
+               \end{cases}    }
+    \end{equation}
+    
+    \newpage
+    \item Using the properties of convolution and the attached table of convolutions, determine
+    \begin{equation}
+        [(e^{-t} + 2e^{-3t})u(t)] * [10u(t-5)]
+    \end{equation}
+    \begin{center}
+        Using the properties of convolutions we can manipulate this into a form that can be solved with the table of convolutions.
+    \end{center}
+    \begin{align}
+        &[(e^{-t} + 2e^{-3t})u(t)] * [10u(t-5)]\\
+        &= [(e^{-t}u(t) + 2e^{-3t}u(t))] * [10u(t-5)]\\
+        &= [e^{-t}u(t)]*[10u(t-5)] + [2e^{-3t}u(t)] * [10u(t-5)]\\
+    \end{align}
+    \begin{center}
+        Now we can use the table of integrals to compute both resulting integrals
+    \end{center}
+    \begin{align}
+        &= 10[(1-e^{-t}) + (\frac{2}{3}-\frac{2}{3}e^{-3t})]u(t-5)\\
+        &= 10[\frac{5}{3}-e^{-t} -\frac{2}{3}e^{-3t}]u(t-5)\\
+        &= \boxed{10[\frac{5}{3}-e^{-t} -\frac{2}{3}e^{-3t}]u(t-5)}
+    \end{align}
+    \newpage
+    \item Consider the circuit below
+    \begin{center}
+    \begin{circuitikz} [american voltages]
+    \draw
+    (0,0) to [battery , l=$x(t)$, invert](0,2)
+    (0,0) to [short,-*](5.36,0)
+    (2,0) to [short](2,1.025)
+    (0,2) to [C,l=$C_1$](2,2)
+    (2,2) to [short](2,5)
+    (2,5) to [C, l=$C_2$] (4.36,5)
+    (2,3.5) to [R, l=$R$](4.36,3.5)
+    (4.36,5) to [short](4.36,1.51)
+    (5.36,1.51) to [open, v=$y(t)$, o-o](5.36,0)
+    (4.36,1.51) to [short, -o](5.36,1.51);
+    \draw (3.2,1.51) node[op amp]{};
+    \end{circuitikz} 
+    \end{center}
+    \setlength{\columnseprule}{.25pt}
+    \begin{multicols*}{2}
+    \begin{enumerate}
+        \item Find the governing  differential equation for the circuit, relating the input voltage x(t) to the output voltage y(t)
+        \begin{center}
+            Using KCL at the negative terminal of the op-amp we get:
+        \end{center}
+        \begin{equation}
+            C_1 \frac{dV_{C_1}}{dt} - C_2 \frac{dV_{C_2}}{dt} - \frac{V_R}{R} = 0
+        \end{equation}
+        \begin{center}
+            Now using the equivalencies $V_{C1} = x(t), V_{C2} = -y(t), V_{R} = -y(t)$ we get:
+        \end{center}
+        \begin{align}
+            &C_1 \frac{dx(t)}{dt} + C_2 \frac{dy(t)}{dt} + \frac{y(t)}{R} = 0\\
+            &\Rightarrow \boxed{C_2 \frac{dy(t)}{dt} + \frac{y(t)}{R} = -C_1 \frac{dx(t)}{dt}}\\
+        \end{align}
+        \item Find the impulse response from part (a) when R = 100k$\Omega$, $C_1 = 2\mu F$ and $C_2 = 1\mu F$
+        \begin{center}
+            Find homogeneous solution:
+        \end{center}
+        \begin{align}
+            &(1\mu F )\frac{dy(t)}{dt} + (10\mu\Omega)y(t) = 0\\
+            &\Rightarrow ((1\mu F )D + (10\mu\Omega))y(t) = 0\\
+            &\Rightarrow D = -\frac{10\mu\Omega}{1\mu F} = -10
+        \end{align}
+        \begin{equation}
+            y(t) = A_1e^{-10t} 
+        \end{equation}
+        \begin{center}
+            Using impulse initial conditions y(0) = 1:
+        \end{center}
+        \begin{align}
+            y(t) &= A_1e^{-10t}\\ 
+            y(0) = 1 &= A_1e^{-10\cdot0}\\
+            A_1 = 1\\
+        \end{align}
+        \begin{center}
+            therefore the impulse response h(t) is:
+        \end{center}
+        \begin{equation}
+            \boxed{h(t) = (-2\cdot 10^{-6})\delta(t)+(-2\cdot 10^{-6})e^{-10t}u(t)}
+        \end{equation}
+        \columnbreak
+        \item If the input is $x(t) = \sin(t) u(t)$ determine y(t) using your results from part (b).
+        \begin{align}
+            y(t) &= \int_{-\infty}^{\infty}x(\tau)h(t-\tau)d\tau\\
+            &=  \int_{-\infty}^{\infty}(\sin(t)u(t))(e^{-10(t-\tau)u(t)})d\tau
+        \end{align}
+        \begin{center}
+            Now using the table of convolutions we get:
+        \end{center}
+        \begin{align}
+            y(t) &= \frac{\cos(\theta - \phi)e^{a_2t}-e^{a_1t}\cos(\beta t+\theta+\phi)}{\sqrt{(a_1 - a_2)^2+\beta^2}}u(t)\\
+            &= \frac{\cos(90 - 5.71)e^{-10t}-\cos(t+90+ 5.71)}{\sqrt{(0 - (-10))^2+(5.71)^2}}u(t)\\
+            &= \frac{\cos(84.49)e^{-10t}-\cos(t+95.71)}{\sqrt{100+32.61}}u(t)\\
+            &= \frac{(.1)e^{-10t}-\cos(t+95.71)}{\sqrt{132.61}}u(t)\\
+            &= (.0087)e^{-10t}u(t)-(.087)\cos(t+95.71)u(t)\\
+        \end{align}
+        \begin{center}
+            The final answer is then:
+        \end{center}
+        \begin{equation}
+            (-2\cdot10^{-6})(\sin(t)u(t))+
+        \end{equation}
+        \begin{equation}
+            (.0087)e^{-10t}u(t)-(.087)\cos(t+95.71)u(t)
+        \end{equation}
+    \end{enumerate}
+    \end{multicols*}
+\end{enumerate}
+\newpage
+\begin{center}
+\begin{tabular}{c|c|c}
+        $x_1(t)$ & $x_2(t)$ &  $x_1(t) * x_2(t)$\\
+        \hline
+        $e^{at}u(t)$ & $u(t)$ &  $\frac{1-e^{at}}{-a}u(t)$\\
+        $u(t)$ & $u(t)$ &  $tu(t)$\\
+        $e^{a_1t}u(t)$ & $e^{a_2t}u(t)$ &  $\frac{e^{a_1t}-e^{a_2t}}{a_1 - a_2}u(t)$ for $a_1 \ne a_2$\\
+        $e^{at}u(t)$ & $e^{a_2t}u(t)$ &  $te^{at}u(t)$\\
+        $te^{a_1t}u(t)$ & $e^{a_2t}u(t)$ 
+        &  $\frac{e^{a_2t}-e^{a_1t}+(a_1 - a_2)te^{a_1t}}{(a_1 - a_2)^2}u(t)$ for $a_1 \ne a_2$\\
+        $e^{a_1t}\cos(\beta t+\theta)u(t)$ & $e^{a_2t}u(t)$ 
+        &  $\frac{\cos(\theta - \phi)e^{a_2t}-e^{a_1t}\cos(\beta t+\theta+\phi)}{\sqrt{(a_1 - a_2)^2+\beta^2}}u(t)$\\
+        & & $\phi = \arctan(\frac{-\beta}{a_1 + a_2})$
+\end{tabular}    
+\end{center}
+\end{document}

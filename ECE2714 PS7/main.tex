@@ -1,0 +1,134 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsfonts}
+\usepackage{media9}
+\usepackage{parskip}
+\usetikzlibrary{positioning, fit, calc}
+\pagestyle{fancy}
+\lhead{ECE2714 Problem Set 7}
+\rhead{Kavin Thirukonda 2021}
+\fancyheadoffset{0mm}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\begin{enumerate}
+    \item Suppose the Eigenvalues for a LTI system are given by the function
+    \begin{equation}
+        H(s) = \frac{1}{(s+2)^2}
+    \end{equation}
+    \begin{enumerate}
+        \item What are the real and imaginary parts of the Eigenvalues associated with the input $x(t) = e^{(2-j3\pi)t}?$
+        \begin{align}
+            H(2-j3\pi) &= \frac{1}{(2-j3\pi+2)^2}\\
+            &= \frac{1}{(4-j3\pi)(4-j3\pi)}\\
+            &= \frac{1}{-72.83-j24\pi}\\
+            &= \frac{1}{76.7e^{-j161.76}}\\
+            &= \boxed{.013e^{j161.76}}
+        \end{align}
+        \item What is the output of the system for the input in part a) written as $y(t) = Ae^{j\theta}e^{st}$ for $A,\theta\in\mathbb{C}$?    
+        \begin{equation}
+            y(t) = \boxed{.013e^{j161.76}e^{(2-j3\pi)t}}
+        \end{equation}
+    \end{enumerate}
+    \newpage
+    \item Consider a CT LTI system for which the input $x(t) = e^{st}$, where s = j3, and output y(t)  are related by a time shift of 15, such that,
+    \begin{equation}
+        y(t) = x(t-15)
+    \end{equation}
+    Determine an expression for the impulse response H(s = j3).
+        \begin{align}
+        &y(t) = x(t-15)\\\
+        &\Rightarrow y(t+15) = x(t)\\
+        &\Rightarrow e^{j3(t+15)} = e^{j3t}\\
+        &\Rightarrow e^{j3t}\underbrace{\boxed{e^{-j45}}}_{H(s)} = e^{j3t}
+        \end{align}
+    \begin{center}
+        Therefore, for s= j3:
+    \end{center}
+    \begin{equation}
+        H(s=j3) = \boxed{e^{-j45}}
+    \end{equation}
+    \newpage
+    \item Let an LTI system have impulse response $h(t) = e^{-2t}u(t).$
+    \begin{enumerate}
+        \item If the input to the system is $x(t) = e^{(3+j\omega_o)t}$ find the output y(t)
+        \begin{center}
+            Using laplace by tables:
+        \end{center}
+        \begin{align}
+            H(s) &=  \int^\infty_{-\infty}e^{-2\tau}e^{-(3+j\omega_o)\tau}u(\tau)d\tau\\
+            &=  \int^\infty_{0}e^{-2\tau}e^{-3\tau+j\omega_o\tau}d\tau\\
+            &=  \int^\infty_{0}e^{(-5+j\omega_o)\tau}d\tau\\
+            &=  \frac{1}{(-5+j\omega_o)+(3+j\omega_o)}\\
+            &=  \boxed{\frac{1}{-2+j2\omega_o}}
+        \end{align}
+        \item Repeat if x(t) = $\cos(2t)$
+        \begin{align}
+            H(s) &= \int^\infty_{-\infty} e^{-2t}cos(-2t)u(t)\\
+            &= \int^\infty_{0} e^{-2t}cos(-2t)\\
+            &= \int^\infty_{0} e^{-2t}cos(-2t)\\
+            &= \frac{4}{16+2}\\
+            &= \boxed{.222}
+        \end{align}
+    \end{enumerate}
+    \newpage
+    \item Let a discrete LTI system have an impulse response h[n] = $\delta[n-2]$. Further, assume that the input $x[n]=\cos(\frac{3\pi}{7}n)$
+    \begin{enumerate}
+        \item Find the output y[n] by convolution.
+        \begin{align}
+            y[n] &= \sum_{k=-\infty}^\infty \cos(\frac{3\pi}{7}k)\delta[n-(k-2)]\\
+            &= \sum_{k=-\infty}^\infty \cos(\frac{3\pi}{7}k)\delta[n-k+2)]\\
+            &= \boxed{\cos(\frac{3\pi}{7}(n-2))}
+        \end{align}
+        \item Find y[n] using eigenfunctions.
+        \begin{align}
+            H(z) &= \sum_{k=-\infty}^\infty \delta[k-2]\cos(-j\frac{3\pi}{7}k)\\
+            &= \frac{1}{2}e^{j\frac{3\pi}{7}(n-2)}
+        \end{align}
+        \begin{align}
+            y[n] &= \cos(\frac{3\pi}{7}n)\frac{1}{2}e^{j\frac{3\pi}{7}(n-2)}\\
+            &= \frac{e^{j\frac{3\pi}{7}(n-2)}+e^{-j\frac{3\pi}{7}(n-2)}}{2}\\
+            &= \boxed{\cos(\frac{3\pi}{7}(n-2))}
+        \end{align}
+    \end{enumerate}
+    \newpage
+    \item Consider a DT LTI system for which the input x[n] = $z^n$, where z = $e^{j3}$, and the output y[n] are related by a time shift of 15, such that,
+    \begin{equation}
+        y[n] = x[n-15]
+    \end{equation}
+    Determine an expression for the impulse response $H(z=e^{j3})$.
+    \begin{align}
+        &y[t] = x[t-15]\\
+        &\Rightarrow y[t+15] = x[t]\\
+        &\Rightarrow e^{j3[n+15]} = e^{j3n}\\
+        &\Rightarrow e^{j3n}\underbrace{\boxed{e^{-j45}}}_{H(z)} = e^{j3t}
+    \end{align}
+    \newpage
+    \item Suppose the Eigenvalues of a DT system are given by the function
+    \begin{equation}
+        H(z) = \frac{1+z+z^2}{z}
+    \end{equation}
+    What is the output when the input is x[n] = $(-1)^n$
+    \begin{align}
+        y[n] &= \frac{1+(-1)+(-1)^2}{(-1)}(-1)^n\\
+        &= \frac{1-1+1}{(-1)}(-1)^n\\
+        &= \boxed {-(-1)^n}\\
+    \end{align}
+\end{enumerate}
+\end{document}

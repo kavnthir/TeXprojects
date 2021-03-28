@@ -1,0 +1,68 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{STAT4714 Homework 2}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Textbook}
+\subsection*{Problem 17}
+\begin{align}
+    &C_{(9,4)} = \frac{9 \cdot 8 \cdot 7 \cdot 6}{4 \cdot 3 \cdot 2 \cdot 1} = 126 \\
+    &C_{(8,3)} = \frac{8 \cdot 7 \cdot 6}{3 \cdot 2 \cdot 1} = 56\\
+    &{8\choose{5}} = 56\\
+    &{8\choose{0}} = 1
+\end{align}
+\subsection*{Problem 21}
+A firm employs 10 programmers, 8 system analysts, 4 computer engineering, and 3 statisticians a "team" is to be chosen to handle a new long-term project. The team will consist of 3 programmers, 2 system analysts 2 computer engineers and 1 statistician.
+\subsubsection*{Part A}
+In how many ways can the team be chosen?
+\begin{equation}
+    {10\choose{3}} \cdot {8\choose{2}} \cdot {4\choose{2}} \cdot {3\choose{1}} = 60480
+\end{equation}
+\subsubsection*{Part B}
+If the customer insists that one particular engineer with whom he or she has worked before be assigned to the project, in how many ways can the team be chosen?
+\begin{equation}
+    {10\choose{3}} \cdot {8\choose{2}} \cdot {3\choose{1}} \cdot {3\choose{1}} = 30240
+\end{equation}
+\section*{Canvas}
+\subsection*{Problem 3}
+I live 9 (rectangular) blocks from Tech, and I walk each morning. The trip is 3 blocks north and 6 blocks west; and I have to follow the streets, so I cannot cut diagonally. At each intersection, I must choose whether to walk north or walk west. Thus, I must make 9 choices of which to take, but of course must go north 3 times and west 6 times.How many possible complete trips to Tech are there?
+\begin{equation}
+    {{9}\choose{3}} = \frac{9 \cdot 8 \cdot 7}{3 \cdot 2 \cdot 1} = 84
+\end{equation}
+\subsection*{Problem 4}
+You are staffing a new department, and you have applications on your desk. You will hire 2  of  the  5  software  engineers  who  have  applied,  and  3  of  the  7  computer  engineers  who  have applied. What is the total number of possible complete staffs you could hire?
+\begin{equation}
+   {7\choose{3}} \cdot {5\choose{2}} = \frac{5 \cdot 4}{2 \cdot 1} \cdot \frac{7 \cdot 6 \cdot 5}{3 \cdot 2 \cdot 1} = 350
+\end{equation}
+\newpage
+\subsection*{Problem 7}
+Your company is going to build 4 factories that will use the latest robot technology. One will make prefab buildings, another sewer systems, a third will make prefab highway overpasses, and the fourth will build shipping containers.  The factories will each be in a different state, but all 50 states are eligible.
+\subsubsection*{Part A}
+In how many ways can your factories be placed among the states?
+\begin{equation}
+    {50\choose{4}} = \frac{50 \cdot 49 \cdot 48 \cdot 47}{4 \cdot 3 \cdot 2 \cdot 1} = 230300
+\end{equation}
+\subsubsection*{Part B}
+If you have no idea which states will be chosen, what is the probability that all 4 factories will be located in the mid-Atlantic region (8 states)?
+\begin{equation}
+    \frac{{8\choose{4}}}{{50\choose{4}}} = \frac{\frac{8 \cdot 7 \cdot 6 \cdot 5}{4 \cdot 3 \cdot 2 \cdot 1}}{\frac{50 \cdot 49 \cdot 48 \cdot 47}{4 \cdot 3 \cdot 2 \cdot 1}} = \frac{70}{230300} = .0303951\%
+\end{equation}
+\end{document} 

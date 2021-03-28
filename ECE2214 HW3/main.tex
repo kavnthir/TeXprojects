@@ -1,0 +1,378 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amssymb}
+\pagestyle{fancy}
+\lhead{ECE2214 Homework 3}
+\rhead{Kavin Thirukonda 2021}
+\fancyheadoffset{0mm}
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\begin{enumerate}
+    \item For an nMOS biased in the saturation region, the parameters are $k^{'}_n = 100 \mu A/V^2, V_{TN} = 0.6V$, and $I_{DQ} = 0.8mA$. Determine the transistor width-to-length ratio such that the transconductance is $g_m = 1.8mA/V$
+    \begin{center}
+        Since we know what $I_{DQ}$ and $g_m$ we just need to rearrange the formula for $g_m$ in such a way that we can solve for the W/L ratio then plug in numbers:
+    \end{center}
+    \begin{align}
+        g_m &= 2\sqrt{K_nI_{DQ}}\\
+        \Rightarrow g_m &= 2\sqrt{(k^{'}_n\frac{W}{2L})I_{DQ}}\\
+        \Rightarrow \left(\frac{g_m}{2}\right)^2 &= (k^{'}_n\frac{W}{2L})I_{DQ}\\
+        \Rightarrow \frac{W}{L} &=\frac{2\left(\frac{g_m}{2}\right)^2}{k^{'}_n I_{DQ}}\\
+        \Rightarrow \frac{W}{L} &=\frac{2\left(\frac{1.8\frac{mA}{V}}{2}\right)^2}{100 \frac{\mu A}{V^2}\cdot0.8mA}\\
+        &=\frac{2\left(.9m\mho \right)^2}{80n\mho^2}\\
+        &=\frac{1.62\mu\mho^2}{80n\mho^2}\\
+        &=\boxed{20.25}
+    \end{align}
+    \newpage
+    \item For the circuit shown in the figure below, $V_{DD} = 3.3V$ and $R_D = 10k\Omega$. The transistor parameters are $V_{TN} = 0.4V, k^{'}_n = 100 \mu A/V^2, W/L = 50,$ and $\lambda = 0.025V^{-1}.$ Assume the transistor is biased such that $I_{DQ} = 0.25mA$
+    \begin{center}
+        \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+        \begin{circuitikz}[scale=1]
+            \ctikzset{tripoles/mos style/arrows}
+            \draw (0,0) node[ground]{} to [battery, invert, l=$V_{GSQ}$] (0,.5)
+            to [vsourcesin,l=$v_i$] (0,2) to [short](.21,2) (1.2,2)node[nmos]{} (1.2,1.22)node[ground]{};
+            \draw (1.2,2.7) to [R, *-o,l=$R_D$](1.2,4.25)node[anchor=south]{$V_{DD}$}
+            (1.2,2.7) to [short, -o](2.2,2.7) node[anchor=west]{$v_o$}; 
+        \end{circuitikz}
+    \end{center}
+    \begin{enumerate}
+        \item Verify that the transistor is biased in the saturation
+        \begin{center}
+            For an nMOS transistor to be operating in saturation $V_{DS} > V_{DS}(sat)$ must be true, to check this we need to obtain the values of $V_{DS}$ and $V_{GS}$.
+        \end{center}
+        \begin{equation}
+            K_n = k^{'}_n \frac{W}{2L} = 2.5 \frac{m A}{V^2}
+        \end{equation}
+        \begin{align}
+            V_{GSQ} &= \sqrt{\frac{I_{DQ}}{K_n}} + V_{TN}\\
+            &= \underline{.716V}\text{ or }84mV
+        \end{align}
+        \begin{align}
+            V_{DSQ}  &= V_{DD} - R_D I_{DQ}\\
+            &= 0.8V
+        \end{align}
+        \begin{equation}
+            \boxed{0.8V > .716V - 0.4V}
+        \end{equation}
+        \item Determine the small-signal parameters $g_m$ and $r_o$.
+        \begin{equation}
+            g_m = 2\sqrt{K_nI_{DQ}} = \boxed{1.6m\mho}
+        \end{equation}
+        \begin{equation}
+            r_o = \frac{1}{\lambda I_{DQ}} = \boxed{160k\Omega}
+        \end{equation}
+        \item Determine the small-signal voltage gain.
+        \begin{center}
+            \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+            \begin{circuitikz}[american currents,american voltages]
+                \ctikzset{tripoles/mos style/arrows}
+                \draw
+                (0,0) to [vsourcesin,l=$v_i$](0,2)
+                to [short, -o](1.5,2)node[anchor=south]{G}
+                to [open,v=$V_{GS}$](1.5,0)
+                (0,0) to [short,-*](1.5,0)
+                to [short](3,0)
+                (3,0) to [short,-o](7,0)
+                (3,0) node[anchor=north]{S} to [cisource,l_=$V_{GS} g_m$,invert,*-](3,2)
+                to [short](5,2)
+                to [short](6.5,2)
+                to [short, -o](7,2)node[anchor=west]{$v_o$}
+                (6,2) to [R,l=$r_o$,*-*](6,0)
+                (5,2)node[anchor=south]{D} to [R, l=$R_D$,*-*](5,0);
+            \end{circuitikz}
+        \end{center}
+        \begin{equation}
+            A_v = \frac{v_i}{v_o} = -g_m(r_o||R_D) = \boxed{-14.88}
+        \end{equation}
+    \end{enumerate}
+    \newpage
+    \item The parameters of the circuit shown in the figure below are $V_{DD} = 5V, R_1 = 520k\Omega, R_2 = 320k\Omega, R_D = 10k\Omega,$ and $R_{Si} = 0.$ Assume transistor parameters $V_{TN} = 0.8V, K_n = 0.20mA/V^2,$ and $\lambda = 0$
+    \begin{center}
+        \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+        \begin{circuitikz}[scale=1]
+            \ctikzset{tripoles/mos style/arrows}
+            \draw (0,0) to [vsourcesin,l=$v_i$](0,2)
+            to [R,l=$R_{Si}$](1.5,2)
+            to [C,l=$C_{C1}$](3,2)
+            to [R,l_=$R_1$] (3,4)
+            to [short,-*] (3.75,4)
+            to [short, -o](3.75,4.5) node[anchor=south]{$V_{DD}$}
+            (3.75,4) to [short,-] (4.5,4)
+            to [R,l=$R_D$,-*] (4.5,2.75)
+            to [short, -o](5.25,2.75)node[anchor=west]{$v_o$};
+            \draw (3,2) to [short,*-] (3.51,2)(4.5,2) node[nmos]{};
+            \draw (0,0) to [short, -*] (3,0) to [R,l_=$R_2$] (3,2) 
+            (3,0) to [short, -*](4.5,0) node[ground]{} to [short] (4.5,1.22);
+        \end{circuitikz}
+    \end{center}
+    \begin{enumerate}
+        \item Find the small-signal transistor parameters $g_m$ and $r_o$.
+        \begin{equation}
+            V_{GSQ}=V_{DD}\left(\frac{R_2}{R_1 + R_2}\right)=5V\left(\frac{320k\Omega}{520k\Omega+320k\Omega}\right) = 1.9V
+        \end{equation}
+        \begin{equation}
+            I_{DQ} = K_n(V_{GSQ} - V_{TN})^2 = 0.2\frac{mA}{V^2}(1.9V - 0.8V)^2 = 242\mu A
+        \end{equation}
+        \begin{equation}
+            V_{DSQ} = V_{DD} - R_DI_{DQ} = 5V - 10k\Omega\cdot242\mu A = 2.58V
+        \end{equation}
+        \begin{equation}
+            g_m = 2\sqrt{K_nI_{DQ}} = \boxed{.44m\mho}
+        \end{equation}
+        \begin{equation}
+            r_o = \boxed{\infty\Omega}
+        \end{equation}
+        \begin{center}
+            $g_m$ can be calculated normally, but $r_o$ is $\infty$ because $\lambda = 0$ which means the transistor is ideal.
+        \end{center}
+        \item Find the small-signal voltage gain.
+        \begin{center}
+            \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+            \begin{circuitikz}[american currents,american voltages]
+                \ctikzset{tripoles/mos style/arrows}
+                \draw
+                (-1.5,0) to [vsourcesin,l=$v_i$](-1.5,2)
+                to [short](.5,2)
+                (-1.5,0) to [short](0,0)
+                (-.6,0) to [R,l_=$R_1$,*-*](-.6,2)
+                (.4,0) to [R,l_=$R_2$,*-*](.4,2)
+                to [short, -o](1.5,2)node[anchor=south]{G}
+                to [open,v=$V_{GS}$](1.5,0)
+                (0,0) to [short,-*](1.5,0)
+                to [short](3,0)
+                (3,0) to [short,-o](7,0)
+                (3,0) node[anchor=north]{S} to [cisource,l_=$V_{GS} g_m$,invert,*-](3,2)
+                to [short](5,2)
+                to [short](6.5,2)
+                to [short, -o](7,2)node[anchor=west]{$v_o$}
+                (6,2) to [R,l=$r_o$,*-*](6,0)
+                (5,2)node[anchor=south]{D} to [R, l=$R_D$,*-*](5,0);
+            \end{circuitikz}
+        \end{center}
+        \begin{center}
+            For common source nMOS amplifier:
+        \end{center}
+        \begin{equation}
+            A_v= \frac{v_i}{v_o} = -g_m(R_D||r_o)= -(.44m\mho)(10k\Omega) = \boxed{-4.4} 
+        \end{equation}
+        \item Calculate the input and output resistances $R_i$ and $R_o$
+        \begin{equation}
+            R_i = (R_1||R_2) = \boxed{198k\Omega}
+        \end{equation}
+        \begin{equation}
+            R_o = R_D = \boxed{10k\Omega}
+        \end{equation}
+    \end{enumerate}
+    \newpage
+    \item Consider the figure shown below. Assume transistor parameters of $V_{TN} = 0.8V, K_n = 0.2mA/V^2,$ and $\lambda = 0$. Let $V_{DD} = 5V, R_i = R_1||R_2 = 200k\Omega$ and $R_{Si} = 0$. 
+    \begin{center}
+        \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+        \begin{circuitikz}[scale=1]
+            \ctikzset{tripoles/mos style/arrows}
+            \draw (0,0) to [vsourcesin,l=$v_i$](0,2)
+            to [R,l=$R_{Si}$](1.5,2)
+            to [C,l=$C_{C1}$](3,2)
+            to [R,l_=$R_1$] (3,4)
+            to [short,-*] (3.75,4)
+            to [short, -o](3.75,4.5) node[anchor=south]{$V_{DD}$}
+            (3.75,4) to [short,-] (4.5,4)
+            to [R,l=$R_D$,-*] (4.5,2.75)
+            to [short, -o](5.25,2.75)node[anchor=west]{$v_o$};
+            \draw (3,2) to [short,*-] (3.51,2)(4.5,2) node[nmos]{};
+            \draw (0,0) to [short, -*] (3,0) to [R,l_=$R_2$] (3,2) 
+            (3,0) to [short, -*](4.5,0) node[ground]{} to [short] (4.5,1.22);
+        \end{circuitikz}
+    \end{center}
+    \begin{enumerate}
+        \item Design the circuit such that $I_{DQ} = 0.5mA$ and the Q-point is in the center of the saturation region.
+        \begin{equation}
+             I_{Dt} = 2\cdot I_{DQ} = 1mA
+        \end{equation}
+        \begin{center}
+            Now we can use the fact that $V_{DS} = V_{DS}(sat)$ at the transition point to solve for the other value of $V_{DS}$ needed to find $V_{DSQ}$.
+        \end{center}
+        \begin{equation}
+            1mA = .2\frac{mA}{V^2}(V_{DS}(sat))^2 \Rightarrow V_{DSt} = 2.236V
+        \end{equation}
+        \begin{equation}
+            V_{DSQ} = \frac{V_{DD}-V_{DSt}}{2} + V_{DSt}= 3.618V
+        \end{equation}
+        \begin{center}
+            Now we have all the information needed to solve for the resistor values.
+        \end{center}
+        \begin{align}
+            V_{DD} &=  I_{DQ}R_D + V_{DSQ}\\
+            \Rightarrow 5V &=  .5mA\cdot R_D + 3.618V\\
+            \Rightarrow R_D &=  \boxed{2.764k\Omega}
+        \end{align}
+        \begin{align}
+            .5mA &= .2\frac{mA}{V^2}(V_{GSQ}-0.8V)^2\\
+             V_{GSQ} &= \pm\sqrt{\frac{.5mA}{.2\frac{mA}{V^2}}} + 0.8V\\
+             V_{GSQ} &= \underline{2.381}\text{ or }-0.78
+        \end{align}
+        \begin{align}
+            V_{GSQ} &= V_{DD}\left(\frac{R_2}{R_1+R_2}\right)\\
+            \Rightarrow R_1\cdot V_{GSQ} &= V_{DD}(R_1||R_2)\\
+            \Rightarrow R_1\cdot2.381V &= 5V\cdot200k\Omega\\
+            \Rightarrow R_1 &= \boxed{419.967k\Omega}\\
+            \Rightarrow R_2 &= \frac{V_{GSQ}R_1}{V_{DD}-V_{GSQ}}\\
+            &= \boxed{381.802k\Omega}
+        \end{align}
+        \item Find the small-signal voltage gain.
+        \begin{equation}
+            A_v = -g_m(r_o||R_D) = -2\sqrt{.2\frac{mA}{V^2}\cdot .5mA} \cdot 2.764k\Omega = \boxed{-1.748}
+        \end{equation}
+    \end{enumerate}
+    \newpage
+    \item For the circuit shown in the figure below, the transistor parameters are $V_{TN} = 0.8V, K_n = 1mA/V^2, R_1 = 165k\Omega, R_2 = 35k\Omega, R_D = 7k\Omega, R_S = 0.5k\Omega,$ and $\lambda = 0$
+    \begin{center}
+        \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+        \begin{circuitikz}[scale=1]
+            \ctikzset{tripoles/mos style/arrows}
+            \draw (1.5,0)node[ground]{} to [vsourcesin,l=$v_i$](1.5,2)
+            to [C,l=$C_C$](3,2)
+            to [R,l_=$R_1$] (3,4)
+            to [short,-*] (3.75,4)
+            to [short, -o](3.75,4.5) node[anchor=south]{+5V}
+            (3.75,4) to [short,-] (4.5,4)
+            to [R,l=$R_D$,-*] (4.5,2.75)
+            to [short, -o](5.25,2.75)node[anchor=west]{$v_o$};
+            \draw (3,2) to [short,*-] (3.51,2)(4.5,2) node[nmos]{};
+            \draw (3,0) to [R,l_=$R_2$] (3,2) 
+            (3,0) to [short, -*](3.75,0) to [short](3.75,0) to [short, -o](3.75,-.5)node[anchor=north]{-5V}(3.75,0) to [short](4.5,0)to [R,l_=$R_S$] (4.5,1.22);
+        \end{circuitikz}
+    \end{center}
+    \begin{enumerate}
+        \item From the DC analysis, find $I_{DQ}$ and $V_{DSQ}$
+        \begin{equation}
+            V_G = \left(\frac{35k\Omega}{35k\Omega + 165k\Omega}\right)(5-(-5))+(-5)=-3.25
+        \end{equation}
+        \begin{equation}
+            V_S = 0.5k\Omega I_{DQ} - 5 
+        \end{equation}
+        \begin{equation}
+            V_{GS} = V_G - V_S = 1.75 - 0.5k\Omega I_{DQ}
+        \end{equation}
+        \begin{align}
+            &I_{DQ} = K_n(V_{GSQ} - V_{TN})^2\\
+            &\Rightarrow I_{DQ} = K_n(V_G-V_S-V_{TN})^2\\
+            &\Rightarrow I_{DQ} = .001(-500 I_{DQ}+.95)^2\\
+            &\Rightarrow 250I_{DQ}^2-1.95I_{DQ}+.95 = 0\\
+            &\Rightarrow I_{DQ} = \boxed{.494mA}\text{ or }7.3mA\\
+            &\Rightarrow V_{GSQ} =  1.503\\
+            &\Rightarrow V_{DSQ} =  10-7.5k\Omega I_{DQ}\\
+            &\Rightarrow V_{DSQ} = \boxed{6.295V}
+        \end{align}
+        \item Determine the small-signal voltage gain.
+        \begin{equation}
+            g_m = 2\sqrt{K_n I_{DQ}} = 1.405m\mho
+        \end{equation}
+        \begin{equation}
+            r_o = \infty
+        \end{equation}
+        \begin{equation}
+            A_v = \frac{v_i}{v_o} = \frac{-g_m R_D}{1+g_m R_S} = \boxed{-5.78}
+        \end{equation}
+    \end{enumerate}
+    \newpage
+    \item Consider the circuit shown in the figure below with circuit parameters $V^+ = 5V, V^- = -5V, R_S = 4k\Omega, R_D = 2k\Omega, R_L = 4k\Omega$ and $R_G = 50k\Omega.$ The transistor parameters are: $K_p = 1mA/V^2, V_{TP} = -0.8V,$ and $\lambda = 0$. 
+    \begin{center}
+        \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+        \begin{circuitikz}[scale=1]
+            \ctikzset{tripoles/mos style/arrows}
+            \draw (1.5,0)node[ground]{} to [vsourcesin,l=$v_i$](1.5,1.5)
+            to [C,l=$C_{C1}$](3,1.5)
+            to [R,l=$R_S$,*-o](3,-.5) node[anchor=north]{$V^+$}
+            (3,1.5) to [short](3.72,1.5);
+            \draw (5.28,1.5) to [short](6,1.5)
+            to[R,l=$R_D$,*-o](6,-.5) node[anchor=north]{$V^-$}
+            (6,1.5) to [C,l=$C_{C2}$](7.5,1.5)
+            to [R,l=$R_L$,*-](7.5,0)node[ground]{}
+            (7.5,1.5) to [short,-o](8.5,1.5)node[anchor=west]{$v_o$};
+            \draw (4.5,1.5) node[pmos,rotate=90]{};
+            \draw (4.5,.5) to [short](4,.5) to [R,l_=$R_G$](4,-1)to [short,-*](4.5,-1)node[ground]{} to (5,-1) to [C,l_=$C_G$](5,.5) to [short, -*](4.5,.5);
+        \end{circuitikz}
+    \end{center}
+    \begin{enumerate}
+        \item Draw the small-signal equivalent circuit :
+        \begin{center}
+            \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+            \begin{circuitikz}[american currents,american voltages]
+                \ctikzset{tripoles/mos style/arrows}
+                \draw
+                (-1.5,0) to [vsourcesin,l=$v_i$](-1.5,2)
+                to [short](0,2)
+                (-1.5,0) to [short](0,0)
+                (0,0) to [R,l=$R_S$,*-*](0,2)
+                to [short](1.5,2)
+                to [cisource,l_=$V_{SG} g_m$](3,2)
+                (1,2) node[anchor=south]{S} to [open,v=$V_{SG}$,o-o](1,0) node[anchor=north]{G}
+                (0,0) to [short](1.5,0)
+                to [short](3,0)
+                (3,0) to [short,-o](5.5,0)
+                (3,2) to [short](5,2)
+                to [short, -o](5.5,2)node[anchor=west]{$v_o$}
+                (3.5,2) node[anchor=south]{D} to [R,l=$R_L$,*-*](3.5,0)
+                (4.5,2) to [R, l=$R_D$,*-*](4.5,0);
+            \end{circuitikz}
+        \end{center}
+        \item determine the small-signal voltage gain $A_v = V_o/V_i$:
+        \begin{center}
+            Find DC equivalent to get operating point:
+        \end{center}
+        \begin{center}
+            \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+            \begin{circuitikz}[scale=1]
+                \ctikzset{tripoles/mos style/arrows}
+                \draw 
+                (3,1.5) to [R,l=$R_S$,-o](3,-.5) node[anchor=north]{$V^+$}
+                (3,1.5) to [short](3.72,1.5);
+                \draw (5.28,1.5) to [short](6,1.5)
+                to[R,l=$R_D$,-o](6,-.5) node[anchor=north]{$V^-$}(6,1.5);
+                \draw (4.5,1.5) node[pmos,rotate=90]{};
+                \draw (4.5,.51) to [R,l_=$R_G$](4.5,-1)node[ground]{};
+            \end{circuitikz}
+        \end{center}
+        \begin{equation}
+            V_{SG} = V_S = V^+ - I_{DQ}R_S
+        \end{equation}
+        \begin{align}
+            &I_{DQ} = K_p(V_{SG} + V_{Tp})^2 \\
+            &\Rightarrow I_{DQ} = K_p(V^+ - I_{DQ}R_S + V_{TP})^2 \\
+            &\Rightarrow I_{DQ} = 1\frac{mA}{V^2}(- I_{DQ}4k\Omega +4.2V)^2 \\
+            &\Rightarrow I_{DQ} = 1\frac{mA}{V^2}(16M\Omega I_{DQ}^2-33.6k\Omega I_{DQ}+17.64) \\
+            &\Rightarrow I_{DQ} = 16k\Omega I_{DQ}^2-33.6\Omega I_{DQ}+.01764\\
+            &\Rightarrow 16k\Omega I_{DQ}^2-34.6\Omega I_{DQ}+.01764 = 0\\
+            &\Rightarrow I_{DQ} = \underline{.823mA}\text{ or }1.34mA
+        \end{align}
+        \begin{equation}
+            g_m = 2\sqrt{K_pI_{DQ}} = 1.81m\mho
+        \end{equation}
+        \begin{equation}
+            r_o = \infty\Omega
+        \end{equation}
+        \begin{equation}
+            A_v = g_m(R_L||R_D) = \boxed{2.41}
+        \end{equation}
+        \item find the input resistance $R_i$:
+        \begin{equation}
+            R_i = R_s || \frac{1}{g_m} = \boxed{.485k\Omega}
+        \end{equation}
+    \end{enumerate}
+\end{enumerate}
+\end{document}

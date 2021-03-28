@@ -1,0 +1,55 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{ECE2564 Homework 5}
+\rhead{Kavin Thirukonda 2021}
+\fancyheadoffset{0mm}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\begin{center}
+    “I have neither given nor received unauthorized assistance on this assignment.”
+    
+    \includegraphics[width = .1\textwidth]{Signature.jpg}
+\end{center}
+\section*{Problem 0}
+\begin{center}
+    Github ID: kavnthir\\
+    Github ID Number: 63033113
+\end{center} 
+\section*{Problem 1}
+\subsection*{a)}
+\begin{center}
+    Code commited to github
+\end{center}
+\subsection*{b)}
+\begin{center}
+        \lstset{language=C}
+        \lstset{frame=lines}
+        \lstset{label={lst:code_direct}}
+        \lstset{basicstyle=\footnotesize}
+        \begin{lstlisting}
+//i
+//S0->S1->S2->S3->S4->S1->S3
+input_t in_array[6] = {{0, 0}, {5, 1}, {3, 0}, {4, 1}, {3,1}, {3,1}};
+//ii
+//S0->S1->S3->S4->S2->S3->S4
+input_t in_array[6] = {{3, 1}, {3, 1}, {4, 1}, {8, 1}, {3,1}, {4,1};
+        \end{lstlisting}
+\end{center}
+\end{document}

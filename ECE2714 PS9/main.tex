@@ -1,0 +1,105 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsfonts}
+\usepackage{media9}
+\usepackage{parskip}
+\usetikzlibrary{positioning, fit, calc}
+\pagestyle{fancy}
+\lhead{ECE2714 Problem Set 9}
+\rhead{Kavin Thirukonda 2021}
+\fancyheadoffset{0mm}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\begin{enumerate}
+    \item Consider the time-domain signal
+    \begin{equation}
+        x(t) = \begin{cases}
+        e^{5t} &  t < 0\\
+        e^{-t} & t \geq 0
+        \end{cases}
+    \end{equation}
+    \begin{enumerate}
+        \item Find the Fourier transform of x(t) using the definition
+        \begin{align}
+            X(j\omega) &= \int_{-\infty}^\infty x(t) e^{-j\omega t}dt\\
+            &= \int_{-\infty}^0 e^{-t} e^{-j\omega t}dt+\int_{1}^\infty e^{5t} e^{-j\omega t}dt\\
+            &= \frac{1}{-j\omega - 1}e^{-j\omega t-t}\Bigg|_{-\infty}^0 + \frac{1}{-j\omega +5}e^{-j\omega t+5t}\Bigg|_{1}^\infty\\
+        \end{align}
+        \item Plot the Magnitude and Phase Spectrum of the Signal from -20 to 20 radians per seconds
+    \end{enumerate}
+    \newpage
+    \item Consider the signal represented in the freqency domain as
+    \begin{equation}
+        X(j\omega) = \frac{19+j6\omega}{180-\omega^2+j11\omega}
+    \end{equation}
+    \begin{enumerate}
+        \item Write the signal in the form
+        \begin{equation}
+            X(j\omega) = \frac{A}{2+j\omega}+\frac{B}{9+j\omega}
+        \end{equation}
+        i.e. determine the constants A and B
+        \item Using your result from part a) find the signal representation in the time-domain i.e. x(t)
+    \end{enumerate}
+    \newpage
+    \item Consider the continuous-time rectangular pulse signal, x(t), given by the expression,
+    \begin{equation}
+        x(t) = \begin{cases}
+        1, & -a < t < a \\
+        0, & else
+        \end{cases}
+    \end{equation}
+    Determine the continuous-time Fourier transform $X(\omega)$ from the definition.
+    \begin{align}
+        X(j\omega) &= \int_{-\infty}^\infty x(t) e^{-j\omega t}dt\\
+        &= \int_{-a}^a e^{-j\omega t}dt\\
+        &= \frac{1}{j\omega} e^{-j\omega t}\bigg|_{-a}^a\\
+        &= \frac{1}{j\omega} e^{-j\omega a}-e^{j\omega a}\\
+        &= -\frac{1}{j\omega} (e^{j\omega a}-e^{-j\omega a})\\
+    \end{align}
+    \newpage
+    \item Consider the discrete-time rectangular pulse signal, x[n], given by the expression,
+    \begin{equation}
+        x[n] = u[n] -u[n-N].
+    \end{equation}
+    Determine the discrete-time Fourier transform $X(e^{j\omega}$ from the definition.
+    \item Consider the  continuous time signal, y(t), given by the expression,
+    \begin{equation}
+        y(t) = x(t)cos(\omega_ot)
+    \end{equation}
+    where
+    \begin{equation}
+        x(t) = \begin{cases}
+        1 & |t| < T\\
+        0 & else
+        \end{cases}
+    \end{equation}
+    Determine the Fourier Transform, $Y(j\omega)$ of y(t) using the multiplication property of the Fourier Transform.
+    \item Consider the discrete time signal, x[n], given by the expresion,
+    \begin{equation}
+        x[n] a^nu[n] 
+    \end{equation}
+    where $|a| < 1$.
+    \begin{enumerate}
+        \item Determine the Discrete Time Fourier Transform, $X(e^{j\omega})$ of x[n] using the definition of the Discrete Time Fourier Transform.
+        \item Create an expression for $|X(e^{j\omega})|$ (magnitude spectrum). Simplify as much as possible.
+        \item Create an expression for \phase{X(e^{j\omega})} (phase spectrum). Simplify as much as possible.
+    \end{enumerate}
+\end{enumerate}
+\end{document}

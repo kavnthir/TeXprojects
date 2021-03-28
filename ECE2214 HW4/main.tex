@@ -1,0 +1,295 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amssymb}
+\usetikzlibrary{positioning, fit, calc}
+\pagestyle{fancy}
+\lhead{ECE2214 Homework 4}
+\rhead{Kavin Thirukonda 2021}
+\fancyheadoffset{0mm}
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\begin{enumerate}
+    \item Consider the NMOS inverter with resistor lead in the figure below biased at $V_{DD} = 3V.$ Assume transistor parameters of $k^{'}_n = 100 \mu A/V^2, W/L = 4$, and $V_{TN} = 0.5V$
+    \begin{center}
+        \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+        \begin{circuitikz}[scale=1]
+            \ctikzset{tripoles/mos style/arrows}
+            \draw node[anchor=east]{$v_I$} to [short,o-](.51,0)(1.5,0)node[nmos](nmos1){};
+            \draw (nmos1.drain) to [R,l=$R_D$,-o](nmos1.drain|-,2.5)node[anchor=south]{$V_{DD}$};
+            \draw (nmos1.source)node[ground]{};
+            \draw (nmos1.drain|-,.8) to [short,*-o](2.3,.8)node[anchor=west]{$v_O$};
+        \end{circuitikz}
+    \end{center}
+    \begin{enumerate}
+        \item Find the value of $R_D$ such that $v_o = 0.1V$ when $v_I = 3V.$
+        \begin{equation}
+            K_n = \frac{k^{'}_nW}{2L} = 200\frac{\mu A }{V^2}
+        \end{equation}
+        \begin{center}
+            Because $v_{DS} < v_{GS} - V_{TN}$ the transistor is in linear operation.
+        \end{center}
+        \begin{align}
+            i_D &= K_n(2(v_{GS}-V_{TN})v_{DS}-v_{DS}^2)\\ 
+            &= 200\frac{\mu A }{V^2}(2(3V-0.5V)0.1V-0.1V^2)\\ 
+            &= 200\frac{\mu A }{V^2}(.49V^2)\\
+            &= 98\mu A
+        \end{align}
+        \begin{align}
+            &V_{DD} = V_{DS}+R_Di_D\\
+            &\Rightarrow R_D = \frac{V_{DD}-V_{DS}}{i_D}\\
+            &\Rightarrow R_D = \frac{3V-0.1V}{98\mu A}\\
+            &\Rightarrow \boxed{R_D = 29.592k\Omega}
+        \end{align}
+        \item Using the result of part (a), determine the maximum current and maximum power dissipation in the inverter
+        \begin{equation}
+            i_D(max) = \frac{V_{DD}-v_O}{R_D} = \boxed{98\mu A}
+        \end{equation}
+        \begin{equation}
+            P(max) = V_{DD}\cdot i_D(max) = 3V \cdot 101.379\mu A = \boxed{294\mu W}
+        \end{equation}
+        \item Using the result of part (a), determine the transition point for the driver transistor
+        \begin{align}
+            &K_nR_D(V_{It}-V_{TN})^2+(V_{It}-V_{TN})-V_{DD}=0\\
+            &\Rightarrow 200\frac{\mu A }{V^2}29.592k\Omega(V_{It}-0.5V)^2+(V_{It}-0.5V)-3V=0\\
+            &\Rightarrow 5.9184V^{-1}(V_{It}^2-V_{It}+0.25V^2)+V_{It}-3.5V=0\\
+            &\Rightarrow 5.9184V_{It}^2-5.9184V_{It}+1.4795V+V_{It}-3.5V=0\\
+            &\Rightarrow 5.9184V_{It}^2-4.9184V_{It}-2.02V=0\\
+            &\Rightarrow V_{It} = -0.3014V\text{ or }\boxed{1.1324V}
+        \end{align}
+        \begin{align}
+            V_{Ot} &= V_{It} - V_{TN}\\
+            &= 1.1324V - 0.5V\\
+            &= \boxed{0.6324V}
+        \end{align}
+    \end{enumerate}
+    \newpage
+    \item The CMOS inverter in the figure below is biased at $V_{DD} = 2.1V,$ and the transistor threshold voltages are $V_{TN} = -V_{TP} = 0.4V$. Sketch the voltage transfer curve and show the critical voltages.
+    \begin{center}
+        \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+        \begin{circuitikz}[scale=1]
+            \ctikzset{tripoles/mos style/arrows}
+            \draw node[anchor=east]{$v_I$} to [short,o-*]
+            (.25,0) to [short](.25,.75)(1.25,.75)node[pmos](pmos){}
+            (.25,0) to [short](.25,-.75)(1.25,-.75)node[nmos](nmos){}
+            (1.25,0) to [short,*-o](1.5,0)node[anchor=west]{$v_O$};
+            \draw (pmos.source) to [short,-o](pmos|-,1.8)node[anchor=south]{$V_{DD}$};
+            \draw (nmos.source)node[ground]{};
+            \end{circuitikz}
+    \end{center}
+    \begin{center}
+        I'm just gonna calculate the critical voltages because the graphs all look the same and they are very hard to fit my aesthetic that I have going on here when I try to draw them :)))
+    \end{center}
+    \begin{enumerate}
+        \item $K_n/K_p = 1$
+        \begin{equation}
+            V_{It} =\frac{V_{DD}+V_{TP}\left(\sqrt{\frac{K_n}{K_p}}\right)V_{TN}}{1+\sqrt{\frac{K_n}{K_p}}} = \boxed{1.05V}
+        \end{equation}
+        \begin{equation}
+            V_{OPt} = V_{It} - V_{TP} =\boxed{1.45V}
+        \end{equation}
+        \begin{equation}
+            V_{ONt} = V_{It} - V_{TN} =\boxed{0.65V}
+        \end{equation}
+        \item $K_n/K_p = 0.5$
+        \begin{equation}
+            V_{It} =\frac{V_{DD}+V_{TP}\left(\sqrt{\frac{K_n}{K_p}}\right)V_{TN}}{1+\sqrt{\frac{K_n}{K_p}}} = \boxed{1.16V}
+        \end{equation}
+        \begin{equation}
+            V_{OPt} = V_{It} - V_{TP} =\boxed{1.56V}
+        \end{equation}
+        \begin{equation}
+            V_{ONt} = V_{It} - V_{TN} =\boxed{0.76V}
+        \end{equation}
+        \item $K_n/K_p = 2$
+        \begin{equation}
+            V_{It} =\frac{V_{DD}+V_{TP}\left(\sqrt{\frac{K_n}{K_p}}\right)V_{TN}}{1+\sqrt{\frac{K_n}{K_p}}} = \boxed{0.938V}
+        \end{equation}
+        \begin{equation}
+            V_{OPt} = V_{It} - V_{TP} =\boxed{1.338V}
+        \end{equation}
+        \begin{equation}
+            V_{ONt} = V_{It} - V_{TN} =\boxed{0.538 V}
+        \end{equation}
+    \end{enumerate}
+    \newpage
+    \item The CMOS inverter in the figure below is biased at $V_{DD} = 1.8V.$ The parameters of the /transistor are $V_{TN} = -V_{TP} =0.4V, K_n = 200\mu A/V^2$ , and $K_p = 80\mu A/V^2.$
+    \begin{center}
+        \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+        \begin{circuitikz}[scale=1]
+            \ctikzset{tripoles/mos style/arrows}
+            \draw node[anchor=east]{$v_I$} to [short,o-*]
+            (.25,0) to [short](.25,.75)(1.25,.75)node[pmos](pmos){}
+            (.25,0) to [short](.25,-.75)(1.25,-.75)node[nmos](nmos){}
+            (1.25,0) to [short,*-o](1.5,0)node[anchor=west]{$v_O$};
+            \draw (pmos.source) to [short,-o](pmos|-,1.8)node[anchor=south]{$V_{DD}$};
+            \draw (nmos.source)node[ground]{};
+            \end{circuitikz}
+    \end{center}
+    \begin{enumerate}
+        \item Determine the transition points
+        \begin{equation}
+            V_{It} = \frac{V_{DD}+V_{TP}+\sqrt{\frac{K_n}{K_p}}V_{TN}}{1+\sqrt{\frac{K_n}{K_p}}}=\boxed{787.4mV}
+        \end{equation}
+        \begin{align}
+            V_{OPt} &= V_{It} - V_{TP}\\
+            &= 787.4mV - (-0.4V)\\
+            &= \boxed{1.187V}
+        \end{align}
+        \begin{align}
+            V_{OPt} &= V_{It} - V_{TN}\\
+            &= 787.4mV - 0.4V\\
+            &= \boxed{387.4mV}
+        \end{align}
+        \item Find the critical voltages $V_{IL}$ and $V_{IH}$, and the corresponding output voltages
+        \begin{equation}
+            V_{IL} = V_{TN} + \frac{(V_{DD}+V_{TP}-V_{TN})}{\frac{K_n}{K_p}-1}\left[2\sqrt{\frac{\frac{K_n}{K_p}}{\frac{K_n}{K_p}+3}}-1\right] = \boxed{0.6323V}
+        \end{equation}
+        \begin{equation}
+            V_{IH} = V_{TN}+\frac{(V_{DD}+V_{TP}-V_{TN})}{\frac{K_n}{K_p}-1}\left[\frac{2\frac{K_n}{K_p}}{\sqrt{3\frac{K_n}{K_p}+1}}-1\right] = \boxed{0.8767V}
+        \end{equation}
+        \begin{equation}
+            V_{OHU}=\frac{1}{2}\left[\left(1+\frac{K_n}{K_p}\right)V_{IL}+V_{DD}-\left(\frac{K_n}{K_p}\right)V_{TN}-V_{TP}\right]=\boxed{1.7065V}
+        \end{equation}
+        \begin{equation}
+            V_{OLU} = \frac{\left[\left(1+\frac{K_n}{K_p}\right)V_{IH}+V_{DD}-\left(\frac{K_n}{K_p}\right)V_{TN}-V_{TP}\right]}{2\left(\frac{K_n}{K_p}\right)}=\boxed{0.1337V}
+        \end{equation}
+        \item Calulate the noise margins $NM_L$ and $NM_H$
+        \begin{align}
+            NM_L &= V_{IL} - V_{OLU}\\
+            &= 0.6232V - 0.1337V\\
+            &= \boxed{0.4895V}
+        \end{align}
+        \begin{align}
+            NM_H &= V_{OHU} - V_{IH}\\
+            &= 1.7065 - 0.8767V\\
+            &= \boxed{0.8298V}
+        \end{align}
+    \end{enumerate}
+    \newpage
+    \item Calculate the power dissipated in each inverter circuit in the figures below for the following input conditions
+    \begin{enumerate}
+        \item Assume $V_{DD} = 5V$, $R_D = 20k\Omega$, $V_{TN} = 1.5V$, and $K_D = 100 \mu A/V^2$
+        \begin{center}
+        \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+        \begin{circuitikz}[scale=1]
+            \ctikzset{tripoles/mos style/arrows}
+            \draw node[anchor=east]{$v_I$} to [short,o-](.51,0)(1.5,0)node[nmos](nmos1){};
+            \draw (nmos1.drain) to [R,l=$R_D$,-o](nmos1.drain|-,2.5)node[anchor=south]{$V_{DD}$};
+            \draw (nmos1.source)node[ground]{};
+            \draw (nmos1.drain|-,.8) to [short,*-o](2.3,.8)node[anchor=west]{$v_O$};
+        \end{circuitikz}
+        \end{center}
+        \begin{enumerate}
+            \item 0.5V
+            \begin{center}
+                Since $v_I$ is less than $V_{TN}$ the transistor is in cutoff, which means no current flows across the transistor and therefore \textbf{no power is dissipated}.
+            \end{center}
+            \item 5V
+            \begin{align}
+                &v_O = V_{DD} -K_n R_D[2(v_I-V_{TN})v_O-v_O^2]\\
+                &\Rightarrow v_O = 5V -100\mu A/V^2 \cdot20k\Omega[2(5V-1.5V)v_O-v_O^2]\\
+                &\Rightarrow 2v_O^2-15v_O+5 = 0\\
+                &\Rightarrow v_O = 0.35
+            \end{align}
+            \begin{equation}
+                i_D = \frac{V_{DD}-v_O}{R_D} = \frac{5V-0.35V}{20k\Omega} = 0.2325mA
+            \end{equation}
+            \begin{equation}
+                P_D = i_D \cdot V_{DD} = \boxed{1.16mW}
+            \end{equation}
+        \end{enumerate}
+        \item Assume $V_{DD} = 5V$, $R_D = 20k\Omega$, $V_{TN} = 1.5V$, and $K_D = 100 \mu A/V^2$
+        \begin{center}
+        \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+        \begin{circuitikz}[scale=1]
+            \ctikzset{tripoles/mos style/arrows}
+            \draw (0,-.75)node[anchor=east]{$v_I$} to [short,o-] (.27,-.75)
+            (1.25,0) to [short,*-o](1.9,0)node[anchor=west]{$v_O$};
+            \draw (1.25,.75)node[pmos](pmos){} (1.25,-.75)node[nmos](nmos){};
+            \draw (.25,.75) to [short](.25,1.52) 
+            to [short,-*](pmos.source) 
+            to [short,-o](pmos|-,1.8)node[anchor=south]{$V_{DD}$};
+            \draw (nmos.source)node[ground]{};
+            \end{circuitikz}
+        \end{center}    
+        \begin{enumerate}
+            \item 0.25V
+            \begin{center}
+                Since $v_I$ is less than $V_{TN}$ the transistor is in cutoff, which means no current flows across the transistor and therefore \textbf{no power is dissipated}.
+            \end{center}
+            \item 4.3V
+            \begin{align}
+                &K_D[2(v_I-V_{TND})v_O-v_O^2]=K_L[V_{DD}-v_O-V_{TNL}]^2\\
+                &\Rightarrow100\frac{\mu A}{V^2}[2(4.3V-0.7V)v_O-v_O^2]=10\frac{\mu A}{V^2}[5V-v_O-0.7V]^2\\
+                &\Rightarrow11v_O^20-80.6v_O+18.49V=0\\
+                &\Rightarrow v_O= 0.237V
+            \end{align}
+            \begin{equation}
+                i_D = K_L[V_DD-v_O-V_{TNL}]^2= 165.07\mu A
+            \end{equation}
+            \begin{equation}
+                P_D = i_D \cdot V_{DD} = \boxed{825.4\mu W}
+            \end{equation}
+        \end{enumerate}
+    \end{enumerate}
+    \newpage
+    \item Use the figure below to answer the following questions
+    \begin{enumerate}
+        \item Let $V_{DD} = 3.3V, V_{TN} = 0.4V,$ and $V_{TP} = -0.4.$ Assume $(W/L)_n = 3$ and $(W/L)_p =12.$
+        \begin{center}
+        \ctikzset{bipoles/length=1cm,transistors/scale=1.4,grounds/scale=1.4}
+        \begin{circuitikz}[scale=1]
+            \ctikzset{tripoles/mos style/arrows}
+            \draw node[anchor=east]{$v_I$} to [short,o-*]
+            (.25,0) to [short](.25,.75)(1.25,.75)node[pmos](pmos){}
+            (.25,0) to [short](.25,-.75)(1.25,-.75)node[nmos](nmos){}
+            (1.25,0) to [short,*-o](1.5,0)node[anchor=west]{$v_O$};
+            \draw (pmos.source) to [short,-o](pmos|-,1.8)node[anchor=south]{$V_{DD}$};
+            \draw (nmos.source)node[ground]{};
+            \end{circuitikz}
+        \end{center}
+        \begin{enumerate}
+            \item Determine the input switching voltage
+            \begin{equation}
+                K_n = \left(\frac{k_n^{'}}{2}\right)\left(\frac{W}{L}\right)_n = 200\mu A/V^2
+            \end{equation}
+            \begin{equation}
+                K_p = \left(\frac{k_p^{'}}{2}\right)\left(\frac{W}{L}\right)_p = 240\mu A/V^2
+            \end{equation}
+            \begin{equation}
+            v_I = V_{It} = \frac{V_{DD}+V_{TP}+\sqrt{\frac{K_n}{K_p}}V_{TN}}{1+\sqrt{\frac{K_n}{K_p}}}=\boxed{1.7069V}
+        \end{equation}
+            \item Determine the input voltage when $v_o = 3.1V,$
+            \begin{align}
+            &K_n[v_I-V_{TN}]^2=K_p[2(V_{DD}-v_I-V_{TP})(v_{DD}-v_O)-(v_{DD}-v_O)^2]\\
+            &200\mu A/V^2[v_I-0.4V]^2=240\mu A/V^2[2(3.3V-v_I-0.4V)(3.3V-3.1V)-(3.3V-3.1V)^2]\\
+            &\Rightarrow 5v_I^2-1.6v_I-5.92V=0\\
+            &\Rightarrow v_I = \boxed{1.2V}
+            \end{align}
+            \item the input voltage when $v_o = 0.2V$
+            \begin{align}
+                &K_n[2(V_{GSN}-V_{TN})v_O-v_O^2]=K_p[V_{DD}-v_I+V_{TP}]^2\\
+                &\Rightarrow200\mu A/V^2[2(v_{I}-0.4V)0.2V-0.2^2]=240\mu A/V^2[3.3V-v_I+0.4V]^2\\
+                &\Rightarrow6v_I^2-36.8v_I+51.46=0\\
+                &\Rightarrow v_I = \boxed{2.157V}
+            \end{align}
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+\end{document}

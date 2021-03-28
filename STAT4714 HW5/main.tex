@@ -1,0 +1,125 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{STAT4714 Homework 5}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Canvas}
+\subsection*{Problem 4}
+You are a sales rep, and receive phone messages that 2 of your 4 major customers need to talk  to  you  about  making  a  major  purchase.  Unfortunately,  neither  one  identified  themselves  or left a callback number. So you will call them back in no particular order until you find one of the interested customers. Let X= {1, 2, 3, 4} stand for which of your calls finally talks to one of the interested customers.
+\subsubsection*{a)}
+Write down a table of the probability mass function p(x) = P(X = x) for which call reaches the first interested customer.
+\begin{center}
+    \begin{tabular}{c|c|c}
+        x & p(x) & F(x) \\
+        \hline
+        1 & .5 & .5\\
+        2 & .33 & .83\\
+        3 & .167 & 1.0\\
+    \end{tabular}
+\end{center}
+\subsubsection*{b)}
+Calculate the expected number of calls E(X) you will have made when you talk to the first interested customer.
+\begin{equation}
+    E(X) = 4 -[.5 + .83 + 1] = 1.67 
+\end{equation}
+\subsection*{Problem 6}
+In the Pirates of the Aegean video game, you may have to investigate 0, 1, 2, 3, 4, or 5 grottoes without success before you finally locate a treasure chest. You conclude that the probability you will have to investigate at most x grottoes without success is 
+\begin{equation}
+    F(x) = P(X \leq x) =  1 - \frac{5^{(x+1)}}{7^{(x+1)}}\text{, and F(5) = 1.}
+\end{equation}
+\subsubsection*{a)}
+What is the probability you will have to investigate exactly 3 grottoes without success?
+\begin{equation}
+    1 - \frac{5^{4}}{7^{4}} = 1 - \frac{625}{2401} = .7397
+\end{equation}
+\subsubsection*{b)}
+What is the expected number E(X) of grottoes you will investigate without success?
+\begin{align}
+    E(X) = \mu &= \frac{5^{1}}{7^{1}} + \frac{5^{2}}{7^{2}} + \frac{5^{3}}{7^{3}} + \frac{5^{4}}{7^{4}} + \frac{5^{5}}{7^{5}} + \frac{5^{6}}{7^{6}}\\
+    &= \frac{255060}{117649}\\
+    &= 2.17
+\end{align}
+\subsubsection*{c)}
+What is the variance var(X) of the number of grottoes you will investigate without success?
+\begin{align}
+    var(x) &= (1 - \frac{5^{1}}{7^{1}})(0-\mu)^2 +  (1 - \frac{5^{2}}{7^{2}})(1-\mu)^2 +  (1 - \frac{5^{3}}{7^{3}})(2-\mu)^2 \\&+  (1 - \frac{5^{4}}{7^{4}})(3-\mu)^2 +  (1 - \frac{5^{5}}{7^{5}})(4-\mu)^2 +  (1 - \frac{5^{6}}{7^{6}})(5-\mu)^2\\
+    &= 12.21528
+\end{align}
+\subsection*{Problem 7}
+A study of a large number of towns with approximately 100,000 people estimates the probability that one will have a certain number X of pita restaurants. None of the towns had more than 5. They construct a table of the probability distribution function p(x) = P(X= x) and the cumulative distribution function F(x) = $P(X\leq x)$ for the number of pita restaurants in a town.A student shows you a paper copy of these results. Unfortunately, he was caught in a snow shower crossing campus, and only part of the table is readable:
+\begin{center}
+    \begin{tabular}{c|c|c|c|c|c|c}
+        x    & 0  & 1 & 2 & 3 & 4 & 5 \\
+        \hline
+        p(x) & .33 & .20 & .18 & .14 & .09 & .06 \\
+        F(x) & .33 & .53 & .71 & .85 & .94 & 1.0 
+    \end{tabular}
+\end{center}
+\subsubsection*{a)}
+Fill in the damaged parts of the table. What is $P(1<X<5)$?
+\begin{equation}
+    P(1<X<5) = P(2)+P(3)+P(4) = .18 + .14 + .09 = .41
+\end{equation}
+\subsubsection*{b)}
+Calculate the expected number of pita restaurants, E(X). 
+\begin{equation}
+    \sum^5_{x=0} x\cdot p(x) = 1.64
+\end{equation}
+\subsubsection*{c)}
+Write down the probability generating function. $\pi_x = E(q^x)$ Use it to answer the following question: if 94\% of all pita restaurants do takeout, what is the probability that all the pita restaurants in a given town do takeout? (Assume they do not consult each other.)
+\begin{align}
+    \pi_x &= E(q^x)\\
+    &= q^0\cdot.33+q^1\cdot.2+q^2\cdot.18+q^3\cdot.14+q^4\cdot.09+q^5\cdot.06\\
+    &= (.94)^0\cdot.33+(.94)^1\cdot.2+(.94)^2\cdot.18+(.94)^3\cdot.14+(.94)^4\cdot.09+(.94)^5\cdot.06\\
+    &= .9076\\ 
+\end{align}
+\subsection*{Problem 10}
+A student is prone to migraine headaches, which do not happen often, do not last long, but are completely unpredictable; and keep the student from coming to class that day. The probability of a headache on a given day is only .05.
+\subsubsection*{a)}
+It is the beginning of the semester. What is the probability that the first missed class for a headache will take place on the 12th class day?
+\begin{equation}
+    P(X = k) = (1-p)^{k-1}p = .02844
+\end{equation}
+\subsubsection*{b)}
+The student has missed none of the first 10 class days of the semester. What is the probability the student will have missed none of the first 25 class days of the semester?
+\begin{equation}
+    P(\text{none missed}) = (1-p)^{15} = .95^{15} = .4633
+\end{equation}
+\newpage
+\subsection*{Problem 13}
+A brilliant young golfer wins 15\% of the tournaments she enters. We will assume the results of each tournament are independent of other tournaments.
+\subsubsection*{a)}
+If she enters 20 tournaments this year, what is the probability she will win none of them?
+\begin{equation}
+    p(x) = {n \choose x} p^x (1-p)^{n-x} = {20 \choose 0} .15^0 (1-.15)^{20} = .03876
+\end{equation}  
+\subsubsection*{b)}
+What is the expected value of the number of tournaments she must enter in order to win her first tournament? What is the variance of that number?
+\begin{center}
+    Since X is count:
+\end{center}
+\begin{equation}
+    E(X) = \frac{1}{p} = 6.667
+\end{equation}
+\begin{equation}
+    \sigma^2 = \mu (1-p) = 5.667
+\end{equation}
+\end{document} 

@@ -1,0 +1,310 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{media9}
+\usetikzlibrary{positioning, fit, calc}
+\pagestyle{fancy}
+\lhead{ECE2714 Problem Set 6}
+\rhead{Kavin Thirukonda 2021}
+\fancyheadoffset{0mm}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\begin{enumerate}
+    \item Consider the circuit shown in the figure below
+    \begin{center}
+        \begin{circuitikz} [american voltages]
+            \draw
+            (0,0) to [battery , l=$x(t)$, invert](0,2)
+            (0,0) to [short,-*](5.36,0)
+            (2,0) to [short](2,1.025)
+            (0,2) to [R,l=$R_1$](2,2)
+            (2,2) to [short](2,5)
+            (2,5) to [R, l=$R_2$] (4.36,5)
+            (2,3.5) to [C, l=$C$](4.36,3.5)
+            (4.36,5) to [short](4.36,1.51)
+            (5.36,1.51) to [open, v=$y(t)$, o-o](5.36,0)
+            (4.36,1.51) to [short, -o](5.36,1.51);
+            \draw (3.2,1.51) node[op amp,fill=pink]{};
+        \end{circuitikz} 
+    \end{center}
+    \begin{enumerate}
+        \item Determine the differential equation for this circuit in terms of the input x(t) the output y(t) and the circuit elements R1, R2, and C. 
+        \begin{center}
+            By doing KCL at the negative terminal of the op-amp we get:
+        \end{center}
+        \begin{equation}
+            \frac{V_{R1}}{R_1} - \frac{V_{R2}}{R_2} - C\frac{dV_C}{dt} = 0
+        \end{equation}
+        \begin{center}
+            Now by using the fact that $V_{R1} = x(t)$ and $V_{R2} = V_C = -y(t)$ we get:
+        \end{center}
+        \begin{align}
+            \frac{x(t)}{R_1} + \frac{y(t)}{R_2} + C\frac{dy(t)}{dt} = 0\\
+            \Rightarrow\boxed{C\frac{dy(t)}{dt}+\frac{y(t)}{R_2} = -\frac{x(t)}{R_1}}
+        \end{align}
+        \item Draw a block diagram for this system relating the input to the output using integrators.
+       \begin{center}
+        \begin{circuitikz}
+            \draw (-.5,0)node[anchor=east]{x(t)} 
+            to [short,l=$-\frac{1}{R_1}$](1,0) node[draw,circle,fill=pink](sum){$\sum$} 
+            to [short,i=$\frac{1}{C}$](4,0) node[draw,fill=pink, minimum size=22.5pt](int){$\int$} 
+            to [short](5.5,0)
+            to [short](6,0) node[anchor=west]{y(t)};
+            \draw (5, 0) to [short](5,-1.25) to [short,i=$-\frac{1}{R_2}$](sum|-,-1.25)
+            to [short](sum);
+            \draw (sum.south) node[inputarrow,rotate=90]{}
+            (sum.west) node[inputarrow]{};
+        \end{circuitikz}
+    \end{center}
+    \begin{center}
+        This can be proven by deriving the differential equation from the system:
+        \begin{align}
+        &y(t) = \frac{1}{C}\int \left(-\frac{1}{R_2}y(t)-\frac{1}{R_1}x(t)\right)\\
+        &\Rightarrow Cy(t) = \int \left(-\frac{1}{R_2}y(t)-\frac{1}{R_1}x(t)\right)\\
+        &\Rightarrow C\frac{d}{dt}y(t) = \frac{d}{dt}\int \left(-\frac{1}{R_2}y(t)-\frac{1}{R_1}x(t)\right)\\
+        &\Rightarrow C\frac{dy(t)}{dt} = -\frac{y(t)}{R_2}-\frac{x(t)}{R_1}\\
+        &\Rightarrow \boxed{C\frac{dy(t)}{dt} + \frac{y(t)}{R_2} = -\frac{x(t)}{R_1}}\\
+        \end{align}
+    \end{center}
+    \end{enumerate}
+    \newpage
+    \item Draw a block diagram representation for a causal LTI system described by the following differential equation
+    \begin{equation}
+        \frac{dy}{dt}+3y(t) = x(t)
+    \end{equation}
+    \begin{center}
+        \begin{circuitikz}
+            \draw node[anchor=east]{x(t)} 
+            to [short](1,0) node[draw,circle,fill=pink](sum){$\sum$} 
+            to [short](4,0) 
+            to [short](4,-1) node[draw,fill=pink, minimum size=22.5pt](int){$\int$} 
+            to [short](4,-2) 
+            to [short](5,-2) node[anchor=west]{y(t)};
+            \draw (4,-2) to [short,i=$-3$](sum|-,-2)
+            to [short](sum);
+            \draw (sum.south) node[inputarrow,rotate=90]{}
+            (sum.west) node[inputarrow]{};
+        \end{circuitikz}
+    \end{center}
+    \begin{center}
+        We can prove that this diagram properly represents the differential equation by the following:
+    \end{center}
+    \begin{align}
+        &y(t) = \int \left(-3y(t)+x(t)\right)\\
+        &\Rightarrow \frac{d}{dt}y(t) = \frac{d}{dt}\int \left(-3y(t)+x(t)\right)\\
+        &\Rightarrow \frac{dy(t)}{dt} = -3y(t)+x(t)\\
+        &\Rightarrow \boxed{\frac{dy(t)}{dt} + 3y(t) = x(t)}\\
+    \end{align}
+    \newpage
+    \item Given the following block diagram of a CT system
+    \begin{center}
+        \begin{circuitikz}
+            \draw node[anchor=east]{x(t)} to [short](2,0)node[draw,circle,fill=pink](sum1){$\sum$}
+            to [short](4,0) node[draw,fill=pink,minimum size=22.5pt](int1){$\int$}
+            to [short](6,0)node[draw,circle,fill=pink](sum2){$\sum$}
+            to [short](8,0)node[draw,fill=pink,minimum size=22.5pt](int2){$\int$}
+            to [short](10.5,0) node[anchor=west]{y(t)};
+            \draw (5,0) to [short](5,-1)
+            to [short,i=$-2$,name=f1](sum1|-,-1)
+            to [short](sum1)
+            (9,0) to [short](9,-1)
+            to [short,i=$-5$,name=f2](sum2|-,-1)
+            to [short](sum2);;
+            \draw (sum1.south) node[inputarrow,rotate=90]{}
+            (sum2.south) node[inputarrow,rotate=90]{}
+            (sum1.west) node[inputarrow]{}
+            (sum2.west) node[inputarrow]{};
+            \draw node[fit={($(sum1.west)+(.25,.4)$)($(int1)+(.6,0)$)(f1)},label={$\mathcal{S}_1$},draw,dashed,inner sep=15pt]{};
+            \draw node[fit={($(sum2.west)+(.25,.4)$)($(int2)+(.6,0)$)(f2)},label={$\mathcal{S}_2$},draw,dashed,inner sep=15pt]{};
+            \draw node[fit={($(sum1.west)+(.25,.9)$)($(int2)+(.6,0)$)(f1)},label={$\mathcal{S}$},draw,dashed,inner sep=20pt]{};
+        \end{circuitikz}
+    \end{center}
+    \begin{enumerate}
+        \item Determine the overall impulse response of the system
+        \begin{center}
+            We begin by getting the associated differential equation for each subsystem:
+        \end{center}
+        \begin{equation}
+            \mathcal{S}_1: \frac{dy(t)}{dt} + 2y(t) = x(t)
+        \end{equation}
+        \begin{equation}
+            \mathcal{S}_2: \frac{dy(t)}{dt} + 5y(t) = x(t)
+        \end{equation}
+        \begin{center}
+            Now we find the impulse responses of each subsystems:
+        \end{center}
+        \begin{equation}
+            h_1(t) = e^{-2t}u(t)
+        \end{equation}
+        \begin{equation}
+            h_2(t) = e^{-5t}u(t)
+        \end{equation}
+        \begin{center}
+            Now we can take the convolution of the two impulse responses to get the total impulse response of the system.
+        \end{center}
+        \begin{align}
+            h(t) &=  h_1(t) * h_2(t)\\
+            &=  e^{-2t}u(t) * e^{-5t}u(t)\\
+            &=  \frac{e^{-2t}-e^{-5t}}{-2 - (-5)}u(t)\\
+            &=  \boxed{\frac{1}{3}(e^{-2t}-e^{-5t})u(t)}
+        \end{align}
+        \item Write the same system as a linear, constant coefficient differential equation.
+        \begin{equation}
+            \boxed{\mathcal{S}: \frac{d^2y(t)}{dt^2} + 7\frac{dy(t)}{dt}+ 10y(t) =  x(t)}
+        \end{equation}
+        \item What is the step response of this system?
+        \begin{align}
+            &h(t) * u(t)\\
+            &\Rightarrow \frac{1}{3}(e^{-2t}-e^{-5t})u(t) * u(t)\\
+            &\Rightarrow \frac{1}{3}(e^{-2t}-e^{-5t})u(t) * u(t)\\
+            &\Rightarrow \frac{1}{3}(e^{-2t}u(t)* u(t)-e^{-5t}u(t)*u(t)) \\
+            &\Rightarrow \boxed{\frac{1-e^{-2t}}{6}u(t)-\frac{1-e^{-5t}}{15}u(t)}
+        \end{align}
+    \end{enumerate}
+    \newpage
+    \begin{center}
+        \begin{circuitikz}
+            \draw (.5,0) node[anchor=east]{x[n]} to [short](2,0) 
+            to [short](2,1.5)
+            to [short](4,1.5) node[draw,fill=pink,minimum width=60pt,minimum height=40pt]{$\begin{array}{c}\mathcal{S}_1\\h_1[n]\end{array}$}
+            to [short](6,1.5)
+            to [short](6,0)node[draw,circle,fill=pink,minimum size =22.5](a){$\sum$};
+            \draw (2,0)
+            to [short](2,-1.5)
+            to [short](4,-1.5) node[draw,fill=pink,minimum width=60pt,minimum height=40pt]{$\begin{array}{c}\mathcal{S}_2\\h_2[n]\end{array}$}
+            to [short](6,-1.5)
+            to [short](a)
+            to [short](8.5,0)node[draw,fill=pink,minimum width=60pt,minimum height=40pt]{$\begin{array}{c}\mathcal{S}_3\\h_3[n]\end{array}$}
+            to [short](10.5,0)node[anchor=west]{y[n]};
+            \draw (a.south) node[inputarrow,rotate=90]{}
+            (a.north) node[inputarrow,rotate=270]{};
+        \end{circuitikz}
+    \end{center}
+    \item Consider the discrete-time LTI system shown in the figure above, Find the impulse response for the overall system if
+    \begin{align}
+        h_1[n] &= \left(-\frac{1}{5}\right)^nu[n]\\
+        h_2[n] &= \left(\frac{1}{3}\right)^{n-2}u[n-2]\\
+        h_3[n] &= u[n]\\
+    \end{align}
+    Simplify your answer as much as possible.
+    \begin{center}
+        According to the block diagram of the system relationships get:
+    \end{center}
+    \begin{align}
+        &h[n] = (h_1[n]+h_2[n]) * h_3[n]\\
+        &\Rightarrow h
+        [n] = \left(\left(-\frac{1}{5}\right)^nu[n]+\left(\frac{1}{3}\right)^{n-2}u[n-2]\right) * u[n]\\
+        &\Rightarrow h[n] = \left(-\frac{1}{5}\right)^nu[n]* u[n]+\left(\frac{1}{3}\right)^{n-2}u[n-2]* u[n] \\
+        &\Rightarrow \boxed{h[n] = -\frac{5}{4}\left(-\frac{1}{5}\right)^{n+1}u[n]-\frac{3}{2}\left(\frac{1}{3}\right)^{n-1}u[n-2]+\frac{7}{4}}\\
+    \end{align}
+    \newpage
+    \item Given the following block diagram of a DT system, where D is a unit delay block
+    \begin{center}
+        \begin{circuitikz}
+            \draw node[anchor=east]{x[n]} to [short,l=$2$] (2,0) node[draw,circle,fill=pink](sum1){$\sum$} to (6,0) node[anchor=west]{y[n]};
+            \draw (5,0) to [short](5,-1) to [short](4,-1) node[draw,fill=pink,minimum size= 22.5pt]{D} to [short,l=$\frac{7}{8}$](sum1|-,-1) to [short](sum1)(sum1.south)node[inputarrow,rotate=90]{}(sum1.west)node[inputarrow]{};
+        \end{circuitikz}
+    \end{center}
+    Determine if the system is stable. Be sure to show your reasoning.
+    \begin{center}
+        First we can find the representative equation of the system.
+    \end{center}
+    \begin{equation}
+        y[n] - \frac{7}{8}y[n-1] = 2x[n] 
+    \end{equation}
+    \begin{center}
+        Next we find the impulse response of the system
+    \end{center}
+    \begin{align}
+        &y[n] - \frac{7}{8}y[n-1] = 0\\
+        &\Rightarrow y[n] - \frac{7}{8}y[n-1] = 0\\
+        &\Rightarrow y[n] - \frac{7}{8}y[n]D^1 = 0\\
+        &\Rightarrow y[n](1 - \frac{7}{8}D^1) = 0\\
+        &\Rightarrow 1 = \frac{7}{8}D^1\\
+        &\Rightarrow D = \frac{8}{7}\\
+        &\Rightarrow y_h[n] = \left(\frac{8}{7}\right)^n
+    \end{align}
+    \begin{center}
+        So then the impulse response is:
+    \end{center}
+    \begin{equation}
+        \boxed{h[n] = \left(\frac{8}{7}\right)^nu[n]}
+    \end{equation}
+    \begin{center}
+        \textbf{Yes}, the system is stable because when we perform the following sum we get that its less than infinity.
+    \end{center}
+    \begin{align}
+        &\sum^\infty_{k=-\infty} |h[k]| < \infty\\
+        &\Rightarrow\sum^\infty_{k=-\infty} \left|\left(\frac{8}{7}\right)^k\right| < \infty\\
+    \end{align}
+    \newpage
+    \item Given two DT systems
+    \begin{equation}
+        \mathcal{S}_1:h[n]=\left(\frac{1}{4}\right)^nu[n]
+    \end{equation}
+    \begin{equation}
+        \mathcal{S}_2:y[n+2]-\frac{1}{8}y[n+1]+\frac{3}{4}y[n]=x[n+2]-2x[n+1]+x[n]
+    \end{equation}
+    in series, draw the corresponding block diagram of the overall system using only unit delay blocks, summation, and multipliers. Use the smallest number of delay blocks you can.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,0)node[anchor=east]{x[n]}
+            to [short](2,0) node[draw,fill=pink,minimum width=60pt,minimum height=40pt]{$\mathcal{S}_1$}
+            to [short](5,0)node[draw,fill=pink,minimum width=60pt,minimum height=40pt]{$\mathcal{S}_2$}
+            to [short](7,0)node[anchor=west]{y[n]};
+        \end{circuitikz}
+        \bigbreak
+        \begin{center}
+            Once drawn out both the systems in series would look like this:
+        \end{center}
+        \begin{circuitikz}
+            \draw (-3,0)node[anchor=east]{x[n]} to [short](-2,0)node[draw,circle,fill=pink](sum0){$\sum$}
+            to [short](0,0) to [short](0,0)
+            to [short](2,0) node[draw,circle,fill=pink](sum1){$\sum$}
+            to [short] (3.75,0) node[anchor=west]{y[n]};
+            \draw (0,0) to [short](0,-1)node[draw,fill=pink,minimum size = 22.5pt](d0){D}
+            to [short](0,-2)
+            to [short,i=$4$,name=f](sum0|-,-2)
+            to [short](sum0);
+            \draw (sum1|-,-2)node[draw,fill=pink,minimum size = 22.5pt](d1){D} to [short](sum1);
+            \draw (d1|-,-4)node[draw,fill=pink,circle](sum2){$\sum$} to [short](d1);
+            \draw (sum1|-,-6)node[draw,fill=pink,minimum size = 22.5pt](d2){D} to [short](sum2);
+            \draw (d1|-,-8)node[draw,fill=pink,circle](sum3){$\sum$} to [short](d2);
+            \draw (.75,0) to [short]($(sum2)+(-1.25,0)$) to [short,l=$-2$](sum2);
+            \draw ($(sum2)+(-1.25,0)$) to [short]($(sum3)+(-1.25,0)$) to [short](sum3);
+            \draw (3.25,0) to [short]($(sum2)+(1.25,0)$) to [short,l=$\frac{1}{8}$](sum2);
+            \draw ($(sum2)+(1.25,0)$) to [short]($(sum3)+(1.25,0)$) to [short,l=$-\frac{3}{4}$](sum3);
+            \draw (sum0.west)node[inputarrow]{};
+            \draw (sum0.south)node[inputarrow,rotate=90]{};
+            \draw (sum1.south)node[inputarrow,rotate=90]{};
+            \draw (sum1.west)node[inputarrow]{};
+            \draw (sum2.west)node[inputarrow]{};
+            \draw (sum2.south)node[inputarrow,rotate=90]{};
+            \draw (sum2.east)node[inputarrow,rotate=180]{};
+            \draw (sum3.west)node[inputarrow]{};
+            \draw (sum3.east)node[inputarrow,rotate=180]{};
+            \draw node[draw,dashed, fit={($(sum0.west)+(-.1,.6)$)($(d0)+(.4,-1.5)$)(f)},label={$\mathcal{S}_1$}]{};
+            \draw node[draw,dashed, fit={($(sum1.west)+(-.85,.6)$)($(sum3)+(1.3,-.8)$)},label={$\mathcal{S}_2$}]{};
+        \end{circuitikz}
+    \end{center}
+    \begin{center}
+        This representation of the two series systems only uses three delay blocks.
+    \end{center}
+\end{enumerate}
+\end{document}

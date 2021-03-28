@@ -1,0 +1,211 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{ECE2714 Problem Set 3}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{amsfonts}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\begin{enumerate}
+    \item Find the impulse response of the linear, constant-coefficient difference equation
+    \begin{equation}
+        y[n+2] + \frac{2}{3}y[n+1] + \frac{1}{12}y[n] = x[n+2]
+    \end{equation}
+    \begin{center}
+        We can start by putting the equation into advance form, isolate the homogeneous portion, and solve for the roots of the characteristic equation:
+    \end{center}
+    \begin{align}
+        y[n+2] + \frac{2}{3}y[n+1] + \frac{1}{12}y[n] &= x[n+2]\\
+        \Rightarrow y[n](E^2 + \frac{2}{3}E^1 + \frac{1}{12}) &= (E^2)x[n]\\
+        \Rightarrow E &= \frac{-\frac{2}{3} \pm \sqrt{\frac{2}{3}^2-4(1)(\frac{1}{12})}}{2} \\
+        \Rightarrow E &= -\frac{1}{6}, -\frac{1}{2}
+    \end{align}
+    \begin{center}
+        Using this information we can write out the form of the solution:
+    \end{center}
+    \begin{equation}
+        y_h[n] = - C_1\left(-\frac{1}{6}\right)^n+ C_2\left(-\frac{1}{2}\right)^n
+    \end{equation}
+    \begin{center}
+        We now assume h[n] has the form of:
+    \end{center}
+    \begin{equation}
+        h[n] = \frac{a_N}{b_N}\delta[n] + y_h[n]u[n] = \delta[n] + \left(C_1\left(-\frac{1}{6}\right)^n +  C_2\left(-\frac{1}{2}\right)^n \right)u[n]
+    \end{equation}
+    \begin{center}
+        Now we need to find the initial conditions so that we can figure out the values of the two constants. We do this by setting y[n] equal to h[n] and x[n] equal to $\delta[n] $ and putting it into delay form.
+    \end{center}
+    \begin{equation}
+        h[n] + \frac{2}{3}h[n-1] + \frac{1}{12}h[n-2] = \delta[n]
+    \end{equation}
+    \begin{equation}
+        \Rightarrow h[n] = -\frac{2}{3}h[n-1] - \frac{1}{12}h[n-2] + \delta[n]
+    \end{equation}
+    \begin{align}
+        h[0] &= -\frac{2}{3}h[-1] - \frac{1}{12}h[-2] + \delta[0] = 1\\
+        h[1] &= -\frac{2}{3}h[0] - \frac{1}{12}h[-1] + \delta[1] = 1\\
+    \end{align}
+    \begin{center}
+        Now that we have initial conditions we can solve for the constants.
+    \end{center}
+    \begin{align}
+        h[0] = 1 &= \delta[0] + \left(C_1\left(-\frac{1}{6}\right)^0 +  C_2\left(-\frac{1}{2}\right)^0 \right)u[0]\\
+        &= 1 + C_1 + C_2\\
+        C_1 &= -C_2\\
+        h[1] = 1 &= \delta[1] + \left(C_1\left(-\frac{1}{6}\right)^1 +  C_2\left(-\frac{1}{2}\right)^1 \right)u[1]\\
+        &= 0 - \frac{1}{6}C_1 + \frac{1}{2}C_1\\
+        C_1 &= 3\\
+        C_2 &= -3
+    \end{align}
+    \begin{equation}
+        \boxed{h[n] = \delta[n] + \left(3\left(-\frac{1}{6}\right)^n - 3\left(-\frac{1}{2}\right)^n \right)u[n]}
+    \end{equation}
+    \newpage
+    \item Prove that the system given by the input-output relationship
+    \begin{equation}
+        x(t) \mapsto \int_{-\infty}^{t} x(\tau)d\tau
+    \end{equation}
+    is linear using the definition.
+    \begin{align}
+        ax_1(t) &\mapsto \int_{-\infty}^{t} ax_1(\tau)d\tau\\
+        bx_2(t) &\mapsto \int_{-\infty}^{t} bx_2(\tau)d\tau\\
+        ax_1(t) + bx_2(t) &\mapsto \int_{-\infty}^{t} [ax_1(\tau) + bx_2(\tau)]d\tau\\
+    \end{align}
+    \begin{center}
+        Using the distributive property of integrals we get:
+    \end{center}
+    \begin{align}
+        ax_1(t) + bx_2(t) &\mapsto \int_{-\infty}^{t}ax_1(\tau)d\tau + \int_{-\infty}^{t}bx_2(\tau)d\tau
+    \end{align}
+    \begin{center}
+            Therefore $ax_1(t) + bx_2(t) \mapsto ay_1(t) + by_2(t)$ and the system is linear.
+        \end{center}
+    \newpage
+    \item Consider a causal LTI system with input x[n] and output y[n] that are related by the difference equation given by the expression,
+    \begin{equation}
+        y[n] = \frac{1}{a}y[n-1]+x[n]   
+    \end{equation}
+    where a is a constant $(a \ne 0)$, and we can assume that $x[n] = \delta[n-1]$.  Determine y[n]as a function of a.
+    \begin{align}
+        y[0] &= \frac{1}{a}y[0-1]+x[0]   \\
+        &= \frac{1}{a}y[-1]+\delta[0-1]   \\
+        &= \frac{1}{a}y[-1]   \\
+        y[1] &= \frac{1}{a}y[1-1]+x[1]   \\
+        &= \frac{1}{a}y[0]+\delta[1-1]   \\
+        &= \frac{1}{a}y[0]+ 1   \\
+        y[2] &= \frac{1}{a}y[2-1]+x[2]   \\
+        &= \frac{1}{a}y[1]+\delta[2-1]   \\
+        &= \frac{1}{a}y[1]   \\
+        y[3] &= \frac{1}{a}y[3-1]+x[3]   \\
+        &= \frac{1}{a}y[2]+\delta[3-1]   \\
+        &= \frac{1}{a}y[2]   \\
+    \end{align}
+    \begin{center}
+        The pattern can be seen as, the higher the value of n, the more times $\frac{1}{a}$ gets exponentiated therefore the function can be defined as:
+    \end{center}
+    \begin{equation}
+        y[n] = \left(\frac{1}{a}\right)^{n-1} u[n-1]
+    \end{equation}
+    \newpage
+    \item We revisit the previous problem concerning a causal LTI system with input x[n] and output y[n] that are related by the difference equation given by the expression,
+    \begin{equation}
+        y[n] = \frac{b}{a}y[n-1] + cx[n]
+    \end{equation}
+    where a, b, and c are constants  $(a \ne 0)$, and we can assume that $x[n] = \delta [n-1]$. Determine y[n] as functions of a, b, and c.
+    \begin{align}
+        y[-1] &= \frac{b}{a}y[-1-1] + cx[-1]\\
+        &= \frac{b}{a}y[-2] + c\delta[-2]\\
+        y[0] &= \frac{b}{a}y[0-1] + cx[0]\\
+        &= \frac{b}{a}y[-1] + c\delta[-1]\\
+        y[1] &= \frac{b}{a}y[1-1] + cx[1]\\
+        &= \frac{b}{a}y[0] + c\delta[0]\\
+        y[2] &= \frac{b}{a}y[2-1] + cx[2]\\
+        &= \frac{b}{a}y[1] +c\delta[1]
+    \end{align}
+    \begin{center}
+        From this the pattern can be seen and y[n] can be defined as:
+    \end{center}
+    \begin{equation}
+        y[n] = c\left(\frac{b}{a}\right)^{n-1} u[n-1]
+    \end{equation}
+    \newpage
+    \item Consider the system defined by the input-output relationship
+    \begin{equation}
+        y(t) = e^{-2t}u(t) + e^{\frac{-t}{10}}x(t)
+    \end{equation}
+    \begin{enumerate}
+        \item Does this system have memory
+        \begin{center}
+            No, this system does not have memory because it only takes current input not future or past.
+        \end{center}
+        \item Is this system stable?
+        \begin{center}
+            Yes, while the exp term will create very long decimals, it will not diverge to infinity so it is still bounded to a point.
+        \end{center}
+        \item Is this system linear?
+        \begin{align}
+            ax_1(t) + bx_2(t) \rightarrow y(t) &= e^{-2t}u(t) + e^{\frac{-t}{10}}[ax_1(t) + bx_2(t)]\\
+            &= e^{-2t}u(t) + ax_1(t)e^{\frac{-t}{10}}+ bx_2(t)e^{\frac{-t}{10}}
+        \end{align}
+        \begin{center}
+            Therefore $ax_1(t) + bx_2(t) \ne ay_1(t) + by_2(t)$ and the system is not linear.
+        \end{center}
+        \item Is this system time-invariant?
+        \begin{center}
+            No, because it includes the exp term which make its time variant.
+        \end{center}
+        \item Is this system causal?
+        \begin{center}
+            Yes, this system is casual because it does not depend on future inputs only present.
+        \end{center}
+    \end{enumerate}
+    \newpage
+    \item Consider the system defined by the input-output relationship
+    \begin{equation}
+        y(t) = a^2x(t) + b^2x(t-2)
+    \end{equation}
+    \begin{enumerate}
+        \item Does this system have memory?
+        \begin{center}
+            Yes, this system has memory because it depends on past inputs.
+        \end{center}
+        \item Is this system stable?
+        \begin{center}
+            Yes, the system is stable because a bounded input does create a bounded output.
+        \end{center}
+        \item Is this system linear?
+        \begin{align}
+            cx_1(t) + dx_2(t) \rightarrow y(t) &= a^2[cx_1(t) + dx_2(t)] + b^2[cx_1(t-2) + dx_2(t-2)]\\
+            &= a^2cx_1(t) + a^2dx_2(t) + b^2cx_1(t-2) + b^2dx_2(t-2)\\
+        \end{align}
+        \begin{center}
+            Therefore $ax_1(t) + bx_2(t) = ay_1(t) + by_2(t)$ and the system is linear.
+        \end{center}
+        \item Is this system time-invariant?
+        \begin{center}
+            Yes, this signal is time-invariant because it will product the same signal independent of time.
+        \end{center}
+        \item Is this system causal?
+        \begin{center}
+            Yes, this system is casual because it does not depend on future inputs only present and past.
+        \end{center}
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}

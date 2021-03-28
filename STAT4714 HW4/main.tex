@@ -1,0 +1,151 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{STAT4714 Homework 4}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Textbook}
+\subsection*{Problem 7}
+Grafting, the uniting of the stem of one plant with the stem or root of another, is widely used commerically grow teh stem of one variety that produces fine fruit on the root system of another variety with a hardy root system. Most Florida sweet oranges grow on trees grafted to the root of a sour orange variety. The density for X, the number of grafts that fail in a series of five trials, is given by the table below:
+\begin{center}
+    \begin{tabular}{c|c|c|c|c|c|c}
+        x & 0 & 1 & 2 & 3 & 4 & 5 \\
+        \hline
+        f(x) & .7 & .2 & .05 & .03 & .01 & ? \\
+    \end{tabular}
+\end{center}
+\subsubsection*{a)}
+Find f(5)  
+\begin{center}
+    f(5) = 1 - f(0)- f(1) - f(2) - f(3) - f(4) = .01
+\end{center}
+\subsubsection*{b)}
+Find table for F
+\begin{center}
+    \begin{tabular}{c|c|c|c|c|c|c}
+        x & 0 & 1 & 2 & 3 & 4 & 5 \\
+        \hline
+        F(x) & .7 & .9 & .95 & .98 & .99 & 1 \\
+    \end{tabular}
+\end{center}
+\subsubsection*{c)}
+Use F to find the probability that at most three grafts fail; that at least two grafts fail.
+\begin{center}
+P(3 fail at most) =  .7 + .2 + .05 + .03 = .98\\
+P(2 fail at least) =  1 - (.7 + .2) = .1    
+\end{center}
+
+\subsubsection*{d)}
+Use F to verify that the probability of exactly three failures is .03
+\begin{center}
+    P(exactly 3) = P(3) - P(2) = .03
+\end{center}
+\newpage
+\subsection*{Problem 10}
+It is known that the probability f being able to log on to a computer from a remote terminal at any given time is .7. Let X denote the number of attempt that must be made to gain access to the computer.
+\subsubsection*{a)}
+Find the first four terms of the density table
+\begin{center}
+    we get:
+\end{center}
+\begin{center}
+    \begin{tabular}{c|c|c|c|c}
+        x & 1 & 2 & 3 & 4\\
+        \hline
+        f(x) & .7 & .21 & .063 & .0189\\
+    \end{tabular}
+\end{center}
+\subsubsection*{b)}
+Find a closed-form expression for f(x)
+\begin{equation}
+    f(x) = (1-p)^{x-1}p
+\end{equation}
+\subsubsection*{c)}
+Find P[X=6]
+\begin{equation}
+    f(x) = (1-(.7))^{6-1}(.7) = .001701
+\end{equation}
+\subsubsection*{d)}
+Find a closed form expression for F(x)
+\begin{equation}
+    1 - .3^x
+\end{equation}
+\subsubsection*{e)}
+Use F to find the probability that at most four attempts must be made to gain access to the computer
+\begin{equation}
+    1 - .3^4 = .9919
+\end{equation}
+\subsubsection*{f)}
+Use F to find the probability that at least five attempts must be made to gain access to the computer
+\begin{equation}
+    1 - (1 - .3^5) = .243\%
+\end{equation}
+\newpage
+\section*{Canvas}
+\subsection*{Problem 1}
+You buy a bag of 8 candies, of which 3 are chocolates, but all candies look alike. You eat candies from the bag until you have eaten all three chocolates. What is the probability you will have eaten exactly 7 of the candies in the bag?
+\begin{equation}
+    \frac{C_{(6,2)}}{C_{(8,3)}} =.268    
+\end{equation}
+\subsection*{Problem 2}
+Here are the historical probabilities p(x) = P(X = x) that a fixed length of cast-iron piping will be manufactured and be found, on inspection, to have various numbers Xof potentially weakening defects:
+\begin{center}
+    \begin{tabular}{c|c|c|c|c|c}
+        x &  0 & 1 & 2 & 3 & 4\\
+        \hline
+        p(x) & .45 & .21 & .13 &.12 & .09\\
+        F(x) &  & & & & 
+    \end{tabular}
+\end{center}
+\subsubsection*{a)}
+Create a table of the cumulative distribution function $F(x) = P(X \leq x)$ for this random variable. Use the function F(x) to find the probability will have some defects but no more than 3 defects.
+\begin{center}
+    \begin{tabular}{c|c|c|c|c|c}
+        x &  0 & 1 & 2 & 3 & 4\\
+        \hline
+        p(x) & .45 & .21 & .13 &.12 & .09\\
+        F(x) & .45 & .66 & .79 & .91 & 1
+    \end{tabular}
+\end{center}
+\subsubsection*{b)}
+Calculate the expected number of defects in a pipe E(X).
+\begin{equation}
+0 \cdot 0.45 + 1 \cdot 0.21 + 2 \cdot 0.13 + 3\cdot 0.12+ 4\cdot0.09 = 1.19
+\end{equation}
+\subsection*{Problem 3}
+Pieces of 2 by 4 by 72 lumber sold by a certain yard have been observed by a consumer watchdog to have 0, 1, 2, 3, 4, or 5 visible flaws (but rarely more). The probabilities for various numbers of flaws are provided by its cumulative distribution function $F(x) = P(X \leq x)$
+\begin{center}
+    \begin{tabular}{c|c|c|c|c|c}
+         x &  0 & 1 & 2 & 3 & 4\\
+         \hline
+         F(x) & .45 & .67 & .89 & .87 & .96\\
+    \end{tabular}
+\end{center}
+\subsubsection*{a)}
+As a customer, I find it unacceptable to buy such a piece of lumber if it has more than 3 flaws. What is the probability that a piece I buy will by accident be unacceptable?
+\begin{equation}
+    P(unacceptable) = 1 - .89 = .11
+\end{equation}
+\subsubsection*{b)}
+Find the average number of flaws in a piece of lumber chosen arbitrarily, E(X). 
+\begin{equation}
+    0 \cdot 0.45 + 1 \cdot (.67 -.25) + 2 \cdot (.89-.67) + 3\cdot (.96-.87)+ 4\cdot(1 - .96) = 1.19
+\end{equation}
+\end{document} 

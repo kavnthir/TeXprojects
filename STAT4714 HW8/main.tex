@@ -1,0 +1,117 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{STAT4714 Homework 8}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Canvas}
+\subsection*{Problem 1}
+On the interstate, you have just passed a franchise of your favorite fast-food chain, and you happen to know that there is another one in 40 miles; but you are very hungry and want to stop earlier. You are pretty sure that there is exactly one restaurant located closer; and the reliability function for the number of miles Muntil you reach it is $R(x) = P(X>x) = 1 - x^2/1600$.
+\subsubsection*{a)}
+On average, how many miles will you have to drive to find this restaurant?
+\begin{align}
+    E(x) &= \int_0^{40} x \cdot F(x)dx\\
+    &= \frac{1}{800}\left(\frac{x^3}{3}\right)^{40}_0\\
+    &= \frac{1}{800}\left(\frac{64000}{3}\right)\\
+    &= \boxed{26.66\text{ miles}}
+\end{align} 
+\subsubsection*{b)}
+What is the probability you will have driven 30 miles, and still not found the restaurant?
+\begin{equation}
+    R(30) = 1 - \frac{30^2}{1600} = \boxed{.4375}
+\end{equation}
+\subsection*{Problem 2}
+The consumer taste evaluation of a certain microwave dinner (on a continuous scale 0-10) X has cumulative distribution function $F(x) = P(X\leq x) = \frac{x}{120}(2+x)$.
+\subsubsection*{a)}
+Find the probability that the next consumer will evaluate the dinner as higher than a 5 but no higher than an 8.
+\begin{equation}
+    P(A) = P(5<X<8)=F(8)-F(5) =(8/120)*(2+8) =(5/120)*(2+5) = \boxed{0.375}
+\end{equation}
+\subsubsection*{b)}
+Calculate the expected value and variance of consumer evaluations.
+\begin{equation}
+    var(x) = E(X^2) - E(X)^2 = \int_0^{10}x\cdot F(x)dx - \int_0^{10}x^2\cdot F(x)dx = \boxed{6.40}
+\end{equation}
+\newpage
+\subsection*{Problem 4}
+The working lifetime of a certain brand of flashlight battery $0 < T< 12$, where T is in months, follows a probability density f(t) = (12 –t)/72.
+\subsubsection*{a)}
+Find the expected value and standard deviation of the working lifetime of this battery.
+\begin{align}
+    E(T) &= \int_0^{12}tf(t)dt\\
+    &= \int_0^{12}\frac{12t-t^2}{72}dt\\
+    &= \frac{1}{72}\left(\int_0^{12}12t-\int_0^{12}t^2dt\right)\\
+    &= \boxed{4\text{ months}}
+\end{align}
+\begin{align}
+    E(T^2) &= \int_0^{12}t^2f(t)dt\\
+    &= \int_0^{12}\frac{12t-t^3}{72}dt\\
+    &= \frac{1}{72}\left(\int_0^{12}12t-\int_0^{12}t^3dt\right)\\
+    &= \boxed{24\text{ months}}
+\end{align}
+\begin{equation}
+    var(x) = 24 - 4^2 = \boxed{8}
+\end{equation}
+\begin{equation}
+    \sigma = \sqrt{\sigma^2} = \boxed{2.83}
+\end{equation}
+\subsubsection*{b)}
+What is the probability that a battery of this brand will still work after 9 months?
+\begin{align}
+    P(T > 9) &= \int_9^{12} f(t)dt\\
+    &=\int_9^{12}\frac{(12-t)}{72}dt\\
+    &= \boxed{0.0625}
+\end{align}
+\newpage
+\subsection*{Problem 5}
+Police dogs are automatically retired after 5 years of service, but the dogs who retire early because of injuries do so at times T that follow a (continuous) density function $f(t) = 2t/25 0 < t< 5$ where t is in years.
+\subsubsection*{a)}
+Find the expected value and standard deviation of the service life of dogs who retire early.
+\begin{align}
+    E(t) &= \int_0^5tf(t)dt\\
+    &=int_0^5\frac{2t^2}{25}dt\\
+    &= \boxed{\frac{10}{3}}
+\end{align}
+\begin{align}
+    E(t^2) &= int_0^5 t^2f(t)dt\\
+    &= \int_0^5 \frac{2t^3}{25}\\
+    &= \boxed{\frac{25}{2}}
+\end{align}
+\begin{equation}
+    var(x) = E(T^2) - E(T)^2 = \boxed{\frac{25}{18}}
+\end{equation}
+\subsubsection*{b)}
+What is the probability that a dog who retires early will have at least 4 years of service?
+\begin{equation}
+    P(t\geq4) = \int_4^5 f(t) dt = \boxed{\frac{9}{25}}
+\end{equation}
+\subsection*{Problem 8}
+At a certain always-busy intersection, a major car crash happens every 13.5 days on average.
+\subsubsection*{a)}
+What is the probability the next accident will happen within 10.0 days?
+\begin{equation}
+    P(T\leq10) = 1-e^{-10/13.5} = \boxed{.5232}
+\end{equation}
+\subsubsection*{b)}
+What is the variance of the time until that next accident happens?
+\begin{equation}
+    var(x) = \frac{1}{\lambda^2} = \boxed{182.25}
+\end{equation}
+\end{document} 
