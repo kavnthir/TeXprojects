@@ -1,0 +1,118 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{STAT4714 Homework 9}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Canvas}
+\subsection*{Problem 3}
+The time in days from the beginning of each year when the first bud appears on a pumpkin plant follows a continuous random variable $50< D<100$ whose cumulative distribution function is
+\begin{equation}
+    F(d) = P(D \leq d) = \frac{(d - 50)^2}{2500}
+\end{equation}
+\subsubsection*{a)}
+What is the probability that the plant will bud within 80.0 days of the beginning of the year?
+\begin{equation}
+    \frac{(80-50)^2}{2500} = \boxed{.36}
+\end{equation}
+\subsubsection*{b)}
+What are the expected value and standard deviation of the time in days when the first bud appears?
+\begin{equation}
+    E(D) = \int_{50}^{100} \frac{2d(d-50)}{2500} = 83.33
+\end{equation}
+\begin{equation}
+    E(D^2) = \int_{50}^{100} \frac{2d^2(d-50)}{2500} = 7083.33
+\end{equation}
+\begin{equation}
+    var(x) = E(D^2) - E(D) = \boxed{139.44}
+\end{equation}
+\subsection*{Problem 9}
+Two independent, completely accidental scientific discoveries will be required to plan a space elevator. The first, Negative Gravity, we believe will take an average of 10 years to happen. The second, Monofilament Cables, we believe will take an average of 6 years to take place.
+\subsubsection*{a)}
+What is the probability Monofilament Cables will be discovered within the next 10 years?
+\begin{equation}
+    P(Y < 10) = 1 - e^{(-10/6)} = \boxed{0.8111}
+\end{equation}
+\subsubsection*{b)}
+What is the probability both discoveries will take place within the next 20 years?
+\begin{equation}
+    P(X < 20)P(Y < 20) = (1 - e^{-20/10})(1 - e^{-20/6}) = \boxed{0.8338}
+\end{equation}
+\subsubsection*{c)}
+What is the expected time until we can plan a space elevator, because both discoveries will have taken place?
+\begin{equation}
+    E(Z) = 6 + 10 - 1/(1/10 + 1/6) = \boxed{12.25}
+\end{equation}
+\newpage
+\subsection*{Problem 10} 
+Extensive analysis of the time (in years) until major breakdown of a popular brand of motorcycle shows that it follows a hazard function $\lambda(t) = .4 + .3t$
+\subsubsection*{a)}
+Is this an aging system, a burn-in system, a constant-hazard system, or none of the above? Justify your answer.
+\begin{center}
+    This problem cannot be a burn in system because there is no sudden breakdown instead the system breaks down only with time
+\end{center}
+\subsubsection*{b)}
+Remembering that the hazard function can be interpreted as a quick way to estimate how likely short-term failure is, $p= \lambda(t)\delta t$, calculate the probability that a motor cycle that has run flawlessly for 15 months will have a major breakdown in the next week
+\begin{equation}
+    (.4 + .3(1.25))\frac{1}{52} = \boxed{.0149}
+\end{equation}
+\subsubsection*{c)}
+This brand of motorcycle has a 2-year warranty. Find the probability that a new 'cycle will have a major breakdown before the warranty expires.
+\begin{equation}
+    P = 1 - 0.2466 = \boxed{0.7534}
+\end{equation}
+\subsection*{Problem 11}
+A new monitor has lifetime T (in years) with reliability function $R(t) = P( T > t) = \frac{4}{(1+t)^2}$ where $t > 1$
+\subsubsection*{a)}
+What is the probability it will have a breakdown within 3.0 years?
+\begin{equation}
+    P(T<3)=1-P(T>3)=1-4/(1+3)2 =1-4/16 = \boxed{3/4}
+\end{equation}
+\subsubsection*{b)}
+Calculate and simplify the hazard function $\lambda(t) = f(t)/R(t)$. Is this an aging, burn-in, or constant hazard system? Justify your answer.
+\begin{equation}
+    \boxed{\frac{2}{1+t}}
+\end{equation}
+\begin{center}
+    $\lambda(t)$ decreases with increasing time; it is burn in system
+\end{center}
+\newpage
+\subsection*{Problem 12}
+Recall that a Weibull law for the lifetime of a system is most simply described by its cumulative hazard function
+\begin{equation}
+    H(t) = \int_0^t \lambda(T)dT = (\frac{t}{b})^a, \text{where a, b, t} >0
+\end{equation}
+The heavy cables that support a bridge are theorized to each have time to breakage that follows a Weibull law with a= 2.5 and b= 30 years.
+\subsubsection*{a)}
+Find the hazard function $\lambda(t)$ for one of these cables. Is it what we have called an aging system, or a constant-hazard system, or a burn-in system? Explain.
+\begin{center}
+    Aging System, because a is greater than one.
+\end{center}
+\subsubsection*{b)}
+Use the results of a), and our result that the probability of short-term failure of a working system is approximately $\lambda(t)\delta t$, to find roughly the probability that a 40-year old intact cable will fail in the next month.
+\begin{equation}
+    P = \lambda(40)*(\frac{1}{12}) = \boxed{.01069}
+\end{equation}
+\subsubsection*{c)}
+Find the probability that a cable will last at least 50 years.
+\begin{equation}
+    P(t >= 50) = 1 - e^{-\frac{50}{30}^{2.5}} = \boxed{.9723}
+\end{equation}
+\end{document} 
