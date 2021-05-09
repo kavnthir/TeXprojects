@@ -1,0 +1,91 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{STAT4714 Homework 13}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Normal Probability}
+\subsection*{Problem 6}
+On average, 21 pairs of twins are born per year in Montgomery county.
+\subsubsection*{a)}
+Calculate the probability that exactly 18 pairs of twins will be born in the county in 2015.
+\begin{equation}
+    P(X =  18) = \frac{e^{-21}21^{18}}{18!} = 7.47\%
+\end{equation}
+\subsubsection*{b)}
+Using normal approximation, find the probability that no more than 25 pairs of twins will be born in the county in 2015.
+\begin{align}
+    P( X \leq 25) &= P(\frac{x-21}{4.583} \leq \frac{25-21}{4.583})\\
+    &= 80.8\%/
+\end{align}
+\subsection*{Problem 8}
+In a certain high school, historically 40\% of graduates will go on to college. This year the graduating class has 120 students.
+\subsubsection*{a)}
+Find the expected value and standard deviation of the number of these graduates who will go on to college.
+\begin{equation}
+    \sigma = \sqrt{120 \cdot 0.4\cdot 0.6} = 5.367
+\end{equation}
+\subsubsection*{b)}
+The record number of graduates from a class who go on to college is 58. Using an appropriate approximate method, find the probability that this year’s class will beat that record.
+\begin{equation}
+    P(X > 58.5)  = P( Z > \frac{58.5 -48}{5.367}) = .025
+\end{equation}
+\subsection*{Problem 11}
+The TSA decides to hold back for inspection 4\% of all pieces of carry-on luggage. Assuming selections are independent, for the next 150 pieces of luggage, 
+\subsubsection*{a)}
+find the exact probability that 7, 8, or 9 will be selected.
+\begin{equation}
+    P(X = 7,8,9) = \sum_{x=7}^9 {150\choose{x}}(.04)^x(.96)^{150-x} = .314
+\end{equation}
+\subsubsection*{b)}
+Using Poisson approximation, recalculate the probability from a), and compare.
+\begin{equation}
+    P(X = 7,8,9) = e^{-6}\left(\frac{6^7}{7!}+\frac{6^8}{8!}+\frac{6^8}{9!}\right) = .31
+\end{equation}
+\subsubsection*{c)}
+Using normal approximation, recalculate the probability from a), and compare.
+\begin{equation}
+    P(X = 7,8,9) = p(6.5 < x < 9.5) = P(.21 < z < 1.46)  = .345
+\end{equation}
+\subsection*{Problem 12}
+There are 9 observatories tracking a near-Earth asteroid, and each independently estimates how close it will come to Earth next year, in millions of miles, with the results .481, .439, .448, .446, .618, .411, .250, .604, .414. Previous experience suggests these are unbiased estimates of the true distance d, with a standard deviation of .15.
+\subsubsection*{a)}
+We estimate the true mean of these distance estimates by $\hat{d} = \overline{x}$
+\begin{equation}
+    \hat{d} = \overline{x} = \frac{4.111}{9} = .457
+\end{equation}
+\subsubsection*{b)}
+Assuming this is a large enough sample, write down a 94\% confidence interval for the true distance d.
+\begin{equation}
+    \textbf{CI} = .457 \pm 2.189 \cdot\frac{.15}{\sqrt{9}} = (0.348,0.57)
+\end{equation}
+\subsection*{Problem 13}
+You wish to be able to report what proportion p of your customer base is interested in purchasing an updated version of your popular Billionaire Battle role-playing game. 
+\subsubsection*{a)}
+One of your colleagues predicts that the proportion will be about 36\%. Use that guess to figure how big a random sample n of your customers you will need to survey so that the standard error of your estimate $\hat{p}$ will be .06.
+\begin{equation}
+    \sqrt{\frac{p*(1-p)}{n}} = .06 \Rightarrow n = 64
+\end{equation}
+\subsubsection*{b)}
+ou decide to actually sample n= 100 customers, and 32 of them say they will purchase the updated version. Construct a 95\% confidence interval for the true value of p.
+\begin{equation}
+    \textbf{CI} = .32 \pm 1.96\cdot\sqrt{\frac{.32\cdot.68}{100}} = (.23,.41)
+\end{equation}
+\end{document} 

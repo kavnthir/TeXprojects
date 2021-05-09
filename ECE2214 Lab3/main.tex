@@ -64,17 +64,17 @@
     \begin{align}
         V_{DD} &=  I_{DQ}R_D + V_{DSQ}\\
         \Rightarrow 5V &=  2.5mA\cdot R_D + 2.612V\\
-        \Rightarrow R_D &=  \boxed{955.28\Omega}
+        \Rightarrow R_D &=  955.28\Omega
     \end{align}
     \begin{align}
         2.5mA &= 100\frac{mA}{V^2}(V_{GSQ}-1.1V)^2\\
          V_{GSQ} &= \pm\sqrt{\frac{2.5mA}{100\frac{mA}{V^2}}} + 1.1V\\
-         V_{GSQ} &= \underline{1.258V}\text{ or }0.942V
+         V_{GSQ} &= 1.389V
     \end{align}
     \begin{align}
         V_{GSQ} &= V_{DD}\left(\frac{R_2}{R_1+R_2}\right)\\
         \Rightarrow R_1\cdot V_{GSQ} &= V_{DD}(R_1||R_2)\\
-        \Rightarrow R_1\cdot1.258V &= 5V\cdot100k\Omega\\
+        \Rightarrow R_1\cdot1.389V &= 5V\cdot100k\Omega\\
         \Rightarrow R_1 &= \boxed{397.456k\Omega}\\
         \Rightarrow R_2 &= \frac{V_{GSQ}R_1}{V_{DD}-V_{GSQ}}\\
         &= \boxed{133.622k\Omega}

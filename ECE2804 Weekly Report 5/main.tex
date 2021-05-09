@@ -1,0 +1,313 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\input{arduinoLanguage.tex}
+\input{header.tex}
+\usepackage[utf8]{inputenc}
+% DOC SETTINGS ===================================
+\begin{document}
+\maketitle
+\newpage
+\section{Introduction}
+\subsection{Calvin}
+The week a new post-filtering amplifier was created to help with the stability in the signal thus allowing for the consistent calculations with the SpO2 values. This is a non-inverting amplifier therefore 2 parts of previous circuit are not needed anymore therefore also helping reducing the size of the circuit making the circuit more efficient and less complex.
+\subsection{Kavin}
+This week I reformatted my code such that it was easier to understand aswell as implemented the SpO2 calculations in full form, In addition I worked on the multiplexer so that we would be able to intake both red and ired signals from the sensor, for this I also used the wave gen on the AD2 to produce a waveform which would turn the respective LEDS on and off so that we can get the needed data.
+\newpage
+\section{Weekly Progress}
+\subsection{Calvin}
+\subsubsection{Amplifier Recreation}
+It was found that the common source amplifier was too unstable with the circuit. Therefore to improve the stability of the signal output a new type of amplifier was needed to be created due to the difficulty of calculating the SpO2 values from an unstable signal. Thus, with inspiration from [4] it was decided that a simple op-amp amplifier was used to be used to amplify the signal after the filtering of the signal. Using the information given in [4] the circuit below was created:
+
+\includegraphics[width=\textwidth]{images/Op-Amp Amplifer.png}
+\newpage
+
+The amplifier circuit seen above takes the idea of a non-inverting op-amp amplifier and adds some changes to amplify the AC signal but not the DC signal. The amplification equation is still ruled by the basic equation of A\textsubscript{O} = (1 + R\textsubscript{F}/R\textsubscript{1}) but the equation is now different between AC and DC signals. 
+In DC conditions, it can be see the coupling capacitor will be a open circuit thus causing the equation to be:
+\begin{align}
+A_{O} &= (1 +\frac{R_{2}}{R_{1}}) \\
+A_{O} &= (1 +\frac{100k\Omega}{\infty\Omega}) \\
+A_{O} &= (1 + 0) \\
+A_{O} &= 1
+\end{align}
+Therefore the gain for DC conditions in this circuit is unity(aka. 1).
+In AC conditions, it can be see the coupling capacitor will be a short circuit thus causing the equation to be:
+\begin{align}
+A_{O} &= (1 +\frac{R_{2}}{R_{1} + R_{3}}) \\
+A_{O} &= (1 +\frac{100k\Omega}{10k\Omega + 5k\Omega}) \\
+A_{O} &= (1 + 6.67) \\
+A_{O} &= 7.67
+\end{align}
+Therefore the gain for AC conditions in this circuit is around 6.67.
+From previous iterations of the circuit it is know the output from the filter is an AC wave with an amplitude of around 10mV riding on a DC voltage of around 1.8V.
+This is simulated in the circuit above with the result from gain equations solved above being for DC:
+\begin{align}
+V_{O} &= A_{O} * V{in} \\
+V_{O} &= 1 * 1.8V \\
+V_{O} &= 1.8V
+\end{align}
+For AC:
+\begin{align}
+V_{O} &= A_{O} * V{in} \\
+V_{O} &= 7.67 * 10mV \\
+V_{O} &= 76.7mV
+\end{align}
+
+This leads to final result simulation of:
+
+\includegraphics[width=\textwidth]{images/Op-Amp Out.png}
+
+*The input is seen in green and the output is seen in blue*
+\newpage
+The final final when build out looks like:
+
+\includegraphics[width=\textwidth]{images/2804_Amp.jpg}
+
+The circuit needs to be fully tested but first results are promising and when the circuit has been full tested it will be implemented in the place of the common source amplifier also replacing the inverting op-amp and clamper circuit.
+\newpage
+\subsection{Kavin}
+\subsubsection*{Code Reformatting/Completion}
+What I need to do to modify my code is to make it cleaner aswell as make more variables to store the factors that keep track of the various waves because as it is we are only intaking the red signal while in reality we need to be intaking the ired signal so thats what needs to be done and can be seen done in the code below.
+\begin{lstlisting}[language=Arduino, caption=SpO2 Pulsing Code]
+#include <Wire.h>
+#include <SPI.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h> 
+
+//creating display object
+#define SCREEN_WIDTH 128 // OLED display width
+#define SCREEN_HEIGHT 32 // OLED display height
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+//variable declarations
+#define sampleSize 4
+#define riseThreshold 5
+
+const int ANALOG_INPUT_PIN = A0;
+const int MIN_ANALOG_INPUT = 0;
+const int MAX_ANALOG_INPUT = 1023;
+const int LOOP_DELAY = 5;
+
+int circularBuffer[SCREEN_WIDTH]; 
+int printptr = 0; 
+
+int graphHeight = SCREEN_HEIGHT - 10;
+
+//Heartrate Calcuation Variables
+float bpmVals[sampleSize],
+      sum,
+      last,
+      bpmIn,
+      start,
+      first,
+      second,
+      third,
+      before;
+
+long int now,
+         ptr;
+
+//Red Peak/Valley Variables
+float r_peaks[5],
+      r_valleys[5],
+      r_min_val,
+      r_max_val,
+      r_peakSum,
+      r_valleySum;
+  
+long int r_peakptr,
+         r_valleyptr;
+     
+//Ired Peak/Valley Variables
+float peaks[5],
+      i_valleys[5],
+      i_min_val,
+      i_max_val,
+      i_peakSum,
+      i_valleySum;
+  
+long int i_peakptr,
+         i_valleyptr;
+
+bool peak;
+int beat_count, i, bpm;
+long int last_beat;
+
+void setup() {
+  Serial.begin(9600);
+  //check if display is properly connected, if not stop program
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
+    Serial.println(F("SSD1306 allocation failed"));
+    for (;;); // Don't proceed, loop forever
+  }
+  //initalize display
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE, BLACK);
+  display.setCursor(0, 0);
+  display.display();
+  delay(500);
+  display.clearDisplay();
+  //initialize variables
+  for (int i = 0; i < sampleSize; i++)
+    bpmVals[i] = 0;
+  sum = 0;
+  ptr = 0;
+  r_peakptr = 0;
+  r_valleyptr = 0;
+  i_peakptr = 0;
+  i_valleyptr = 0;
+}
+
+void loop() {
+  //read inputs
+  int analogVal = analogRead(ANALOG_INPUT_PIN);
+  Serial.println(analogVal);
+  if(analogVal < min_val){
+    min_val = analogVal;
+  }
+  if(analogVal > max_val){
+    max_val = analogVal;
+  }
+  circularBuffer[printptr++] = analogVal;
+  //print heart rate
+  display.clearDisplay();
+  display.setCursor(0, 0);
+  int16_t  x1, y1;
+  uint16_t w, h;
+  display.getTextBounds("XX% SpO2 XXX bpm", 0, 0, &x1, &y1, &w, &h);
+  display.setCursor(display.width() - w, 0);
+  SpO2 = (int) (115.95238 - (33.92857 *R));
+  display.print(SpO2);
+  display.print("% SpO2 ");
+  display.print(bpm);
+  display.print(" bpm");
+
+  //resets waveprint pointer if needed
+  if(printptr >= display.width()){
+    printptr = 0;
+  }
+  
+  //for loops to draw the graph itself
+  int xPos = 0; 
+  for (int i = printptr; i < display.width(); i++){
+    int analogVal = circularBuffer[i];
+    drawLine(xPos, analogVal);
+    xPos++;
+  }
+  for(int i = 0; i < printptr; i++){
+    int analogVal = circularBuffer[i];
+    drawLine(xPos, analogVal);
+    xPos++;;
+  }
+  
+  i = 0;            //counter variable
+  start = millis(); //recording current time to variable called start
+  bpmIn = 0.0;      //setting input variable to zero
+  // gets initial data
+  do{
+    bpmIn += analogRead (ANALOG_INPUT_PIN);
+    i++;
+    now = millis();
+  }while (now < start + 20);  
+  //computes rolling average to smooth any ADC flaws
+  bpmIn /= i;  
+  sum -= bpmVals[ptr];
+  sum += bpmIn;
+  bpmVals[ptr] = bpmIn;
+  last = sum / sampleSize;
+  // "algorithm" used to detect heart beats
+  if (last > before){
+    beat_count++;
+      if (!peak && beat_count > riseThreshold){
+      peak = true;
+      first = millis() - last_beat;
+      last_beat = millis();
+      bpm = 60000.0 / (0.4 * first + 0.3 * second + 0.3 * third);
+      
+      r_peakSum -= r_peaks[r_peakptr];
+      r_peakSum += r_max_val;
+      r_peaks[r_peakptr] = r_max_val;
+      r_peakptr++;
+      r_max_val = 0;
+
+      r_valleySum -= r_valleys[r_valleyptr];
+      r_valleySum += r_min_val;
+      r_valleys[r_valleyptr] = r_min_val;
+      r_valleyptr++;
+      
+      i_peakSum -= i_peaks[i_peakptr];
+      i_peakSum += i_max_val;
+      i_peaks[peakptr] = i_max_val;
+      i_peakptr++;
+      i_max_val = 0;
+
+      i_valleySum -= i_valleys[i_valleyptr];
+      i_valleySum += i_min_val;
+      i_valleys[i_valleyptr] = i_min_val;
+      i_valleyptr++;
+      i_min_val = 1024;
+      
+      Serial.print("r_peak:"); Serial.print(r_peakSum/5); Serial.print(" ");
+      Serial.print("r_valley:"); Serial.print(r_valleySum/5); Serial.print(" ");
+      
+      Serial.print("i_peak:"); Serial.print(i_peakSum/5); Serial.print(" ");
+      Serial.print("i_valley:"); Serial.print(i_valleySum/5); Serial.print(" ");
+
+      float r_peakAvg = peakSum/5;
+      float r_valleyAvg = valleySum/5;
+      
+      float i_peakAvg = peakSum/5;
+      float i_valleyAvg = valleySum/5;
+ 
+      float ACred = r_peakAvg-r_valleyAvg;
+      float ACired = i_peakAvg-i_valleyAvg;         
+      float DCred = (r_peakAvg+r_valleyAvg)/2;
+      float DCired = (i_peakAvg+i_valleyAvg)/2;  
+      
+      R = ((ACred)/(DCred))/((ACired)/(DCired));
+      
+      if(bpm < 10)
+        bpm = 0;
+      third = second;
+      second = first;
+      }
+  }else{
+    peak = false;
+    beat_count = 0;
+  }
+  //end of loop "maintainence"
+  before = last;
+  ptr++;
+  peakptr %= 5;
+  valleyptr %= 5;
+  ptr %= sampleSize;
+  display.display();
+  delay(LOOP_DELAY);
+}
+
+// helper function to draw graph
+void drawLine(int xPos, int analogVal){
+  int lineHeight = map(analogVal, MIN_ANALOG_INPUT, MAX_ANALOG_INPUT, 0, graphHeight);
+  int yPos = display.height() - lineHeight;
+  display.drawFastVLine(xPos, yPos, lineHeight, SSD1306_WHITE);
+}
+\end{lstlisting}
+This code should create the intended outcome, the only thing that needs to be modified the input of the ired and red signals via multiplexer which will allow us to take in multiple signals at a time.
+
+Another slight design choice I made which is notable is that I would only be displaying the red wavelength signal as both waves are almost identical when displayed so seeing one wave or the other is good enough to give the user a good representation of the input wave.
+\newpage
+\section{Conclusion}
+\subsection{Calvin}
+Now that a new amplifier has been created for the circuit, the amplifier needs to be tested and connected to the circuit. Then, the circuit needs to be made cleaner along with other small changes to make things understandable for the final report and presentation. Finally, work will be started on the final report and presentation, the presentation and report will be combining everything together thus the circuit and code needs to be simplified.
+\subsection{Kavin}
+Now that all subsystems are working any remaining work will include making function of subsystems more consistent and easy to use for the user and making the organization of the diagrams and code for the function of these systems easier to interpret. Also work will begin on the final presentation and report. This report will need good presentation of all designs so making those as clean and easy to understand as possible is a priority since that will make it easier to grade and reproduce if needed.
+\newpage
+\section{Sources}
+    [1]S.-S. Oak and P. Aroul “How to Design Peripheral Oxygen Saturation (SpO2) and Optical Heart Rate Monitoring (OHRM) Systems Using the AFE4403 2015” Texas Instruments Inc., Dallas, Texas, SLAA655, 2015, Accessed on Feb. 15, 2021. [Online] Available: https://www.ti.com/lit/an/slaa655/slaa655.pdf.
+    
+    [2]S. Lopez “Pulse Oximeter Fundamentals and Design” Freescale Semiconductor, Inc. Tempe, Arizona, AN4327 Rev. 2, 11/2012 Accessed on Feb. 15, 2021. [Online]. Available: https://www.nxp.com/docs/en/application-note/AN4327.pdf
+    
+    [3]R. Keim, “Transimpedance Amplifier: Op-Amp-Based Current-to-Voltage Signal Converter - Video Tutorial,” All About Circuits, 27-Sep-2020. [Online]. Available: https://www.allaboutcircuits.com/video-tutorials/op-amp-applications-current-to-voltage-converter/. [Accessed: 15-Feb-2021].
+    
+    [4] B. Abbot and Sanuuu, “How to amplify a small AC (no DC offset) wave with an op-amp powered from a 0-5V rail and a pot-varying gain?,” Electrical Engineering Stack Exchange, 25-Feb-2015. [Online]. Available: https://electronics.stackexchange.com/questions/157046/how-to-amplify-a-small-ac-no-dc-offset-wave-with-an-op-amp-powered-from-a-0-5v. [Accessed: 13-Apr-2021]. 
+\end{document}

@@ -1,0 +1,178 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{STAT4714 Homework 11}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Textbook}
+\subsection*{Problem 32}
+A discrete random variable has moment generating function 
+\begin{equation}
+    m_X(t) = e^{2(e^t-1)}
+\end{equation}
+\subsubsection*{a)}
+Find E[X]
+\begin{align}
+    E[X] &= m^{'}_X(t)\bigg|_{t=0}\\
+     &= \frac{d}{dt}(e^{2(e^t-1)})\bigg|_{t=0}\\
+     &= 2e^{2\left(e^s-1\right)+s}\bigg|_{t=0}\\
+     &= 2e^{2(1-1)}\\
+     &= \boxed{2}
+\end{align}
+\subsubsection*{b)}
+Find E[$X^2$]
+\begin{align}
+    E[X^2] &= m^{''}_X(t)\bigg|_{t=0}\\
+     &= \frac{d^2}{dt^2}(e^{2(e^t-1)})\bigg|_{t=0}\\
+     &= 2e^{2e^s-2+s}\left(2e^s+1\right)\bigg|_{t=0}\\
+     &= 2e^{2-2}\left(2+1\right)\\
+     &= \boxed{6}
+\end{align}
+\subsubsection*{c)}
+Find $\sigma^2$ and $\sigma$
+\begin{equation}
+    \sigma^2 = 6 - 2^2 = \boxed{2}
+\end{equation}
+\begin{equation}
+    \sigma = \sqrt{\sigma^2} = \boxed{\sqrt{2}}
+\end{equation}
+\newpage
+\subsection*{Problem 37}
+In each part the moment generating function for a random variable X is given. Identify the family to which the random variable belongs, and give the numerical values of pertinent distribution parameters.
+\subsubsection*{a)}
+\begin{equation}
+    m_X(t) = e^{2t+\frac{9t^2}{2}}
+\end{equation}
+\begin{center}
+    Normal distribution,
+    $\mu = 2,\text{ }\sigma^2 = 9$
+\end{center}
+\subsubsection*{b)}
+\begin{equation}
+    m_X(t) = e^{8t^2}
+\end{equation}
+\begin{center}
+    normal distribution,
+    $\mu = 0,\text{ }\sigma^2 = 16$
+\end{center}
+\subsubsection*{c)}
+\begin{equation}
+    m_X(t) = \frac{.25e^t}{1-.75e^t}  
+\end{equation}
+\begin{center}
+    geometric distribution,
+    $p = 0.25$
+\end{center}
+\subsubsection*{d)}
+\begin{equation}
+    m_X(t) = (.5+.5e^t)^5    
+\end{equation}
+\begin{center}
+    binomial distribution,
+    $n = 5,\text{ }p = 0.5$
+\end{center}
+\subsubsection*{e)}
+\begin{equation}
+    m_X(t) = e^{6(e^t-1)}
+\end{equation}
+\begin{center}
+    poisson distribution,
+    $k=6$
+\end{center}
+\subsubsection*{f)}
+\begin{equation}
+    m_X(t) = (1-3t)^{-5}
+\end{equation}
+\begin{center}
+    gamma distribution,
+    $\alpha = 5,\text{ }\beta = 3$
+\end{center}
+\subsubsection*{g)}
+\begin{equation}
+    m_X(t) = (1-2t)^{-8}
+\end{equation}
+\begin{center}
+    chi-squared distribution,
+    $\gamma = 16$
+\end{center}
+\subsubsection*{h)}
+\begin{equation}
+    m_X(t) = (1-.5t)^{-1}
+\end{equation}
+\begin{center}
+    exponential distribution,
+    $\beta = 0.5$
+\end{center}
+\newpage
+\section*{Canvas}
+\subsection*{Problem 21}
+In a pressure test, the water pressure Pin kilograms per square centimeter through a certain valve will be steadily increased until the valve breaks, at some uncertain pressure P = p. Theory suggests that the moment generating function of the break pressure will be 
+\begin{equation}
+    m_p(s) = \frac{0.4}{1 -1 0s} + \frac{0.6}{1-15}
+\end{equation}
+\subsubsection*{a)}
+Find the expected value of the break pressure      
+\begin{align}
+    E[X] &= m^{'}_p(s)\bigg|_{s=0} \\
+    &= \frac{d}{ds}\left(\frac{0.4}{1 -1 0s} + \frac{0.6}{1-15}\right)\bigg|_{s=0} \\
+    &= \frac{4}{\left(1-10s\right)^2}+\frac{9}{\left(1-15s\right)^2}\bigg|_{s=0}\\
+    &= \frac{4}{1^2}+\frac{9}{1^2}\\
+    &= \boxed {13}
+\end{align}
+\subsubsection*{b)}
+Find the variance of the break pressure   
+\begin{align}
+    E[X^2] &= m^{''}_p(s)\bigg|_{s=0} \\
+    &= \frac{d^2}{ds^2}\left(\frac{0.4}{1 -1 0s} + \frac{0.6}{1-15}\right)\bigg|_{s=0} \\
+    &= -\frac{50\left(12s-1\right)\left(900s^2-150s+7\right)}{\left(10s-1\right)^3\left(15s-1\right)^3}\bigg|_{s=0}\\
+    &= -\frac{50\left(-1\right)\left(7\right)}{\left(-1\right)^3\left(-1\right)^3}\\
+    &= 350
+\end{align}
+\begin{equation}
+    \sigma^2 = 350 - 13^2 = \boxed{181}
+\end{equation}
+\newpage
+\subsection*{Problem 27}
+If you graph some Gamma$(\alpha, \beta)$ densities, you will notice that in some cases as \textit{t} increases they increase from zero, reach a maximum, and then decrease. Use elementary calculus to find, for $\alpha > 1$, the value of \textit{t} for which the density reaches a maximum. (This value of \textit{t} is called the \textbf{mode} of the distribution.)
+\begin{equation}
+    f(t) = \underbrace{\frac{\beta^\alpha}{\Gamma(\alpha)}}_{\text{not t reliant}}x^{\alpha-1}e^{-\beta t}
+\end{equation}
+\begin{align}
+    & f^{'}(t) =0\\
+    & \frac{d}{dt}(t^{\alpha-1}e^{-\beta t}) =0\\
+    &\Rightarrow e^{-t\beta}t^{\alpha-2}\left(\alpha-1\right)-e^{-t\beta}\beta t^{\alpha-1} = 0\\
+    &\Rightarrow e^{-t\beta}[t^{\alpha-2}\left(\alpha-1\right)-\beta t^{\alpha-1}] = 0\\
+    &\Rightarrow \underbrace{t^{\alpha-2}}_{0\text{ when }t = 0 }e^{-t\beta}\underbrace{[\left(\alpha-1\right)-\beta t]}_{0\text{ when }t = \frac{\alpha - 1}{\beta}} = 0
+\end{align}
+\begin{center}
+    Therefore the mode is reached when $t = \frac{\alpha - 1}{\beta}$
+\end{center}
+\subsection*{Problem 28}
+As in Exercise 27, notice that for Weibull(a, b) densities sometimes increase as \textit{t} increases from zero, reach a maximum, and then decrease. For $a > 1$, find the value of \textit{t} that is the mode of the distribution. (We here use our notation for Weibull(a, b) densities
+\begin{equation}
+    H(t)  = \left(\frac{t}{b}\right)^a
+\end{equation}
+\begin{center}
+    Using the same process as the last question we get that
+\end{center}
+\begin{equation}
+    t = b(1-\frac{1}{a})^{\frac{1}{a}}
+\end{equation}
+\end{document} 

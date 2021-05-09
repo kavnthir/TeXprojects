@@ -1,0 +1,146 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{STAT4714 Homework 14}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Normal Probability}
+\subsection*{Problem 14}
+May rainfalls in inches in Blacksburg over 10 typical years has been 1.94, 1.01, 6.11, 4.42, 6.11, 3.25, 2.57, 4.07, 2.54, 4.12. Experience in many similar places is that the monthly standard deviation is about 1.5 inches.
+\subsubsection*{a)}
+We  estimate  the  expected  monthly  rainfall  by $\hat{\mu} = \bar{x}$  calculate  this  estimate  and  give  its standard deviation (standard error).
+\begin{equation}
+    \hat{\mu} = \bar{x} = \frac{\sum x}{n} = \frac{36.14}{10} = \boxed{3.614}
+\end{equation}
+\begin{equation}
+    \sigma = \sqrt{\frac{\sum(x-\bar{x})^2}{n-1}} = \sqrt{\frac{25.53264}{9}} = \boxed{1.684}
+\end{equation}
+\begin{equation}
+    \textbf{SE} = \frac{\sigma}{\sqrt{n}} = \frac{1.684}{\sqrt{10}} = \boxed{.5325}
+\end{equation}
+\begin{equation}
+    \textbf{SE} = \frac{\sigma}{\sqrt{n}} = \frac{1.5}{\sqrt{10}} = \boxed{.47434}
+\end{equation}
+\begin{center}
+    The values are quite close.
+\end{center}
+\subsubsection*{b)}
+Assuming this is a large enough sample, write down a 95\% confidence interval for the true value $\mu$.
+\begin{equation}
+    P(X < 3) = P\left[z < \frac{3-3.614}{.47434}\right] = P[z < -1.29] = \boxed{.0985}
+\end{equation}
+\subsection*{Problem 16}
+From Exercise 23 in Chapter 3, we learned that the ancient Temple of Thos is believed to be  buried  near  the  north-south  directed  main  canal  through  the  modern  city  of Gyre.  There  is considerable  uncertainty,  though  as  to  where.  A  probabilist  believes  that  the  distance D of  the temple in miles north from the center of Gyre follows a moment generating function
+\begin{equation}
+    m_D(u) = e^{18u^2 + 10}
+\end{equation}
+\subsubsection*{a)}
+What probability distribution from which familiar family does this come, and what are its parameter values?
+\begin{center}
+    deriving from the standard form of the probability generation function we get:
+\end{center}
+\begin{equation}
+    \mu = \boxed{10}
+\end{equation}
+\begin{equation}
+    \sigma^2 = \boxed{36}
+\end{equation}
+\subsubsection*{b)}
+What is the probability it will be found no more than 15.0 miles north of Gyre?
+\begin{equation}
+    P(D \leq 15) = P(D-10 \leq 5) = P(z \leq \frac{5}{6}) = \boxed{.79767}
+\end{equation}
+\newpage
+\section*{Markov Process}
+\subsection*{Problem 1}
+Let the process of getting through undergraduate school be a homogeneous Markov process with time unit one year. The states are Freshman, Sophomore, Junior, Senior, Graduated, and Dropout. Your class (Freshman through Graduated) can only stay the same or increase by one step, but you can drop out at any time before graduation. You cannot drop back in. The probability of a Freshman being promoted in a given year is .8; of a Sophomore, .85; of a Junior, .9, and of a Senior graduating is .95. The probability of a Freshman dropping out is .10, of a Sophomore, .07; of a Junior, .04; and of a Senior, .02.
+\subsubsection*{a)}
+Construct the Markov transition matrix for this process.
+\begin{equation}
+    P(1) = 
+    \begin{bmatrix}
+     & Freshman & Sophomore & Junior & Senior & Graduated & Dropout\\
+    Freshman & 0.1 & 0.8 & 0.1632 & 0.612 & 0 & 0.1\\
+    Sophomore & 0 & 0.08 & 0.85 & 0 & 0 & 0.07\\
+    Junior & 0 & 0 & 0.06 & 0.09 & 0 & 0.04\\
+    Senior & 0 & 0 & 0 & 0.03 & 0.95 & 0.02\\
+    Graduated & 0 & 0 & 0 & 0 & 1 & 0\\
+    Dropout & 0 & 0 & 0 & 0 & 0 & 1
+    \end{bmatrix}
+\end{equation}
+\subsubsection*{b)}
+If we were more realistic, and allowed for students dropping back in, this would no longer be a Markov process. Why not?
+\begin{center}
+    Because the sum would no longer be one, and that is a characteristic of the markov matrix
+\end{center}
+\subsubsection*{c)}
+Construct the Markov transition matrix for what happens to students in three years. What is the probability that a student who starts out as a Junior will graduate in that time?
+\begin{equation}
+    P(3) = 
+    \begin{bmatrix}
+     & Freshman & Sophomore & Junior & Senior & Graduated & Dropout\\
+    Freshman & 0.001 & 0.01952 & 0.1632 & 0.612 & 0 & 0.20428\\
+    Sophomore & 0 & 0.000512 & 0.01258 & 0.13005 & 0.72675 & 0.130108\\
+    Junior & 0 & 0 & 0.000216 & 0.00567 & 0.93195 & 0.062164\\
+    Senior & 0 & 0 & 0 & 0.000027 & 0.979355 & 0.020618\\
+    Graduated & 0 & 0 & 0 & 0 & 1 & 0\\
+    Dropout & 0 & 0 & 0 & 0 & 0 & 1
+    \end{bmatrix}
+\end{equation}
+\newpage
+\subsection*{Problem 3}
+There has been much interest of late in whether a college football team is Bowl Eligible at the end of the year. The long history of Gridiron University’s team says that, because of younger players returning, eligibility in the next year is related to eligibility in the current year (but previous years seem unimportant). The historical data says if GU’s team is eligible one year, there is a 75\% chance it will be eligible the following year. If GU’s team is NOT eligible in one year, there is only a 30\% chance that it will be eligible the following year.
+\subsubsection*{a)}
+Assume GU’s team is Bowl Eligible this year, 2019. What is the probability it will be eligible is 2021?
+\begin{equation}
+    P(A) = 0.75 \cdot 0.75 + 0.3 \cdot 0.25 = \boxed{0.6375}
+\end{equation}
+\subsubsection*{b)}
+Assume GU’s team is NOT Bowl Eligible in 2019. What is the probability it will be bowl eligible in 2021?
+\begin{equation}
+    P(B) = 0.75 \cdot 0.3  + 0.3 \cdot 0.7 = \boxed{.435}
+\end{equation}
+\subsection*{Problem 5}
+There is a sequence of four Engineering classes that a student must pass to finish her major. Each class depends primarily on material learned in the previous class. Consider a student who will maintain good standing in these classes. An experienced advisor predicts that, if the student earns an A in one of these classes, she has probability .6 of an A in the next class in the sequence, .3 of a B, and .1 of a C. If the student earns a B in one of these classes, she has probability .25 of an A in the next class in the sequence, .55 of a B, and .20 of a C. If the student earns a C in one of these classes, she has probability .05 of an A in the next class in the sequence, .40 of a B, and .55 of a C.
+\subsubsection*{a)}
+Write out the Markov transition matrix for how this student is expected to do in the next class in sequence after taking one of the classes.
+\begin{equation}
+    P(1) = 
+    \begin{bmatrix}
+    0.6 & 0.3 & 0.1\\
+    0.25 & 0.55 & 0.2\\
+    0.05 & 0.4 & 0.55
+    \end{bmatrix}
+\end{equation}
+\subsubsection*{b)}
+Find the probability that if a student earns a B in the second class in this sequence, then she will earn a B or better in the fourth class in the sequence.
+\begin{equation}
+    P(1) = 
+    \begin{bmatrix}
+    0.44 & 0.385 & 0.175\\
+    0.2975 & 0.2575 & 0.245\\
+    0.1525 & 0.455 & 0.3825
+    \end{bmatrix}
+\end{equation}
+\begin{equation}
+    P(A) = 0.2975 + 0.4575 = \boxed{0.755}
+\end{equation}
+\end{document} 

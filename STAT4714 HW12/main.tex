@@ -1,0 +1,128 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{listings}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{STAT4714 Homework 12}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Canvas}
+\subsection*{Problem 24}
+To graduate this semester, you must pass Statistics 314; and you estimate that you have an 85\% chance of passing. You need to pass Math 272 or Math 444, each of which you have an 80\% chance of passing: so you will take both in hopes that you will pass at least one. Further, you must pass German 320, which you believe you have a 90\% chance of passing.Assuming your chances of passing each class you take are independent, what is your probability of graduating this semester?
+\begin{equation}
+    P(A) = 0.85
+\end{equation}
+\begin{align}
+    P(B)&= P(M1||M2)\\
+    &= P(M1 \& !M2) + P(M2 \& !M1) + P(M1 \& M2)\\
+    &= P(M1)\cdot(1- P(M2)) + (1- P(M1))\cdot P(M2) + P(M1)\cdot P(M2)\\
+    &= 0.8\cdot0.2+ 0.2\cdot0.8+ 0.8\cdot0.8 = 0.96
+\end{align}
+\begin{equation}
+    P(C) = 0.90
+\end{equation}
+\begin{equation}
+    P(G) = P(A) \cdot P(B) \cdot P(C) = \boxed{0.7344}
+\end{equation}
+\subsection*{Problem 26}
+There are 3 alternative routes by which you may drive to work: Alabaster Street, Brillantine Street, and Clancy Street. It is the beginning of rush hour, and by experience Alabaster street will be closed by a car crash on average in 25 minutes, Brillantine street in 50 minutes, and Clancy Street in 40 minutes. Accident times are completely unpredictable.
+
+If you leave for work in one hour (60 minutes), what is the probability that (at the moment you leave) a route to workwill still be open?
+\begin{equation}
+P(\text{A closed}) = 1 - e^{-60/25} = 0.909
+\end{equation}
+\begin{equation}
+P(\text{B closed}) = 1 - e^{-60/50} = 0.699
+\end{equation}
+\begin{equation}
+P(\text{C closed}) = 1 - e^{-60/40} = 0.777
+\end{equation}
+\begin{align}
+P(\text{at least one open}) &= 1 - P(\text{all closed})\\
+&=1 - P(A) * P(B) * P(C)\\
+&=1 - 0.909 * 0.699 * 0.777\\
+&=\boxed{0.506}
+\end{align}
+\newpage
+\section*{Normal Probability}
+\subsection*{Problem 1}
+Beetlesmay be the most varied order of animals. New beetle species are authenticated, completely unpredictably, at a typical rate of one every 7.0months. A supplement to a guide is planned to be published after 20 new species have been discovered.
+\subsubsection*{a)}
+What are the expected value and standard deviation of the number of months (treated as a continuous measure of time) until the supplement is published?
+\begin{equation}
+    \sigma = \sqrt{\lambda} = \boxed{11.832}
+\end{equation}
+\subsubsection*{b)}
+What is the probability that the supplement will be published within 10 years (120.0 months)?
+\begin{equation}
+    P(X < 120) = \boxed{.047}
+\end{equation}
+\subsubsection*{c)}
+Recalculate the answer to b) using normal approximation and compare (that was certainly easier, was it not?).
+\begin{align}
+    P(X < 120) &= P(Z \leq -1.69)\\
+    &= \boxed{.0455}
+\end{align}
+\subsection*{Problem 2}
+At a small savings and loan company, you have to deal with your customers being victims of identity theft. This happens unpredictably to one of your customers once every 9 weeks; and no incident seems to have any connection to any other incident.
+\subsubsection*{a)}
+What is the probability that you will have to deal with no more than 4 incidents of identity theft in the next year (52 weeks)?
+\begin{align}
+P(X \leq 4) &= P(X = 0) + P(X = 1) + P(X = 2) + P(X = 3) + P(X = 4)\\
+&= e^{-5.78} \cdot 5.78^0 /0! + e^{-5.78} \cdot 5.78^1 /1! + e^{-5.78} \cdot 5.78^2/2! + e^{-5.78} \cdot 5.78^3/3! + e^{-5.78} \cdot 5.78^4/4!\\
+&= \boxed{0.32}    
+\end{align}
+\subsubsection*{b)}
+When you have had 12 more incidents of identity theft, your company will send a detective to investigate. What are the expected value and variance of the time (in weeks) until a detective is sent to investigate?
+\begin{equation}
+    \mu = \boxed{108\text{ weeks}}
+\end{equation}
+\begin{equation}
+    \sigma^2 = \boxed{972\text{ weeks}}
+\end{equation}
+\subsubsection*{c)}
+Use  normal  approximation  to  find  the  probability  that  the  detective  will  be  sent  within  2 years. 
+\begin{align}
+    P( T < 104) &= P[Z <  (104-108) / \sigma ]\\
+    &= P[Z <  -0.1283 ]\\
+    &= \boxed{.449}
+\end{align}
+\subsection*{Problem 3}
+Given that the density of a standard normal random variable Z is
+\begin{equation} 
+    \frac{1}{\sqrt{2\pi}}e^{-z^2/2}
+\end{equation}
+\subsubsection*{a)}
+use integration by parts to find $E(Z^3)$. 
+\begin{align}
+    E(Z^3) &= \int z^3 f(z)dz\\
+    &= \int z^3 \frac{1}{\sqrt{2\pi}}e^{-z^2/2}dz\\
+    &= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty z^3e^{-z^2/2}dz\\
+    &= \frac{1}{\sqrt{2\pi}}\cdot 0\\
+    &= \boxed{0}\\
+\end{align}
+\subsubsection*{b)}
+use integration by parts to find $E(Z^4)$
+\begin{align}
+    E(Z^4) &= \int z^4 f(z)dz\\
+    &= \int z^4 \frac{1}{\sqrt{2\pi}}e^{-z^2/2}dz\\
+    &= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty z^4e^{-z^2/2}dz\\
+    &= \frac{1}{\sqrt{2\pi}}\cdot \frac{2^{\frac{5}{2}}3\sqrt{\pi}}{4}\\
+    &= \boxed{3}\\
+\end{align}
+\end{document} 

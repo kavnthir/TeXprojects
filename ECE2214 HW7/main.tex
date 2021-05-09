@@ -1,0 +1,127 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usetikzlibrary{positioning, fit, calc}
+\pagestyle{fancy}
+\lhead{ECE2214 Homework 7}
+\rhead{Kavin Thirukonda 2021}
+\fancyheadoffset{0mm}
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\begin{enumerate}
+   \item RG-59 coaxial transmission line can be modeled as having the following equivalent circuit parameters: $R^{'} \cong 0.164 \Omega/m, G^{'} \cong 200 \mu S/m, C^{'} \cong 67.7pF/m,\text{ and }L^{'} 370 nH/m.$ Let us consider the attenuation in voltage over one meter of RG-59. Assume the source frequency is 100MHz
+   \begin{enumerate}
+   \item If the cable is perfectly impedance-matched at both ends, and the voltage magnitude is 1 V at the source end, then what is the voltage magnitude at the other end?
+   \begin{equation}
+       \gamma= \sqrt{(R^{'}+j\omega L^{'})(G^{'}+j\omega C^{'})} = .0085 + j3.145
+   \end{equation}
+   \begin{equation}
+       (1V)e^{-0.0085} = \boxed{0.9915}
+   \end{equation}
+   \item  Calculate the phase introduced by the cable. In other words, if the voltage phase is $0^\circ$ at the source end, then what is the voltage phase at the other end?
+   \begin{equation}
+       \phi = \boxed{179.8^\circ}
+   \end{equation}
+   \item Even though you may not yet have formally encountered radio waves, you already know how to compute the answers to parts (a) and (b) for a radio wave propagating in free space. Compare your answers to parts (a) and (b) for RG-59 to those for a radio wave at the same frequency that propagates the same distance in free space.
+   \begin{center}
+       There is no attenuation.
+   \end{center}
+   \begin{equation}
+       \phi = \boxed{120^\circ}
+   \end{equation}
+   \end{enumerate}
+   \item The current on a transmission line is 
+   \begin{equation}
+       i(z,t) = (2A)\sin((3rad/s)t + (4rad/m)z+5rad)
+   \end{equation}
+   What is this current in phasor representation?
+   \begin{align}
+       i(z,t) &= (2A)\sin((3rad/s)t + (4rad/m)z+5rad)\\
+       &= (2A)\sin((3rad/s)t + (4rad/m)z+5rad - \pi / 2)
+   \end{align}
+   \begin{equation}
+       \Tilde{I}(z) = \boxed{\left[(2A)e^{j((5-\pi/2)rad)}\right]e^{j(4rad/m)z}}
+   \end{equation}
+   \item A voltage wave exist on a transmission line. This wave is expressed as the phasor 
+   \begin{equation}
+       \Tilde{V}(x) = V_0e^{+j\beta x}
+   \end{equation}
+   The phase of $V_0$ is $\pi/3$ radians. What is this voltage wave as a function of both position and time, and in what direction is the wave travelling?
+   \begin{align}
+       v(x,t) &= |V_0|e^{j\omega\pi/3}e^{+j\beta x}e^{j\omega t}\\
+       &= \boxed{|V_0|\cos(\omega t+\beta x +\pi/3)}
+   \end{align}
+   We dropped the imaginary part because we only needed the real for the answer, the direction that this wave is travelling in is the $\boxed{\text{-x direction}}$.
+   \item A voltage wave $V_0e^{-j\beta\phi}$ travels along a transmission line. The voltage is maximum at $\phi = \lambda /4\textbf{ and } t = 0.$ The wavelength $\lambda$ is 10cm. Write an expression for this voltage as a function of both position and time. be sure to indicate numerical values in you solution wherever possible.
+   \begin{equation}
+       v(\phi,t) = Re\{V_0e^{-j\beta\phi}e^{j\omega t}\} = |V_0|\cos(\omega t- \beta\phi + \psi)
+   \end{equation}
+   \begin{equation}
+       v(\phi,t) = \boxed{|V_0|\cos(\omega t- [62.832 rad/m]\phi + \frac{\pi}{2})}
+   \end{equation}
+   \newpage
+   \item A transmission line is known to have a characteristic impedance of $72 \Omega$ and inductance per unit length equal to $0.5 \mu H/m$. In a particular application, the frequency is 80 MHz, and the line may be considered low-loss at this frequency. Determine phase velocity and phase propagation constant in the line.
+   \begin{equation}
+       v_p \cong \boxed{1.44\cdot 10^8 m/s}
+   \end{equation}
+   \begin{equation}
+       \beta \cong \boxed{3.49 rad/m}
+   \end{equation}
+   \item An air-filled coaxial line exhibits a characteristic impedance of $90 \Omega$. It is desired to modify the cable to reduce the characteristic impedance to $62\Omega$. Describe two different ways to accomplish this. One way should involve geometry, and the other way should involve material. You may assume the inner and outer conductors exhibit negligible resistance. Please be specific; give numbers.
+   \begin{equation}
+       \epsilon_r = \left(\frac{90}{60}\right)^2 = \boxed{2.11}
+   \end{equation}
+   \begin{equation}
+       \frac{b}{a} = e^{\frac{90}{60/\sqrt{1}}} = \boxed{4.48}
+   \end{equation}
+   \item A CW transmitter is connected to an antenna by a lossless coaxial cable having characteristic impedance $75 \Omega$. (“CW” means “continuous wave”, which is simply another term for “sinusoidal”.) The coaxial cable is perfectly-matched to the transmitter. The input impedance of the antenna is $500 \Omega$, so there is a reflection from the antenna. If the peak voltage from the output of the transmitter is 30 V, what is the peak voltage of the reflected wave at the output of the transmitter?
+   \begin{equation}
+       \Gamma = \frac{500 - 75}{500 + 75} = .739
+   \end{equation}
+   \begin{equation}
+       V_{max}  = \Gamma (30) = \boxed{22.2}
+   \end{equation}
+   \item A particular system measures the impedance of a device by measuring the voltage reflection coefficient at the device when it is accessed through a coaxial cable. Derive the measurement equation; i.e., the formula that gives the device impedance (on the left side of the equation) in terms of the known and measured quantities (on the right side of the equation). Check your equation using three special cases for which the result is known independently of the derived formula.
+   \begin{align}
+   &\Gamma = \frac{Z_L - Z_0}{Z_L + Z_0}\\
+   &\Rightarrow\Gamma(Z_L + Z_0) = Z_L - Z_0\\
+   &\Rightarrow\Gamma Z_L + \Gamma Z_0 = Z_L - Z_0\\
+   &\Rightarrow\Gamma Z_L - Z_L  =  -Z_0 - \Gamma Z_0\\
+   &\Rightarrow Z_L(\Gamma - 1)  =  Z_0(-1 - \Gamma)\\
+   &\Rightarrow Z_L  =  Z_0\frac{-(1 + \Gamma)}{(\Gamma - 1)}\\
+   &\Rightarrow \boxed{Z_L  =  Z_0\frac{(1 + \Gamma)}{(1 - \Gamma)}}
+   \end{align}
+   \begin{equation}
+       Z_L  =  Z_0\frac{(1 + \Gamma)}{(1 - \Gamma)}\bigg|_{\Gamma = 0} = Z_0\frac{(1)}{(1)} = Z_0
+   \end{equation}
+   \begin{equation}
+       Z_L  =  Z_0\frac{(1 + \Gamma)}{(1 - \Gamma)}\bigg|_{\Gamma = 1}
+       =  Z_0\frac{(2)}{(0)} \cong \infty
+   \end{equation}
+   \begin{equation}
+       Z_L  =  Z_0\frac{(1 + \Gamma)}{(1 - \Gamma)}\bigg|_{\Gamma = -1}
+       =  Z_0\frac{(0)}{(2)} = 0
+   \end{equation}
+   \item A datasheet for a particular amplifier indicates that the VSWR at the input of the amplifier is $\leq 1.2$. The amplifier is designed to interface to a source impedance of 50 Ω. Let us assume that the imaginary part of the amplifier’s input impedance is negligible. What is the expected range of input impedance's of this amplifer?
+   \begin{equation}
+       \boxed{41.7 \Omega \leq Z_L \leq 60.0\Omega}
+   \end{equation}
+\end{enumerate}
+\end{document}/
