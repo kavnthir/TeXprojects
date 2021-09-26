@@ -1,0 +1,64 @@
+ % DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsfonts}
+\usepackage{media9}
+\usepackage{parskip}
+\usetikzlibrary{positioning, fit, calc}
+\pagestyle{fancy}
+\lhead{Weekly Report 5}
+\rhead{Kavin Thirukonda 2021}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\fancyheadoffset{0mm}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\usepackage{listings}
+\usepackage[]{color}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\subsection*{Thermal Chamber Interfacing}
+\begin{itemize}
+    \item Located and installed proper drivers needed to communicate from labview to GPIB-USB to thermal controller to chamber.
+    \item Started to learn command scheme used to control controller
+    \item learned how to send commands using SCPI via GPIB to the thermal controller in labview.
+    \item Research watlow thermal controller functionality and how to control it properly 
+    \item figured out what drivers were needed for watlow temperature controller and installed them.
+\end{itemize}
+\subsection*{Data Collection}
+\begin{itemize}
+    \item Located and installed drivers needed for multiplexer and datalogger
+    \item Did research on how to take data from thermocouples, multiplexer and datalogger and accesss that information in labview
+    \item Made basic program in labview to control multiplexer functionality in labview
+    \item Made basic program in labview to control datalogger functionality in labview
+\end{itemize}
+\subsection*{Power Supply Interfacing}
+\begin{itemize}
+    \item Made program to be able to control all three power supplies with one VI file, voltage, current, over-voltage and over-current protection values can independently be controlled for each power supply
+    \item option available to turn all supplies on or off at the same time or to independently toggle each supply
+\end{itemize}
+
+\end{document} 

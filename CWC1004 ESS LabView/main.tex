@@ -1,0 +1,186 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsfonts}
+\usepackage{media9}
+\usepackage{parskip}
+\usetikzlibrary{positioning, fit, calc}
+\pagestyle{fancy}
+\lhead{LabView Thermal Testing Implementation}
+\rhead{Kavin Thirukonda 2021}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\fancyheadoffset{0mm}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\usepackage{listings}
+\usepackage[]{color}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Goal Schedule}
+\begin{enumerate}
+    \item Install LabView
+    \item Learn basic data flow programming functionality of labview
+    \item Do research on communication methods between various instruments and labview
+    \item Find and install instrument drivers for instruments and test each instrument individually
+    \item make a basic program to test all instruments in unison
+    \item make a system to be able to simply input voltage and current parameters for all power supplies 
+    \item make a program to ramp through a temperature range in a given time while running power supplies at given parameters, log data from thermocouples and voltages
+\end{enumerate}
+\newpage
+\section*{Research Log}
+\subsection*{External Device Communication}
+SCPI (Standard Commands for Programmable Instruments) is a command set that can allow for communications between an external source and the instrument of interest. The Agilent 6651A Power Supply is one of the most important basis pieces to be used in the thermal testing environment. From the user manual for this device I have discovered that it can be controlled by SCPI in addition to the front panel button that It has. This corresponds with the VEE code that was previously used as it seems like it sents a series of commands to the respective devices when It needs to communicate with them. Below I have found a forum post that can point me in the correct direction for implemented SCPI in LabView, but first I would rather get a more detailed explanation for what SCPI is from another source.
+
+\begin{center}
+    \url{https://forums.ni.com/t5/LabVIEW/How-to-communicate-with-SCPI-using-Labview/td-p/2505890?profile.language=en}
+\end{center}
+
+All of the following information was taken from the following Keysight website.
+
+\begin{center}
+    \url{https://www.keysight.com/us/en/lib/software-detail/programming-examples/scpi-learning-page-1688330.html}
+\end{center}
+
+\subsection*{SCPI History}
+
+SCPI is a programming language standard designed specifically for controlling instruments. It defines how you communicate with these instruments from an external computer.
+
+Hewlett-Packard (now Keysight) developed the HP-IB as an internal standard for transmitting individual bytes of data and commands between instruments and computers, defining handshaking, addressing, and general protocol. HP-IB gained wide-spread industry acceptance and migrated to GPIB (General Purpose Interface Bus), which is built upon the IEEE 488.1 and 488.2 standards. Emulation of GPIB is also implemented on Ethernet and USB interfaces. SCPI is the most common standard used to control instruments over those 
+interfaces.
+
+\subsection*{SCPI Description}
+
+SCPI goes beyond 488.2 by defining a standard set of programming commands. For a given measurement function (such as frequency), SCPI defines the specific commands used to access that function via the LAN, GPIB, or USB interfaces. If two analyzers both conform to the SCPI standard, you would use the same command to set each analyzer’s center frequency. Standard commands provide two advantages:
+
+\begin{itemize}
+    \item If you know how to control functions on one SCPI instrument, you know how to control the same functions on any SCPI instrument.
+    \item Programs written for a particular SCPI instrument are easily adapted to work with a similar SCPI instrument.
+\end{itemize}
+
+\subsection*{SCPI Resources and Tools}
+
+Keysight system instruments support SCPI with the underlining IEEE 488 protocols, and each instrument manual gives detailed information on its particular SCPI programming language. More than 50\% of all test system programs use direct SCPI programming to achieve complete control of performance and features of products. The following provide you with information to help you better understand and learn SCPI.
+
+\subsection*{SCPI Use}
+
+After slightly more research I determined that SCPI is a form of GPIB and has been covered over on most popular devices using a a layer of abstraction called instrument drivers, all the messy low level work is handled and all that needs to be provided is a list of essentials needed to operate the device
+\newpage
+\subsection*{Plug and Play}
+
+\begin{center}
+    \url{https://zone.ni.com/reference/en-XX/help/370736U-01/ni_dc_power_supplies_help/configuringtriggevents/}
+\end{center}
+
+The above website does a good job at explaining the basic functions used in controlling a instrument with a the provided instrument drivers, using the information from this website and the previous ones all I need now is some communications type data such as the VISA communication ID which I need to do research on.
+\newpage
+
+\subsection*{Input Variables Research (Agilent 6651A)}
+\begin{itemize}
+    \item VISA Resource name
+    \begin{itemize}
+        \item Datatype: I/0
+        \item Description: Resource name for the specific device, which is configured earlier
+    \end{itemize}
+    \item ID Query
+    \begin{itemize}
+        \item Datatype: Boolean
+        \item Description: Decides whether or not the system should query the instrument to make sure the ID is the same as expected.
+        \item Nominal Values: True
+    \end{itemize}
+    \item Reset
+    \begin{itemize}
+        \item Datatype: Boolean
+        \item Description: Decides whether or not the system should be reset.
+        \item Nominal Values: True
+    \end{itemize}
+    \item Error In/Out
+    \begin{itemize}
+        \item Datatype: Error
+        \item Description: Holds error messages, usually left hanging at the start and terminated with the error handler at the end.
+        \item Nominal Values: none
+    \end{itemize}
+    \item Protection
+    \begin{itemize}
+        \item Datatype: U16
+        \item Description: Determines what type of protection to be enabled and sets time delay between the programming of an output that produces a CV, CC, UNREG condition.
+        \item Possible Values:
+        \begin{itemize}
+            \item 0: No protection
+            \item 1: Overcurrent Protection
+            \item 2: Overvoltage Protection
+            \item 3: Overvoltage and Overcurrent Protection
+            \item 4: Clear Overvoltage protection
+            \item 5: Clear Overcurrent protection
+            \item 6: Set Time delay
+        \end{itemize}
+    \end{itemize}
+    \item Voltage
+    \begin{itemize}
+        \item Datatype: Double
+        \item Description: Voltage sent from the power supply
+        \item Max Value: 8.19V
+    \end{itemize}
+    \item Current
+    \begin{itemize}
+        \item Datatype: Double
+        \item Description: Currrent that the power supply sends out.
+        \item Max Value: 51.188A
+    \end{itemize}
+    \item Output
+    \begin{itemize}
+        \item Datatype: Boolean
+        \item Description: Turns the front panel display on or off.
+        \item Nominal Value: True
+    \end{itemize}
+    \item Voltage Mode
+    \begin{itemize}
+        \item Datatype: Boolean
+        \item Description: Determines if the trigger happens immediately or  is triggered on the HP-IB bus. If set to trigger, the trigger.vi must be used.
+    \end{itemize}
+    \item Current Mode
+    \begin{itemize}
+        \item Datatype: Boolean
+        \item Description: Determines if the trigger happens immediately or  is triggered on the HP-IB bus. If set to trigger, the trigger.vi must be used
+    \end{itemize}
+    \item Overvoltage Prot Value
+    \begin{itemize}
+        \item Datatype: Double
+        \item Description: Sets the overvoltage protection value of the power supply.
+        \item Maximum Value: 8.8V
+    \end{itemize}
+\end{itemize}
+\subsection*{SSH Implmentation}
+\begin{center}
+    \url{https://forums.ni.com/t5/LabVIEW/Bi-directional-SSH-communication/td-p/3308428?profile.language=en}
+    \url{https://forums.ni.com/t5/LabVIEW-Idea-Exchange/Native-SSH-and-SFTP-Support/idi-p/1141529/page/4?profile.language=en#comments}
+\end{center}
+
+
+
+
+\end{document} 

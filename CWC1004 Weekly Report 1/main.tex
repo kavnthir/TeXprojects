@@ -1,0 +1,79 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsfonts}
+\usepackage{media9}
+\usepackage{parskip}
+\usetikzlibrary{positioning, fit, calc}
+\pagestyle{fancy}
+\lhead{Weekly Report 1}
+\rhead{Kavin Thirukonda 2021}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\fancyheadoffset{0mm}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\usepackage{listings}
+\usepackage[]{color}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\subsection*{6/7/21}
+\begin{itemize}
+    \item Obtaining VEE program files from downstairs computers
+    \item Contacted IT about installing LabView and later installing VEE on personal computer and setup trial version for 30 days.
+    \item Researched addons and packages needed in LabView installation to properly operate main instruments.
+    \item Measured two previously unmeasured clock signals on both DSA71604C scopes with amplitude frequency and jitter.
+    \item Cleaned up lab space including the three oscilloscopes all the random probes and some lighting thing that were used to see the PCB better and put all that stuff in their respective places.
+\end{itemize}
+\subsection*{6/8/21}
+\begin{itemize}
+    \item Installed Labview on desk computer
+    \item Installed VEE on desk computer
+    \item Debugged VEE driver issue stopping me from opening current VEE testing program, solved by finding out which drivers were missing from the program, first trying to install them from the web, and later just taking them via USB drive from the rack computers in the testing lab.
+    \item Watched LabView course on basics of data flow programming in LabView, including case structures, loops, data types, debugging system, and other syntax equivalent type of things.
+\end{itemize}
+\subsection*{6/9/21}
+\begin{itemize}
+    \item Watch the second part of a LabView course that went more in depth into basics of LabView Development
+    \item Researched GPIB communication methods for the Agilent 6651A power supply to find out what the best way of implmenting a simple program to make the power supply turn on to a specific voltage, with specific current and overvoltage and overcurrent values.
+    \item Analyzed the VEE program currently being used to see how it was communicating with the various instruments, found out what the method was (SCPI) and did some more research on SCPI to find out if that was the best method to go about communicating with the supply or if there are better ones.
+    \item implemented simple program as described above, untested on actual power supply.
+\end{itemize}
+\subsection*{6/10/21}
+\begin{itemize}
+    \item To actually run the program that was developed the power supply needs to be connect to the computer with Labview on it via GPIB to USB so for this I needed to install LabView on the downstairs computer which took another four hours.
+    \item While LabView was continuing to install on the downstairs computer I took the time to read over the VEE program some more to see what features it had such as the profile system and data logging functionality.
+    \item Tried to find out more about the actual functionality of the whole thermal testing system and what all features it must have.
+\end{itemize}
+\subsection*{6/11/21}
+\begin{itemize}
+    \item created rough plan of action for VEE to Labview transition
+    \item Made this document detailing my work for the week.
+    \item Made spreadsheet detailing communication protocols for all the instruments needed to operate the whole testing system include the power supplies, data retrieval, and thermal manipulations.
+    \item Researched LabView datalogging methods.
+    \item Tested basic program to control Agilent 6651A Power supply where voltage, current, over-voltage, over-current, and display on or off are the manageable variables.
+\end{itemize}
+\end{document} 

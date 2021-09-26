@@ -1,0 +1,127 @@
+% DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\fancyheadoffset{0mm}
+\lhead{ECE3504 HW1}
+\rhead{Kavin Thirukonda 2021}
+\usepackage{steinmetz}
+\usepackage{listings}
+\usepackage{circuitikz}
+\usepackage{mathtools}  
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\section*{Problem 1 (10 points)}
+There are many different examples of Instruction Set Architectures (ISAs).Give three examples of ISAs other than MIPS. For each example, give the following details:
+\begin{itemize}
+    \item What differentiates the ISA from MIPS?
+    \item What similarities does the ISA share with MIPS?
+    \item What devices or applications most often use the ISA?
+\end{itemize}
+\begin{enumerate}
+        \item x86-64
+        \begin{enumerate}
+            \item 64-bit registers
+            \item Can use 32-bit addresses
+            \item Desktop Computers, game consoles
+        \end{enumerate}
+        \item ARM
+        \begin{enumerate}
+            \item More addressing modes
+            \item Similar core of instructions
+            \item Smartphones, Laptops
+        \end{enumerate}
+        \item IA-64
+        \begin{enumerate}
+            \item More general purpose registers
+            \item Uses registers for operations
+            \item High performance computers
+        \end{enumerate}
+    \end{enumerate}
+\section*{Problem 2 (20 points)}
+Assume that the base address 0x1000 of the array A is stored in \$s0.  The following table gives the memory addresses of A[0], ..., A[3] along with the values stored in the corresponding memory location.
+
+\begin{center}
+    \begin{tabular}{c|c|c}
+         & Stored Value &  Memory Address\\
+         \hline
+         A[0] & 8 & 0x1000\\
+         A[1] & -2 & 0x1004 \\
+         A[2] & -3 & 0x1008 \\
+         A[3] &  10 & 0x100C 
+    \end{tabular}
+\end{center}
+
+Show the values in the array and give the values stored in registers \$s0, \$s1, \$s2, and \$s3 after executing the following MIPS instructions.
+\vspace{5mm}
+
+lw   \$s1 ,   0 ( \$ s 0 )
+
+sw   \$s1 ,   4 ( \$ s 1 )
+
+lw   \$s2 ,   8 ( \$ s 0 )
+
+add   \$s3 ,   \$s1 ,   \$ s 2
+
+\vspace{5mm}
+
+lw   \$s1 ,   0 ( \$ s 0 ) $\rightarrow$ loads word at 0x0000 into \$s1
+
+sw   \$s1 ,   4 ( \$ s 1 ) $\rightarrow$ stores word at \$s1 in a byte address which changes A[3] to 8
+
+lw   \$s2 ,   8 ( \$ s 0 ) $\rightarrow$ loads word at 0x0000 + 8 into \$s2
+
+add  \$s3 , \$s1 , \$ s 2 $\rightarrow$ adds \$s1 and \$s2 and stores it into \$s3
+
+\begin{center}
+    A[0] = 8, A[1] = -2, A[2] = -3, A[3] = 8, \$s0 = 8, \$s1 = 8, \$s2 = -3, \$s3 = 5
+\end{center}
+
+
+\newpage
+\section*{Problem 3 (70 points)}
+Convert each of the following C statements into MIPS instructions.  Assume that the variables a, b,and c are stored in \$s0, \$s1, and \$s2, respectively.  The base addresses of the arrays A and B are stored in \$s3 and \$s4, respectively.  Assume the arrays A and B contain integers (4 bytes).
+\begin{enumerate}
+    \item a = b - A[$2^{15} + 1$]
+    \begin{enumerate}
+        \item lw \$t0, 131076(\$s3) 
+        \item sub \$s0, \$s1, \$t0
+    \end{enumerate}
+    \item B[3] = c + 4*a
+    \begin{enumerate}
+        \item sll \$t0, \$s0, 2
+        \item add \$t1, \$s2, \$t0
+        \item sw \$t1, 12(\$s4)
+    \end{enumerate}
+    \item A[7] = 2*B[3] - b + A[c]
+    \begin{enumerate}
+        \item sll \$t0, \$s2, 2
+        \item add \$t1, \$s3, \$t0
+        \item lw \$t2, 12(\$s4)
+        \item sll \$t3, \$t2, 1
+        \item sub \$t4, \$t3, \$s1
+        \item add \$t5, \$t4, \$t1
+        \item sw \$t5, 28(\$s3)
+    \end{enumerate}
+    \item A[B[2]] = B[a + $2^{10}$] + c
+    \begin{enumerate}
+        \item addi \$t0, \$s0, 0x400
+        \item add \$t1, \$t0, \$s4
+        \item add \$t2, \$t1, \$s2
+        \item lw \$t3, 4(\$s4)
+        \item add \$t4, \$t3, \$s3
+        \item sw \$t2, \$t4
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}

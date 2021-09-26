@@ -1,0 +1,64 @@
+ % DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsfonts}
+\usepackage{media9}
+\usepackage{parskip}
+\usetikzlibrary{positioning, fit, calc}
+\pagestyle{fancy}
+\lhead{Weekly Report 4}
+\rhead{Kavin Thirukonda 2021}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\fancyheadoffset{0mm}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\usepackage{listings}
+\usepackage[]{color}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\subsection*{1V8\_LDO Discharge Issue}
+\begin{itemize}
+    \item Took a couple more captures with bars to measure in different configurations
+    \item cleaned up workspace
+    \item Somewhat filled out excel sheet describing purpose of each component on 1V8\_LDO circuit
+\end{itemize}
+\subsection*{DS1/2 LED Sink Current Issue}
+\begin{itemize}
+    \item Biased LED for various conditions
+    \item Biased LED with buffer with various conditions
+    \item Found current of DS1/2 LED's and determined they were being run over spec
+    \item Rebiased DS1/2 LEDs with $1k\Omega$ resistor calculated by taking target current of 1.4mA, LED voltage of 3.3V, and LED forward voltage of 1.9V like so:
+    \begin{equation}
+        \frac{3.3V - 1.9V}{1.4mA}  = 1k\Omega
+    \end{equation}
+    \item After installation of new bias resistor was complete, tested and validated it.
+\end{itemize}
+\subsection*{RTM something something problem??}
+\begin{itemize}
+    \item Installed two RTMs and two cards on an ITA and ran some scripts on them
+\end{itemize}
+\end{document} 

@@ -1,0 +1,64 @@
+ % DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsfonts}
+\usepackage{media9}
+\usepackage{parskip}
+\usetikzlibrary{positioning, fit, calc}
+\pagestyle{fancy}
+\lhead{Weekly Report 6}
+\rhead{Kavin Thirukonda 2021}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\fancyheadoffset{0mm}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\usepackage{listings}
+\usepackage[]{color}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\subsection*{EWC Power Rail Measurements}
+\begin{itemize}
+    \item Took DC measurements for all power rails
+    \item Took DC measurements for CPU power rail with command
+    \item Found typo/software thing in cpu power command
+    \item started to take AC ripple measurements on power rails
+    \item R\&S scope issue communication
+\end{itemize}
+\subsection*{EWC R1013 issue}
+\begin{itemize}
+    \item Took scope and DMM measurements
+    \item had modification done on R1013
+    \item took measurements on LEDs around R1013 and R1014/R1022
+\end{itemize}
+\subsection*{LabView ESS}
+\begin{itemize}
+    \item remastered some labview documents
+    \item watched course on SCPI language so that I can begin to made a driver module for the thermal control chamber
+    \item experimented with SCPI CLI to control thermal chamber for learning purposes
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,64 @@
+ % DOC SETTINGS ===================================
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{steinmetz}
+\usepackage{mathtools}  
+\usepackage{multicol}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsfonts}
+\usepackage{media9}
+\usepackage{parskip}
+\usetikzlibrary{positioning, fit, calc}
+\pagestyle{fancy}
+\lhead{Weekly Report 2}
+\rhead{Kavin Thirukonda 2021}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\fancyheadoffset{0mm}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=25mm,
+ }
+\usepackage{listings}
+\usepackage[]{color}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\mathtoolsset{showonlyrefs} 
+\cfoot{}
+% DOC SETTINGS ===================================
+\begin{document}
+\subsection*{LabView}
+\begin{itemize}
+    \item Watched LabView course on communicating with 3rd party instruments in LabView.
+    \item Watched short LabView course on data storage/manipulation.
+\end{itemize}
+\subsection*{Power Supply Interfacing}
+\begin{itemize}
+    \item To communicate with the power supplies I  need to download and properly setup several drivers and libraries to allow communication between the computer, to the USB to GPIB converter, to then finally the power supply itself, the research on which drivers needed to be installed for each supply and which settings needed to be enabled was slightly complicated as there were several obscure details that could be missed easily and could cause the connection to not work.
+    \item To make sure next time I did not have to go through the process of finding out how to setup communication between the power supplies and the computer, I made a document that detailed every driver and library that needed to be installed and showed instructions on how to start all the way to where you obtain the VISA Address.
+    \item Did research on the VISA system, which takes all the different communication protocols that may exist between several different types of devices and bundles it all into one package such that you don't need to learn all the protocols, just one.
+    \item Successfully created a program to set voltage, current, over voltage, over current, and other info up for all the power supplies. When this program is run the power supply switches to the given values instantaneously or after a user specified delay.
+\end{itemize}
+\subsection*{Mux/Datalogger Interfacing}
+\begin{itemize}
+    \item Created simple program to communicate to data logger and mux which allows lab view to take data from this source and use it freely throughout the course of the program
+    \item Next steps for this is to figure out what the best way to store this data is, such as excel or exporting directly to a csv format so that another program does not need to be opened as a dependency.
+\end{itemize}
+\subsection*{Thermal Controller Interfacing}
+\begin{itemize}
+    \item Did research on how to communicate with the T10C thermal chamber using LabView, this is seemingly harder to implement than the rest of the instruments because not as many people have attempted this in the past using LabView so online resources are not as readily available, so most of this I will need to figure out how to do myself.
+\end{itemize}
+\end{document} 
